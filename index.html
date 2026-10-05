@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Waffle House</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff8f0;
+            color: #3b2115;
+        }
+
+        header {
+            background: #4b2818;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: bold;
+        }
+
+        .hero {
+            min-height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #ffe0b2, #fff8f0);
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .hero h2 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #d97706;
+        }
+
+        .hero p {
+            font-size: 19px;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #d97706;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+
+        /* =========================
+           MENÜ
+        ========================= */
+
+        #menu {
+            padding: 80px 5%;
+            text-align: center;
+            background: #fff8f0;
+        }
+
+        #menu h2 {
+            font-size: 45px;
+            margin-bottom: 45px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            padding-bottom: 25px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card h3 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #d97706;
+            font-size: 23px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .quantity button {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #d97706;
+            color: white;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .quantity span {
+            font-size: 22px;
+            font-weight: bold;
+            min-width: 25px;
+        }
+
+        /* =========================
+           SEPET
+        ========================= */
+
+        #cart {
+            background: white;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        #cart h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5px;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 25px;
+            color: #d97706;
+        }
+
+        .order-button {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .order-button:hover {
+            opacity: 0.85;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #777;
+            padding: 15px;
+        }
+
+        .contact {
+            background: #4b2818;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .contact h2 {
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            margin: 10px;
+        }
+
+        .links {
+            margin-top: 25px;
+        }
+
+        footer {
+            background: #2b170e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            #menu {
+                padding: 50px 15px;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🧇 Waffle House
+    </div>
+
+    <nav>
+        <a href="#menu" onclick="menuyuAc(); return false;">Menü</a>
+        <a href="#iletisim">İletişim</a>
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div>
+
+        <h1>Waffle Keyfi 🧇</h1>
+
+        <h2>Mutluluğun en tatlı hali!</h2>
+
+        <p>
+            Bol çikolata, taze meyveler ve sevgiyle hazırlıyoruz.
+        </p>
+
+        <button class="button" onclick="menuyuAc()">
+            🍽️ Menüyü Gör
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MENÜ
+========================= -->
+
+<section id="menu" style="display: none;">
+
+    <h2>Menümüz 🧇</h2>
+
+    <div class="cards" id="productList"></div>
+
+</section>
+
+
+<!-- =========================
+     SEPET
+========================= -->
+
+<div id="cart" style="display: none;">
+
+    <h2>🛒 Sipariş Sepetim</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-total">
+        Toplam: <span id="cartTotal">0</span> TL
+    </div>
+
+    <button class="order-button" onclick="whatsappSiparis()">
+        📱 WhatsApp'tan Sipariş Ver
+    </button>
+
+</div>
+
+
+<!-- =========================
+     İLETİŞİM
+========================= -->
+
+<section class="contact" id="iletisim">
+
+    <h2>Bizi Ziyaret Et ❤️</h2>
+
+    <p>
+        📍 Adres: İstanbul / Bahçelievler Zafer Mahallesi Uğurlu Sokak
+    </p>
+
+    <p>
+        📞 Telefon: 0538 730 17 57
+    </p>
+
+    <div class="links">
+
+        <!-- GOOGLE MAPS -->
+
+        <a
+            class="button"
+            href="https://maps.app.goo.gl/DyTMhM9Ahvof9vaa7"
+            target="_blank">
+
+            📍 Konumu Gör
+
+        </a>
+
+
+        <!-- TRENDYOL -->
+
+        <a
+            class="button"
+            href="https://tgoyemek.com/restoranlar/414629#bu-restoranin-en-sevilenleri"
+            target="_blank">
+
+            🛵 Trendyol Yemek
+
+        </a>
+
+
+        <!-- YEMEKSEPETİ -->
+
+        <a
+            class="button"
+            href="https://yemek.go.link/3SIGb"
+            target="_blank">
+
+            🛵 Yemeksepeti
+
+        </a>
+
+
+        <!-- INSTAGRAM -->
+
+        <a
+            class="button"
+            href="https://www.instagram.com/sekerkriziwaffle.bv/"
+            target="_blank">
+
+            📸 Instagram
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    © 2026 Waffle House — Tüm hakları saklıdır.
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   ÜRÜNLER
+   BURADAN İSİM, FİYAT VE FOTOĞRAF DEĞİŞTİREBİLİRSİN
+========================================== */
+
+const urunler = [
+
+    {
+        id: 1,
+        isim: "Standart Waffle",
+        fiyat: 200,
+        foto: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 2,
+        isim: "Çilekli Waffle",
+        fiyat: 220,
+        foto: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 3,
+        isim: "Çikolatalı Waffle",
+        fiyat: 230,
+        foto: "https://images.unsplash.com/photo-1576618148400-4b6d4f8c8f5e?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 4,
+        isim: "Lotus Waffle",
+        fiyat: 250,
+        foto: "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 5,
+        isim: "Coca-Cola",
+        fiyat: 50,
+        foto: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=800&q=80"
+    }
+
+];
+
+
+/* SEPET */
+
+let sepet = {};
+
+
+/* MENÜYÜ AÇ */
+
+function menuyuAc() {
+
+    const menu = document.getElementById("menu");
+
+    if (menu.style.display === "none") {
+
+        menu.style.display = "block";
+
+        menu.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    } else {
+
+        menu.style.display = "none";
+
+    }
+
+}
+
+
+/* ÜRÜNLERİ EKRANA GETİR */
+
+function urunleriGoster() {
+
+    const productList = document.getElementById("productList");
+
+    productList.innerHTML = "";
+
+    urunler.forEach(urun => {
+
+        const adet = sepet[urun.id] || 0;
+
+        productList.innerHTML += `
+
+            <div class="card">
+
+                <img
+                    class="product-image"
+                    src="${urun.foto}"
+                    alt="${urun.isim}">
+
+                <div class="card-content">
+
+                    <h3>
+                        ${urun.isim}
+                    </h3>
+
+                    <div class="price">
+                        ${urun.fiyat} TL
+                    </div>
+
+                    <div class="quantity">
+
+                        <button onclick="adetAzalt(${urun.id})">
+                            −
+                        </button>
+
+                        <span id="adet-${urun.id}">
+                            ${adet}
+                        </span>
+
+                        <button onclick="adetArtir(${urun.id})">
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* + BUTONU */
+
+function adetArtir(id) {
+
+    if (!sepet[id]) {
+        sepet[id] = 0;
+    }
+
+    sepet[id]++;
+
+    urunleriGoster();
+    sepetiGoster();
+
+}
+
+
+/* - BUTONU */
+
+function adetAzalt(id) {
+
+    if (!sepet[id]) {
+        return;
+    }
+
+    sepet[id]--;
+
+    if (sepet[id] <= 0) {
+        delete sepet[id];
+    }
+
+    urunleriGoster();
+    sepetiGoster();
+
+}
+
+
+/* SEPETİ GÖSTER */
+
+function sepetiGoster() {
+
+    const cart = document.getElementById("cart");
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+
+    let toplam = 0;
+
+    cartItems.innerHTML = "";
+
+    const secilenUrunler = Object.keys(sepet);
+
+    if (secilenUrunler.length === 0) {
+
+        cart.style.display = "none";
+
+        return;
+
+    }
+
+    cart.style.display = "block";
+
+    secilenUrunler.forEach(id => {
+
+        const urun = urunler.find(u => u.id == id);
+
+        const adet = sepet[id];
+
+        const araToplam = urun.fiyat * adet;
+
+        toplam += araToplam;
+
+        cartItems.innerHTML += `
+
+            <div class="cart-item">
+
+                <span>
+                    ${urun.isim} x${adet}
+                </span>
+
+                <strong>
+                    ${araToplam} TL
+                </strong>
+
+            </div>
+
+        `;
+
+    });
+
+    cartTotal.textContent = toplam;
+
+}
+
+
+/* WHATSAPP SİPARİŞ */
+
+function whatsappSiparis() {
+
+    if (Object.keys(sepet).length === 0) {
+
+        alert("Sepetiniz boş!");
+
+        return;
+
+    }
+
+    let mesaj = "Merhaba, sipariş vermek istiyorum:%0A%0A";
+
+    let toplam = 0;
+
+    Object.keys(sepet).forEach(id => {
+
+        const urun = urunler.find(u => u.id == id);
+
+        const adet = sepet[id];
+
+        const araToplam = urun.fiyat * adet;
+
+        toplam += araToplam;
+
+        mesaj += "• " + urun.isim + " x" + adet + " = " + araToplam + " TL%0A";
+
+    });
+
+    mesaj += "%0AToplam: " + toplam + " TL";
+
+    const whatsappNumara = "905387301757";
+
+    const whatsappLink =
+        "https://wa.me/" + whatsappNumara + "?text=" + mesaj;
+
+    window.open(whatsappLink, "_blank");
+
+}
+
+
+/* SAYFA AÇILINCA ÜRÜNLERİ HAZIRLA */
+
+urunleriGoster();
+
+</script>
+
+
+</body>
+</html>
