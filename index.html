@@ -21,7 +21,6 @@
 
     <meta name="author" content="Şeker Krizi Waffle">
 
-    <!-- ANA SİTE LİNKİ -->
     <link rel="canonical" href="https://sekerkrizi.github.io/waffle-site/">
 
     <meta property="og:title" content="Şeker Krizi Waffle | Bahçelievler Waffle">
@@ -31,7 +30,6 @@
 
     <meta property="og:type" content="website">
 
-    <!-- ANA SİTE LİNKİ -->
     <meta property="og:url" content="https://sekerkrizi.github.io/waffle-site/">
 
     <script type="application/ld+json">
@@ -40,7 +38,7 @@
         "@type": "Restaurant",
         "name": "Şeker Krizi Waffle",
         "url": "https://sekerkrizi.github.io/waffle-site/",
-        "telephone": "+905387301757",
+        "telephone": "+905358731757",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Uğurlu Sokak",
@@ -73,10 +71,8 @@
 
             color: #3b2115;
 
-            /* AĞIR KREM ARKA PLAN */
             background-color: #E8D6BE;
 
-            /* HAFİF DESEN */
             background-image:
                 radial-gradient(
                     circle at 20px 20px,
@@ -1180,7 +1176,7 @@
     <p>
 
         📞 Telefon:
-        0538 730 17 57
+        0535 873 17 57
 
     </p>
 
@@ -1723,8 +1719,6 @@ function urunHTML(
 function urunleriGoster() {
 
 
-    /* WAFFLE */
-
     const waffleList =
         document.getElementById("waffleList");
 
@@ -1743,8 +1737,6 @@ function urunleriGoster() {
 
     });
 
-
-    /* İÇECEK */
 
     const drinkList =
         document.getElementById("drinkList");
@@ -1765,8 +1757,6 @@ function urunleriGoster() {
     });
 
 
-    /* MEYVELER */
-
     const fruitList =
         document.getElementById("fruitList");
 
@@ -1786,8 +1776,6 @@ function urunleriGoster() {
     });
 
 
-    /* SOSLAR */
-
     const sauceList =
         document.getElementById("sauceList");
 
@@ -1806,8 +1794,6 @@ function urunleriGoster() {
 
     });
 
-
-    /* SÜSLEMELER */
 
     const decorationList =
         document.getElementById("decorationList");
@@ -1857,8 +1843,6 @@ function sepetiGoster() {
     let urunVar = false;
 
 
-    /* WAFFLELER */
-
     waffleler.forEach(function(waffle) {
 
         const adet =
@@ -1901,8 +1885,6 @@ function sepetiGoster() {
 
     });
 
-
-    /* İÇECEKLER */
 
     icecekler.forEach(function(icecek) {
 
@@ -1947,8 +1929,6 @@ function sepetiGoster() {
     });
 
 
-    /* MEYVELER */
-
     ekstralar.meyveler.forEach(function(meyve) {
 
         const adet =
@@ -1992,8 +1972,6 @@ function sepetiGoster() {
     });
 
 
-    /* SOSLAR */
-
     ekstralar.soslar.forEach(function(sos) {
 
         const adet =
@@ -2036,8 +2014,6 @@ function sepetiGoster() {
 
     });
 
-
-    /* SÜSLEMELER */
 
     ekstralar.suslemeler.forEach(function(susleme) {
 
@@ -2106,7 +2082,6 @@ function sepetiGoster() {
 
 function whatsappSiparis() {
 
-
     let mesaj =
         "Merhaba, Şeker Krizi Waffle'dan sipariş vermek istiyorum:%0A%0A";
 
@@ -2115,8 +2090,6 @@ function whatsappSiparis() {
 
     let urunVar = false;
 
-
-    /* WAFFLE */
 
     waffleler.forEach(function(waffle) {
 
@@ -2150,8 +2123,6 @@ function whatsappSiparis() {
     });
 
 
-    /* İÇECEK */
-
     icecekler.forEach(function(icecek) {
 
         const adet =
@@ -2183,8 +2154,6 @@ function whatsappSiparis() {
 
     });
 
-
-    /* EKSTRALAR */
 
     tumEkstralar.forEach(function(ekstra) {
 
@@ -2233,8 +2202,10 @@ function whatsappSiparis() {
         " TL";
 
 
+    /* YENİ TELEFON NUMARASI */
+
     const whatsappLink =
-        "https://wa.me/905387301757?text=" +
+        "https://wa.me/905358731757?text=" +
         mesaj;
 
 
