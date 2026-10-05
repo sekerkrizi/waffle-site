@@ -1,18 +1,43 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta name="google-site-verification" content="oG-aBB-TI9m0guZ7D-RgEKNcY2xs3vMEle70OSrs-uI" />    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="oG-aBB-TI9m0guZ7D-RgEKNcY2xs3vMEle70OSrs-uI" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Şeker Krizi Waffle | Waffle Siparişi</title>
+    <title>Şeker Krizi Waffle | Bahçelievler Waffle</title>
 
-<meta name="description" content="Şeker Krizi Waffle – Lezzetli waffle çeşitleri, tatlılar ve kolay WhatsApp siparişi. Menümüzü inceleyin ve siparişinizi verin.">
+    <meta name="description" content="Şeker Krizi Waffle – İstanbul Bahçelievler'de taze meyveler, bol çikolata ve lezzetli waffle çeşitleri. Menümüzü inceleyin ve WhatsApp'tan sipariş verin.">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="Şeker Krizi, Şeker Krizi Waffle, Şeker Krizi Bahçelievler, Bahçelievler waffle, İstanbul waffle, waffle siparişi, waffle">
+    <meta name="author" content="Şeker Krizi Waffle">
 
-<meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sekerkrizi.github.io/waffle-site/">
 
-<meta property="og:title" content="Şeker Krizi Waffle | Waffle Siparişi">
-<meta property="og:description" content="Şeker Krizi Waffle menüsünü keşfedin ve kolayca sipariş verin.">
-<meta property="og:type" content="website">
+    <meta property="og:title" content="Şeker Krizi Waffle | Bahçelievler Waffle">
+    <meta property="og:description" content="Şeker Krizi Waffle – İstanbul Bahçelievler'de taze meyveler ve bol çikolatalı waffle çeşitleri.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sekerkrizi.github.io/waffle-site/">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Şeker Krizi Waffle",
+        "url": "https://sekerkrizi.github.io/waffle-site/",
+        "telephone": "+905387301757",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Uğurlu Sokak",
+            "addressLocality": "Bahçelievler",
+            "addressRegion": "İstanbul",
+            "addressCountry": "TR"
+        },
+        "sameAs": [
+            "https://www.instagram.com/sekerkriziwaffle.bv/"
+        ]
+    }
+    </script>
 
     <style>
         * {
@@ -92,10 +117,6 @@
             opacity: 0.85;
         }
 
-        /* =========================
-           MENÜ
-        ========================= */
-
         #menu {
             padding: 80px 5%;
             text-align: center;
@@ -105,6 +126,12 @@
         #menu h2 {
             font-size: 45px;
             margin-bottom: 45px;
+        }
+
+        .menu-title {
+            font-size: 35px;
+            margin: 50px 0 30px;
+            color: #4b2818;
         }
 
         .cards {
@@ -176,9 +203,60 @@
             min-width: 25px;
         }
 
-        /* =========================
-           SEPET
-        ========================= */
+        .extra-button {
+            background: #4b2818;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .extra-panel {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff8f0;
+            border-radius: 15px;
+            text-align: left;
+        }
+
+        .extra-panel.active {
+            display: block;
+        }
+
+        .extra-category {
+            font-weight: bold;
+            margin: 12px 0 8px;
+            color: #4b2818;
+        }
+
+        .extra-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 0;
+            gap: 8px;
+        }
+
+        .extra-item button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: #d97706;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .extra-count {
+            min-width: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
 
         #cart {
             background: white;
@@ -196,12 +274,22 @@
         }
 
         .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 15px 5px;
             border-bottom: 1px solid #eee;
             font-size: 18px;
+        }
+
+        .cart-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-extra {
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+            padding-left: 10px;
         }
 
         .cart-total {
@@ -224,16 +312,6 @@
             font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-        }
-
-        .order-button:hover {
-            opacity: 0.85;
-        }
-
-        .empty-cart {
-            text-align: center;
-            color: #777;
-            padding: 15px;
         }
 
         .contact {
@@ -264,7 +342,6 @@
         }
 
         @media (max-width: 700px) {
-
             header {
                 flex-direction: column;
                 gap: 15px;
@@ -292,58 +369,43 @@
 <body>
 
 <header>
-
-    <div class="logo">
-        🧇 Waffle House
-    </div>
+    <div class="logo">🧇 Şeker Krizi Waffle</div>
 
     <nav>
         <a href="#menu" onclick="menuyuAc(); return false;">Menü</a>
-        <a href="#iletisim">İletişim</a>
+        <a href="#iletisim" onclick="document.getElementById('iletisim').scrollIntoView({behavior:'smooth'}); return false;">İletişim</a>
     </nav>
-
 </header>
 
-
 <section class="hero">
-
     <div>
-
-        <h1>Waffle Keyfi 🧇</h1>
+        <h1>Şeker Krizi Waffle 🧇</h1>
 
         <h2>Mutluluğun en tatlı hali!</h2>
 
         <p>
-            Bol çikolata, taze meyveler ve sevgiyle hazırlıyoruz.
+            İstanbul Bahçelievler'de bol çikolatalı, taze meyveli ve birbirinden lezzetli waffle çeşitleri hazırlıyoruz. 🧇🍓🍫
         </p>
 
         <button class="button" onclick="menuyuAc()">
             🍽️ Menüyü Gör
         </button>
-
     </div>
-
 </section>
 
-
-<!-- =========================
-     MENÜ
-========================= -->
-
-<section id="menu" style="display: none;">
+<section id="menu">
 
     <h2>Menümüz 🧇</h2>
 
-    <div class="cards" id="productList"></div>
+    <h3 class="menu-title">🧇 Waffle Çeşitleri</h3>
+    <div class="cards" id="waffleList"></div>
+
+    <h3 class="menu-title">🥤 İçecekler</h3>
+    <div class="cards" id="drinkList"></div>
 
 </section>
 
-
-<!-- =========================
-     SEPET
-========================= -->
-
-<div id="cart" style="display: none;">
+<div id="cart" style="display:none;">
 
     <h2>🛒 Sipariş Sepetim</h2>
 
@@ -359,201 +421,459 @@
 
 </div>
 
-
-<!-- =========================
-     İLETİŞİM
-========================= -->
-
 <section class="contact" id="iletisim">
 
     <h2>Bizi Ziyaret Et ❤️</h2>
 
-    <p>
-        📍 Adres: İstanbul / Bahçelievler Zafer Mahallesi Uğurlu Sokak
-    </p>
-
-    <p>
-        📞 Telefon: 0538 730 17 57
-    </p>
+    <p>📍 Adres: İstanbul / Bahçelievler Zafer Mahallesi Uğurlu Sokak</p>
+    <p>📞 Telefon: 0538 730 17 57</p>
 
     <div class="links">
 
-        <!-- GOOGLE MAPS -->
-
-        <a
-            class="button"
-            href="https://maps.app.goo.gl/DyTMhM9Ahvof9vaa7"
-            target="_blank">
-
+        <a class="button" href="https://maps.app.goo.gl/DyTMhM9Ahvof9vaa7" target="_blank">
             📍 Konumu Gör
-
         </a>
 
-
-        <!-- TRENDYOL -->
-
-        <a
-            class="button"
-            href="https://tgoyemek.com/restoranlar/414629#bu-restoranin-en-sevilenleri"
-            target="_blank">
-
+        <a class="button" href="https://tgoyemek.com/restoranlar/414629#bu-restoranin-en-sevilenleri" target="_blank">
             🛵 Trendyol Yemek
-
         </a>
 
-
-        <!-- YEMEKSEPETİ -->
-
-        <a
-            class="button"
-            href="https://yemek.go.link/3SIGb"
-            target="_blank">
-
+        <a class="button" href="https://yemek.go.link/3SIGb" target="_blank">
             🛵 Yemeksepeti
-
         </a>
 
-
-        <!-- INSTAGRAM -->
-
-        <a
-            class="button"
-            href="https://www.instagram.com/sekerkriziwaffle.bv/"
-            target="_blank">
-
+        <a class="button" href="https://www.instagram.com/sekerkriziwaffle.bv/" target="_blank">
             📸 Instagram
-
         </a>
 
     </div>
 
 </section>
 
-
 <footer>
-
-    © 2026 Waffle House — Tüm hakları saklıdır.
-
+    © 2026 Şeker Krizi Waffle — Tüm hakları saklıdır.
 </footer>
-
 
 <script>
 
-/* ==========================================
-   ÜRÜNLER
-   BURADAN İSİM, FİYAT VE FOTOĞRAF DEĞİŞTİREBİLİRSİN
-========================================== */
-
-const urunler = [
+const waffleler = [
 
     {
-        id: 1,
+        id: "waffle1",
         isim: "Standart Waffle",
         fiyat: 200,
         foto: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80"
     },
 
     {
-        id: 2,
+        id: "waffle2",
         isim: "Çilekli Waffle",
         fiyat: 220,
         foto: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80"
     },
 
     {
-        id: 3,
-        isim: "Çikolatalı Waffle",
-        fiyat: 230,
-        foto: "https://images.unsplash.com/photo-1576618148400-4b6d4f8c8f5e?auto=format&fit=crop&w=800&q=80"
-    },
-
-    {
-        id: 4,
+        id: "waffle3",
         isim: "Lotus Waffle",
         fiyat: 250,
         foto: "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=800&q=80"
-    },
-
-    {
-        id: 5,
-        isim: "Coca-Cola",
-        fiyat: 50,
-        foto: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=800&q=80"
     }
 
 ];
 
+const icecekler = [
 
-/* SEPET */
+    {
+        id: "drink1",
+        isim: "Coca-Cola",
+        fiyat: 75,
+        foto: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=800&q=80"
+    },
 
-let sepet = {};
+    {
+        id: "drink2",
+        isim: "Fanta",
+        fiyat: 75,
+        foto: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=800&q=80"
+    },
 
+    {
+        id: "drink3",
+        isim: "Sprite",
+        fiyat: 75,
+        foto: "https://images.unsplash.com/photo-1625772299848-391b6a89f44a?auto=format&fit=crop&w=800&q=80"
+    },
 
-/* MENÜYÜ AÇ */
+    {
+        id: "drink4",
+        isim: "Lipton Şeftali",
+        fiyat: 75,
+        foto: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink5",
+        isim: "Lipton Limon",
+        fiyat: 75,
+        foto: "https://images.unsplash.com/photo-1523677011781-c91d1bbe2f0d?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink6",
+        isim: "Fuse Tea Mango",
+        fiyat: 75,
+        foto: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink7",
+        isim: "Nescafe Xpress",
+        fiyat: 100,
+        foto: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink8",
+        isim: "Red Bull",
+        fiyat: 100,
+        foto: "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink9",
+        isim: "Bardak Limonata",
+        fiyat: 40,
+        foto: "https://images.unsplash.com/photo-1523677011781-c91d1bbe2f0d?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink10",
+        isim: "Limonlu Soda",
+        fiyat: 50,
+        foto: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink11",
+        isim: "Sade Soda",
+        fiyat: 40,
+        foto: "https://images.unsplash.com/photo-1559839914-17aae19cec71?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: "drink12",
+        isim: "Su",
+        fiyat: 20,
+        foto: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=800&q=80"
+    }
+
+];
+
+const ekstralar = {
+
+    meyveler: [
+        { id: "muz", isim: "Muz", fiyat: 30 },
+        { id: "cilek", isim: "Çilek", fiyat: 30 },
+        { id: "kivi", isim: "Kivi", fiyat: 30 },
+        { id: "orman", isim: "Orman Meyvesi", fiyat: 30 }
+    ],
+
+    soslar: [
+        { id: "antep", isim: "Antep Sosu", fiyat: 30 },
+        { id: "lotus", isim: "Lotus Sosu", fiyat: 30 },
+        { id: "sutlu", isim: "Sütlü Çikolata", fiyat: 30 },
+        { id: "beyaz", isim: "Beyaz Çikolata", fiyat: 30 },
+        { id: "bitter", isim: "Bitter Çikolata", fiyat: 30 },
+        { id: "karamel", isim: "Karamel", fiyat: 30 },
+        { id: "frambuaz", isim: "Frambuaz", fiyat: 30 },
+        { id: "cileksosu", isim: "Çilek Sosu", fiyat: 30 }
+    ],
+
+    dekorasyon: [
+        { id: "oreo", isim: "Oreo Parçacıkları", fiyat: 30 },
+        { id: "lotusparca", isim: "Lotus Parçacıkları", fiyat: 30 },
+        { id: "findik", isim: "Fındık Parçacıkları", fiyat: 30 },
+        { id: "bonibon", isim: "Renkli Bonibon", fiyat: 30 },
+        { id: "pirinc", isim: "Renkli Pirinç Patlağı", fiyat: 30 },
+        { id: "sutludamla", isim: "Sütlü Damla Çikolata", fiyat: 30 },
+        { id: "bitterdamla", isim: "Bitter Damla Çikolata", fiyat: 30 },
+        { id: "cakil", isim: "Çakıl Taşı Çikolata", fiyat: 30 }
+    ]
+
+};
+
+let waffleSepeti = {};
+let icecekSepeti = {};
+let acikWaffle = null;
+
+waffleler.forEach(waffle => {
+
+    waffleSepeti[waffle.id] = {
+        adet: 0,
+        ekstralar: {}
+    };
+
+});
+
+icecekler.forEach(icecek => {
+    icecekSepeti[icecek.id] = 0;
+});
 
 function menuyuAc() {
 
     const menu = document.getElementById("menu");
 
-    if (menu.style.display === "none") {
+    menu.style.display = "block";
 
-        menu.style.display = "block";
-
-        menu.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    } else {
-
-        menu.style.display = "none";
-
-    }
+    menu.scrollIntoView({
+        behavior: "smooth"
+    });
 
 }
 
+function ekstraBul(id) {
 
-/* ÜRÜNLERİ EKRANA GETİR */
+    const tumEkstralar = [
+        ...ekstralar.meyveler,
+        ...ekstralar.soslar,
+        ...ekstralar.dekorasyon
+    ];
+
+    return tumEkstralar.find(e => e.id === id);
+
+}
+
+function ekstraAdet(waffle, ekstraId) {
+
+    return waffleSepeti[waffle.id].ekstralar[ekstraId] || 0;
+
+}
+
+function ekstraDegistir(waffleId, ekstraId, miktar) {
+
+    const waffle = waffleSepeti[waffleId];
+
+    if (!waffle.ekstralar[ekstraId]) {
+        waffle.ekstralar[ekstraId] = 0;
+    }
+
+    waffle.ekstralar[ekstraId] += miktar;
+
+    if (waffle.ekstralar[ekstraId] <= 0) {
+        delete waffle.ekstralar[ekstraId];
+    }
+
+    urunleriGoster();
+
+}
+
+function ekstraPaneliAc(waffleId) {
+
+    acikWaffle = acikWaffle === waffleId ? null : waffleId;
+
+    urunleriGoster();
+
+}
+
+function ekstraHTML(waffle) {
+
+    let html = "";
+
+    const kategoriler = [
+        ["🍓 Meyveler", ekstralar.meyveler],
+        ["🍫 Soslar", ekstralar.soslar],
+        ["🍪 Dekorasyon", ekstralar.dekorasyon]
+    ];
+
+    kategoriler.forEach(([baslik, liste]) => {
+
+        html += `<div class="extra-category">${baslik}</div>`;
+
+        liste.forEach(ekstra => {
+
+            const adet = ekstraAdet(waffle, ekstra.id);
+
+            html += `
+                <div class="extra-item">
+
+                    <span>
+                        ${ekstra.isim} - ${ekstra.fiyat} TL
+                    </span>
+
+                    <div style="display:flex; align-items:center; gap:6px;">
+
+                        <button onclick="ekstraDegistir('${waffle.id}', '${ekstra.id}', -1)">
+                            −
+                        </button>
+
+                        <span class="extra-count">
+                            ${adet}
+                        </span>
+
+                        <button onclick="ekstraDegistir('${waffle.id}', '${ekstra.id}', 1)">
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        });
+
+    });
+
+    return html;
+
+}
+
+function waffleEkstraToplam(waffle) {
+
+    let toplam = 0;
+
+    Object.keys(waffleSepeti[waffle.id].ekstralar).forEach(ekstraId => {
+
+        const adet = waffleSepeti[waffle.id].ekstralar[ekstraId];
+        const ekstra = ekstraBul(ekstraId);
+
+        if (ekstra) {
+            toplam += ekstra.fiyat * adet;
+        }
+
+    });
+
+    return toplam;
+
+}
+
+function waffleEkstraMetni(waffle) {
+
+    let metin = "";
+
+    Object.keys(waffleSepeti[waffle.id].ekstralar).forEach(ekstraId => {
+
+        const adet = waffleSepeti[waffle.id].ekstralar[ekstraId];
+
+        if (adet > 0) {
+
+            const ekstra = ekstraBul(ekstraId);
+
+            if (ekstra) {
+                metin += `${ekstra.isim} x${adet}, `;
+            }
+
+        }
+
+    });
+
+    return metin.replace(/, $/, "");
+
+}
 
 function urunleriGoster() {
 
-    const productList = document.getElementById("productList");
+    const waffleList = document.getElementById("waffleList");
+    const drinkList = document.getElementById("drinkList");
 
-    productList.innerHTML = "";
+    waffleList.innerHTML = "";
+    drinkList.innerHTML = "";
 
-    urunler.forEach(urun => {
+    waffleler.forEach(waffle => {
 
-        const adet = sepet[urun.id] || 0;
+        const adet = waffleSepeti[waffle.id].adet;
+        const ekstraToplam = waffleEkstraToplam(waffle);
 
-        productList.innerHTML += `
+        waffleList.innerHTML += `
 
             <div class="card">
 
                 <img
                     class="product-image"
-                    src="${urun.foto}"
-                    alt="${urun.isim}">
+                    src="${waffle.foto}"
+                    alt="${waffle.isim}">
 
                 <div class="card-content">
 
-                    <h3>
-                        ${urun.isim}
-                    </h3>
+                    <h3>${waffle.isim}</h3>
 
                     <div class="price">
-                        ${urun.fiyat} TL
+                        ${waffle.fiyat} TL
                     </div>
 
                     <div class="quantity">
 
-                        <button onclick="adetAzalt(${urun.id})">
+                        <button onclick="waffleAdetDegistir('${waffle.id}', -1)">
                             −
                         </button>
 
-                        <span id="adet-${urun.id}">
-                            ${adet}
-                        </span>
+                        <span>${adet}</span>
 
-                        <button onclick="adetArtir(${urun.id})">
+                        <button onclick="waffleAdetDegistir('${waffle.id}', 1)">
+                            +
+                        </button>
+
+                    </div>
+
+                    <button
+                        class="extra-button"
+                        onclick="ekstraPaneliAc('${waffle.id}')">
+
+                        🍓 Ekstraları Seç
+
+                    </button>
+
+                    <div class="extra-panel ${acikWaffle === waffle.id ? "active" : ""}">
+
+                        ${ekstraHTML(waffle)}
+
+                    </div>
+
+                    ${
+                        ekstraToplam > 0
+                        ? `<p style="margin-top:10px; color:#d97706; font-weight:bold;">
+                            Ekstralar: +${ekstraToplam} TL
+                           </p>`
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    icecekler.forEach(icecek => {
+
+        const adet = icecekSepeti[icecek.id] || 0;
+
+        drinkList.innerHTML += `
+
+            <div class="card">
+
+                <img
+                    class="product-image"
+                    src="${icecek.foto}"
+                    alt="${icecek.isim}">
+
+                <div class="card-content">
+
+                    <h3>${icecek.isim}</h3>
+
+                    <div class="price">
+                        ${icecek.fiyat} TL
+                    </div>
+
+                    <div class="quantity">
+
+                        <button onclick="icecekAdetDegistir('${icecek.id}', -1)">
+                            −
+                        </button>
+
+                        <span>${adet}</span>
+
+                        <button onclick="icecekAdetDegistir('${icecek.id}', 1)">
                             +
                         </button>
 
@@ -567,46 +887,33 @@ function urunleriGoster() {
 
     });
 
-}
-
-
-/* + BUTONU */
-
-function adetArtir(id) {
-
-    if (!sepet[id]) {
-        sepet[id] = 0;
-    }
-
-    sepet[id]++;
-
-    urunleriGoster();
     sepetiGoster();
 
 }
 
+function waffleAdetDegistir(id, miktar) {
 
-/* - BUTONU */
+    waffleSepeti[id].adet += miktar;
 
-function adetAzalt(id) {
-
-    if (!sepet[id]) {
-        return;
-    }
-
-    sepet[id]--;
-
-    if (sepet[id] <= 0) {
-        delete sepet[id];
+    if (waffleSepeti[id].adet < 0) {
+        waffleSepeti[id].adet = 0;
     }
 
     urunleriGoster();
-    sepetiGoster();
 
 }
 
+function icecekAdetDegistir(id, miktar) {
 
-/* SEPETİ GÖSTER */
+    icecekSepeti[id] += miktar;
+
+    if (icecekSepeti[id] < 0) {
+        icecekSepeti[id] = 0;
+    }
+
+    urunleriGoster();
+
+}
 
 function sepetiGoster() {
 
@@ -614,84 +921,168 @@ function sepetiGoster() {
     const cartItems = document.getElementById("cartItems");
     const cartTotal = document.getElementById("cartTotal");
 
-    let toplam = 0;
-
     cartItems.innerHTML = "";
 
-    const secilenUrunler = Object.keys(sepet);
+    let toplam = 0;
+    let urunVar = false;
 
-    if (secilenUrunler.length === 0) {
+    waffleler.forEach(waffle => {
+
+        const adet = waffleSepeti[waffle.id].adet;
+
+        if (adet > 0) {
+
+            urunVar = true;
+
+            const ekstraToplam = waffleEkstraToplam(waffle);
+
+            const birimFiyat = waffle.fiyat + ekstraToplam;
+            const araToplam = birimFiyat * adet;
+
+            toplam += araToplam;
+
+            const ekstraMetni = waffleEkstraMetni(waffle);
+
+            cartItems.innerHTML += `
+
+                <div class="cart-item">
+
+                    <div class="cart-item-top">
+
+                        <span>
+                            ${waffle.isim} x${adet}
+                        </span>
+
+                        <strong>
+                            ${araToplam} TL
+                        </strong>
+
+                    </div>
+
+                    ${
+                        ekstraMetni
+                        ? `<div class="cart-extra">🍓 ${ekstraMetni}</div>`
+                        : ""
+                    }
+
+                </div>
+
+            `;
+
+        }
+
+    });
+
+    icecekler.forEach(icecek => {
+
+        const adet = icecekSepeti[icecek.id];
+
+        if (adet > 0) {
+
+            urunVar = true;
+
+            const araToplam = icecek.fiyat * adet;
+
+            toplam += araToplam;
+
+            cartItems.innerHTML += `
+
+                <div class="cart-item">
+
+                    <div class="cart-item-top">
+
+                        <span>
+                            ${icecek.isim} x${adet}
+                        </span>
+
+                        <strong>
+                            ${araToplam} TL
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+    });
+
+    if (!urunVar) {
 
         cart.style.display = "none";
+        cartTotal.textContent = "0";
 
         return;
 
     }
 
     cart.style.display = "block";
-
-    secilenUrunler.forEach(id => {
-
-        const urun = urunler.find(u => u.id == id);
-
-        const adet = sepet[id];
-
-        const araToplam = urun.fiyat * adet;
-
-        toplam += araToplam;
-
-        cartItems.innerHTML += `
-
-            <div class="cart-item">
-
-                <span>
-                    ${urun.isim} x${adet}
-                </span>
-
-                <strong>
-                    ${araToplam} TL
-                </strong>
-
-            </div>
-
-        `;
-
-    });
-
     cartTotal.textContent = toplam;
 
 }
 
-
-/* WHATSAPP SİPARİŞ */
-
 function whatsappSiparis() {
 
-    if (Object.keys(sepet).length === 0) {
+    let mesaj = "Merhaba, Şeker Krizi Waffle'dan sipariş vermek istiyorum:%0A%0A";
+
+    let toplam = 0;
+    let urunVar = false;
+
+    waffleler.forEach(waffle => {
+
+        const adet = waffleSepeti[waffle.id].adet;
+
+        if (adet > 0) {
+
+            urunVar = true;
+
+            const ekstraToplam = waffleEkstraToplam(waffle);
+            const birimFiyat = waffle.fiyat + ekstraToplam;
+            const araToplam = birimFiyat * adet;
+
+            toplam += araToplam;
+
+            mesaj += "• " + waffle.isim + " x" + adet;
+
+            const ekstraMetni = waffleEkstraMetni(waffle);
+
+            if (ekstraMetni) {
+                mesaj += " (" + ekstraMetni + ")";
+            }
+
+            mesaj += " = " + araToplam + " TL%0A";
+
+        }
+
+    });
+
+    icecekler.forEach(icecek => {
+
+        const adet = icecekSepeti[icecek.id];
+
+        if (adet > 0) {
+
+            urunVar = true;
+
+            const araToplam = icecek.fiyat * adet;
+
+            toplam += araToplam;
+
+            mesaj += "• " + icecek.isim + " x" + adet + " = " + araToplam + " TL%0A";
+
+        }
+
+    });
+
+    if (!urunVar) {
 
         alert("Sepetiniz boş!");
 
         return;
 
     }
-
-    let mesaj = "Merhaba, sipariş vermek istiyorum:%0A%0A";
-
-    let toplam = 0;
-
-    Object.keys(sepet).forEach(id => {
-
-        const urun = urunler.find(u => u.id == id);
-
-        const adet = sepet[id];
-
-        const araToplam = urun.fiyat * adet;
-
-        toplam += araToplam;
-
-        mesaj += "• " + urun.isim + " x" + adet + " = " + araToplam + " TL%0A";
-
-    });
 
     mesaj += "%0AToplam: " + toplam + " TL";
 
@@ -704,13 +1095,9 @@ function whatsappSiparis() {
 
 }
 
-
-/* SAYFA AÇILINCA ÜRÜNLERİ HAZIRLA */
-
 urunleriGoster();
 
 </script>
 
-
 </body>
-</html>
+</html> bu site dogru ama linki yanlış
