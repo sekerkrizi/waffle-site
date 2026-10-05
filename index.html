@@ -1,1248 +1,795 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 
 <head>
 
-    <meta name="google-site-verification" content="oG-aBB-TI9m0guZ7D-RgEKNcY2xs3vMEle70OSrs-uI" />
+<meta name="google-site-verification" content="oG-aBB-TI9m0guZ7D-RgEKNcY2xs3vMEle70OSrs-uI" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta charset="UTF-8">
+<title>Şeker Krizi Waffle | Bahçelievler Waffle</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Şeker Krizi Waffle – İstanbul Bahçelievler'de taze meyveler, bol çikolata ve lezzetli waffle çeşitleri. Menümüzü inceleyin ve WhatsApp'tan sipariş verin.">
 
-    <title>Şeker Krizi Waffle | Bahçelievler Waffle</title>
+<meta name="robots" content="index, follow">
 
-    <meta name="description"
-        content="Şeker Krizi Waffle – İstanbul Bahçelievler'de taze meyveler, bol çikolata ve lezzetli waffle çeşitleri. Menümüzü inceleyin ve WhatsApp'tan sipariş verin.">
+<meta name="keywords" content="Şeker Krizi, Şeker Krizi Waffle, Şeker Krizi Bahçelievler, Bahçelievler waffle, İstanbul waffle, waffle siparişi, waffle">
 
-    <meta name="robots" content="index, follow">
+<meta name="author" content="Şeker Krizi Waffle">
 
-    <meta name="keywords"
-        content="Şeker Krizi, Şeker Krizi Waffle, Şeker Krizi Bahçelievler, Bahçelievler waffle, İstanbul waffle, waffle siparişi, waffle">
+<link rel="canonical" href="https://sekerkrizi.github.io/waffle-site/">
 
-    <meta name="author" content="Şeker Krizi Waffle">
+<meta property="og:title" content="Şeker Krizi Waffle | Bahçelievler Waffle">
+<meta property="og:description" content="Şeker Krizi Waffle – İstanbul Bahçelievler'de taze meyveler ve bol çikolatalı waffle çeşitleri.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sekerkrizi.github.io/waffle-site/">
 
-    <link rel="canonical" href="https://sekerkrizi.github.io/waffle-site/">
+<script type="application/ld+json">
+{
+    "@context":"https://schema.org",
+    "@type":"Restaurant",
+    "name":"Şeker Krizi Waffle",
+    "url":"https://sekerkrizi.github.io/waffle-site/",
+    "telephone":"+905358731757",
+    "address":{
+        "@type":"PostalAddress",
+        "streetAddress":"Uğurlu Sokak",
+        "addressLocality":"Bahçelievler",
+        "addressRegion":"İstanbul",
+        "addressCountry":"TR"
+    },
+    "sameAs":[
+        "https://www.instagram.com/sekerkriziwaffle.bv/"
+    ]
+}
+</script>
 
-    <meta property="og:title" content="Şeker Krizi Waffle | Bahçelievler Waffle">
+<style>
 
-    <meta property="og:description"
-        content="Şeker Krizi Waffle – İstanbul Bahçelievler'de taze meyveler ve bol çikolatalı waffle çeşitleri.">
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-    <meta property="og:type" content="website">
+html{
+    scroll-behavior:smooth;
+}
 
-    <meta property="og:url" content="https://sekerkrizi.github.io/waffle-site/">
+body{
+    font-family:Arial,sans-serif;
+    color:#3b2115;
+    background-color:#E8D6BE;
+    background-image:
+        radial-gradient(circle at 20px 20px,rgba(91,61,40,.07) 2px,transparent 3px),
+        radial-gradient(circle at 70px 70px,rgba(91,61,40,.05) 2px,transparent 3px);
+    background-size:90px 90px;
+}
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Restaurant",
-        "name": "Şeker Krizi Waffle",
-        "url": "https://sekerkrizi.github.io/waffle-site/",
-        "telephone": "+905358731757",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Uğurlu Sokak",
-            "addressLocality": "Bahçelievler",
-            "addressRegion": "İstanbul",
-            "addressCountry": "TR"
-        },
-        "sameAs": [
-            "https://www.instagram.com/sekerkriziwaffle.bv/"
-        ]
+header{
+    background:#4b2818;
+    color:white;
+    padding:20px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:25px;
+    font-weight:bold;
+}
+
+.hero{
+    min-height:500px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:60px 20px;
+    background:linear-gradient(135deg,#F1DFC7,#E8D6BE);
+}
+
+.hero h1{
+    font-size:60px;
+    margin-bottom:15px;
+}
+
+.hero h2{
+    font-size:26px;
+    margin-bottom:15px;
+    color:#d97706;
+}
+
+.hero p{
+    font-size:19px;
+    margin-bottom:30px;
+}
+
+.button{
+    display:inline-block;
+    background:#d97706;
+    color:white;
+    padding:15px 25px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+    margin:5px;
+    border:none;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.button:hover{
+    opacity:.85;
+}
+
+#menu{
+    max-width:1000px;
+    margin:auto;
+    padding:70px 15px;
+    background-color:#E8D6BE;
+    background-image:
+        radial-gradient(circle at 25px 25px,rgba(91,61,40,.05) 2px,transparent 3px);
+    background-size:70px 70px;
+}
+
+#menu h2{
+    text-align:center;
+    font-size:45px;
+    margin-bottom:35px;
+    color:#4b2818;
+}
+
+.menu-box{
+    background:#F2E4D1;
+    border-radius:18px;
+    margin:14px 0;
+    overflow:hidden;
+    box-shadow:0 6px 20px rgba(91,61,40,.12);
+    border:1px solid rgba(91,61,40,.08);
+}
+
+.menu-toggle{
+    width:100%;
+    border:none;
+    background:#F2E4D1;
+    color:#4b2818;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+    font-size:22px;
+    font-weight:bold;
+    text-align:left;
+}
+
+.menu-toggle:hover{
+    background:#EDDDC8;
+}
+
+.arrow{
+    font-size:17px;
+    transition:.2s;
+}
+
+.menu-toggle.open .arrow{
+    transform:rotate(180deg);
+}
+
+.menu-content{
+    display:none;
+    border-top:1px solid rgba(91,61,40,.12);
+    padding:8px 12px 12px;
+}
+
+.menu-content.open{
+    display:block;
+}
+
+.product-row{
+    padding:11px 5px;
+    border-bottom:1px solid rgba(91,61,40,.10);
+}
+
+.product-row:last-child{
+    border-bottom:none;
+}
+
+.product-main{
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    align-items:center;
+    gap:12px;
+}
+
+.product-name{
+    font-size:16px;
+    font-weight:bold;
+    color:#3b2115;
+}
+
+.product-price{
+    color:#d97706;
+    font-size:15px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.quantity{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.quantity button{
+    width:31px;
+    height:31px;
+    border:none;
+    border-radius:50%;
+    background:#d97706;
+    color:white;
+    font-size:19px;
+    cursor:pointer;
+    line-height:1;
+}
+
+.quantity button:hover{
+    background:#b86100;
+}
+
+.quantity span{
+    min-width:20px;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* =========================
+   EKSTRA HEDEF SEÇİMİ
+========================= */
+
+.extra-selector{
+    background:#ead5bb;
+    border-radius:12px;
+    padding:12px;
+    margin:10px 0 15px;
+}
+
+.extra-selector-title{
+    font-size:14px;
+    font-weight:bold;
+    color:#4b2818;
+    margin-bottom:8px;
+}
+
+#extraTarget{
+    width:100%;
+    padding:10px;
+    border:1px solid rgba(91,61,40,.2);
+    border-radius:9px;
+    background:#fffaf4;
+    color:#3b2115;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.extra-help{
+    font-size:12px;
+    color:#777;
+    margin-top:7px;
+}
+
+/* =========================
+   EKSTRA SEPETİ
+========================= */
+
+.cart-extra{
+    font-size:14px;
+    color:#6b5142;
+    margin-top:7px;
+    padding-left:15px;
+}
+
+.cart-extra strong{
+    color:#d97706;
+}
+
+#cart{
+    display:none;
+    max-width:900px;
+    margin:30px auto 50px;
+    padding:30px;
+    background:#F8ECDD;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(91,61,40,.12);
+}
+
+#cart h2{
+    text-align:center;
+    font-size:32px;
+    margin-bottom:25px;
+    color:#4b2818;
+}
+
+.cart-item{
+    padding:14px 5px;
+    border-bottom:1px solid rgba(91,61,40,.12);
+    font-size:17px;
+}
+
+.cart-item-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.cart-total{
+    text-align:right;
+    font-size:25px;
+    font-weight:bold;
+    margin-top:25px;
+    color:#d97706;
+}
+
+.order-button{
+    display:block;
+    width:100%;
+    margin-top:20px;
+    background:#25D366;
+    color:white;
+    border:none;
+    padding:18px;
+    border-radius:30px;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.contact{
+    background:#4b2818;
+    color:white;
+    text-align:center;
+    padding:60px 20px;
+}
+
+.contact h2{
+    font-size:35px;
+    margin-bottom:20px;
+}
+
+.contact p{
+    margin:10px;
+}
+
+.links{
+    margin-top:25px;
+}
+
+footer{
+    background:#2b170e;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+@media(max-width:700px){
+
+    header{
+        flex-direction:column;
+        gap:15px;
+        padding:16px 12px;
     }
-    </script>
 
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-
-            font-family: Arial, sans-serif;
-
-            color: #3b2115;
-
-            background-color: #E8D6BE;
-
-            background-image:
-                radial-gradient(
-                    circle at 20px 20px,
-                    rgba(91,61,40,.07) 2px,
-                    transparent 3px
-                ),
-                radial-gradient(
-                    circle at 70px 70px,
-                    rgba(91,61,40,.05) 2px,
-                    transparent 3px
-                );
-
-            background-size: 90px 90px;
-
-        }
-
-
-        /* =========================
-           HEADER
-        ========================= */
-
-        header {
-
-            background: #4b2818;
-
-            color: white;
-
-            padding: 20px 8%;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 1000;
-
-        }
-
-
-        .logo {
-
-            font-size: 28px;
-
-            font-weight: bold;
-
-        }
-
-
-        nav a {
-
-            color: white;
-
-            text-decoration: none;
-
-            margin-left: 25px;
-
-            font-weight: bold;
-
-        }
-
-
-        /* =========================
-           HERO
-        ========================= */
-
-        .hero {
-
-            min-height: 500px;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            text-align: center;
-
-            padding: 60px 20px;
-
-            background:
-
-                linear-gradient(
-                    135deg,
-                    #F1DFC7,
-                    #E8D6BE
-                );
-
-        }
-
-
-        .hero h1 {
-
-            font-size: 60px;
-
-            margin-bottom: 15px;
-
-        }
-
-
-        .hero h2 {
-
-            font-size: 26px;
-
-            margin-bottom: 15px;
-
-            color: #d97706;
-
-        }
-
-
-        .hero p {
-
-            font-size: 19px;
-
-            margin-bottom: 30px;
-
-        }
-
-
-        .button {
-
-            display: inline-block;
-
-            background: #d97706;
-
-            color: white;
-
-            padding: 15px 25px;
-
-            border-radius: 30px;
-
-            text-decoration: none;
-
-            font-weight: bold;
-
-            margin: 5px;
-
-            border: none;
-
-            cursor: pointer;
-
-            font-size: 16px;
-
-        }
-
-
-        .button:hover {
-
-            opacity: .85;
-
-        }
-
-
-        /* =========================
-           MENÜ
-        ========================= */
-
-        #menu {
-
-            max-width: 1000px;
-
-            margin: auto;
-
-            padding: 70px 15px;
-
-            background-color: #E8D6BE;
-
-            background-image:
-
-                radial-gradient(
-                    circle at 25px 25px,
-                    rgba(91,61,40,.05) 2px,
-                    transparent 3px
-                );
-
-            background-size: 70px 70px;
-
-        }
-
-
-        #menu h2 {
-
-            text-align: center;
-
-            font-size: 45px;
-
-            margin-bottom: 35px;
-
-            color: #4b2818;
-
-        }
-
-
-        /* =========================
-           ANA MENÜ KUTULARI
-        ========================= */
-
-        .menu-box {
-
-            background: #F2E4D1;
-
-            border-radius: 18px;
-
-            margin: 14px 0;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 6px 20px rgba(91,61,40,.12);
-
-            border: 1px solid rgba(91,61,40,.08);
-
-        }
-
-
-        .menu-toggle {
-
-            width: 100%;
-
-            border: none;
-
-            background: #F2E4D1;
-
-            color: #4b2818;
-
-            padding: 20px;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            cursor: pointer;
-
-            font-size: 22px;
-
-            font-weight: bold;
-
-            text-align: left;
-
-        }
-
-
-        .menu-toggle:hover {
-
-            background: #EDDDC8;
-
-        }
-
-
-        .arrow {
-
-            font-size: 17px;
-
-            transition: .2s;
-
-        }
-
-
-        .menu-toggle.open .arrow {
-
-            transform: rotate(180deg);
-
-        }
-
-
-        .menu-content {
-
-            display: none;
-
-            border-top: 1px solid rgba(91,61,40,.12);
-
-            padding: 8px 12px 12px;
-
-        }
-
-
-        .menu-content.open {
-
-            display: block;
-
-        }
-
-
-        /* =========================
-           KOMPAKT ÜRÜNLER
-        ========================= */
-
-        .product-row {
-
-            padding: 11px 5px;
-
-            border-bottom: 1px solid rgba(91,61,40,.10);
-
-        }
-
-
-        .product-row:last-child {
-
-            border-bottom: none;
-
-        }
-
-
-        .product-main {
-
-            display: grid;
-
-            grid-template-columns: 1fr auto auto;
-
-            align-items: center;
-
-            gap: 12px;
-
-        }
-
-
-        .product-name {
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            color: #3b2115;
-
-        }
-
-
-        .product-price {
-
-            color: #d97706;
-
-            font-size: 15px;
-
-            font-weight: bold;
-
-            white-space: nowrap;
-
-        }
-
-
-        .quantity {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-        }
-
-
-        .quantity button {
-
-            width: 31px;
-
-            height: 31px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: #d97706;
-
-            color: white;
-
-            font-size: 19px;
-
-            cursor: pointer;
-
-            line-height: 1;
-
-        }
-
-
-        .quantity button:hover {
-
-            background: #b86100;
-
-        }
-
-
-        .quantity span {
-
-            min-width: 20px;
-
-            text-align: center;
-
-            font-weight: bold;
-
-        }
-
-
-        /* =========================
-           SEPET
-        ========================= */
-
-        #cart {
-
-            display: none;
-
-            max-width: 900px;
-
-            margin: 30px auto 50px;
-
-            padding: 30px;
-
-            background: #F8ECDD;
-
-            border-radius: 20px;
-
-            box-shadow:
-                0 8px 25px rgba(91,61,40,.12);
-
-        }
-
-
-        #cart h2 {
-
-            text-align: center;
-
-            font-size: 32px;
-
-            margin-bottom: 25px;
-
-            color: #4b2818;
-
-        }
-
-
-        .cart-item {
-
-            padding: 14px 5px;
-
-            border-bottom: 1px solid rgba(91,61,40,.12);
-
-            font-size: 17px;
-
-        }
-
-
-        .cart-item-top {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            gap: 10px;
-
-        }
-
-
-        .cart-extra {
-
-            font-size: 14px;
-
-            color: #777;
-
-            margin-top: 6px;
-
-            padding-left: 10px;
-
-        }
-
-
-        .cart-total {
-
-            text-align: right;
-
-            font-size: 25px;
-
-            font-weight: bold;
-
-            margin-top: 25px;
-
-            color: #d97706;
-
-        }
-
-
-        .order-button {
-
-            display: block;
-
-            width: 100%;
-
-            margin-top: 20px;
-
-            background: #25D366;
-
-            color: white;
-
-            border: none;
-
-            padding: 18px;
-
-            border-radius: 30px;
-
-            font-size: 20px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-        }
-
-
-        /* =========================
-           İLETİŞİM
-        ========================= */
-
-        .contact {
-
-            background: #4b2818;
-
-            color: white;
-
-            text-align: center;
-
-            padding: 60px 20px;
-
-        }
-
-
-        .contact h2 {
-
-            font-size: 35px;
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .contact p {
-
-            margin: 10px;
-
-        }
-
-
-        .links {
-
-            margin-top: 25px;
-
-        }
-
-
-        footer {
-
-            background: #2b170e;
-
-            color: white;
-
-            text-align: center;
-
-            padding: 20px;
-
-        }
-
-
-        /* =========================
-           MOBİL
-        ========================= */
-
-        @media (max-width: 700px) {
-
-            header {
-
-                flex-direction: column;
-
-                gap: 15px;
-
-                padding: 16px 12px;
-
-            }
-
-
-            .logo {
-
-                font-size: 22px;
-
-            }
-
-
-            nav a {
-
-                margin: 0 8px;
-
-                font-size: 14px;
-
-            }
-
-
-            .hero {
-
-                min-height: 430px;
-
-                padding: 45px 15px;
-
-            }
-
-
-            .hero h1 {
-
-                font-size: 40px;
-
-            }
-
-
-            .hero h2 {
-
-                font-size: 21px;
-
-            }
-
-
-            .hero p {
-
-                font-size: 16px;
-
-                line-height: 1.5;
-
-            }
-
-
-            #menu {
-
-                padding: 45px 8px;
-
-            }
-
-
-            #menu h2 {
-
-                font-size: 34px;
-
-            }
-
-
-            .menu-toggle {
-
-                padding: 17px 15px;
-
-                font-size: 18px;
-
-            }
-
-
-            .menu-content {
-
-                padding: 5px 8px 8px;
-
-            }
-
-
-            .product-row {
-
-                padding: 9px 2px;
-
-            }
-
-
-            .product-main {
-
-                gap: 7px;
-
-            }
-
-
-            .product-name {
-
-                font-size: 14px;
-
-            }
-
-
-            .product-price {
-
-                font-size: 13px;
-
-            }
-
-
-            .quantity {
-
-                gap: 4px;
-
-            }
-
-
-            .quantity button {
-
-                width: 29px;
-
-                height: 29px;
-
-                font-size: 18px;
-
-            }
-
-
-            .quantity span {
-
-                font-size: 13px;
-
-                min-width: 18px;
-
-            }
-
-
-            #cart {
-
-                margin: 20px 8px 40px;
-
-                padding: 20px 15px;
-
-            }
-
-
-            #cart h2 {
-
-                font-size: 25px;
-
-            }
-
-
-        }
-
-
-    </style>
+    .logo{
+        font-size:22px;
+    }
+
+    nav a{
+        margin:0 8px;
+        font-size:14px;
+    }
+
+    .hero{
+        min-height:430px;
+        padding:45px 15px;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .hero h2{
+        font-size:21px;
+    }
+
+    .hero p{
+        font-size:16px;
+        line-height:1.5;
+    }
+
+    #menu{
+        padding:45px 8px;
+    }
+
+    #menu h2{
+        font-size:34px;
+    }
+
+    .menu-toggle{
+        padding:17px 15px;
+        font-size:18px;
+    }
+
+    .menu-content{
+        padding:5px 8px 8px;
+    }
+
+    .product-row{
+        padding:9px 2px;
+    }
+
+    .product-main{
+        gap:7px;
+    }
+
+    .product-name{
+        font-size:14px;
+    }
+
+    .product-price{
+        font-size:13px;
+    }
+
+    .quantity{
+        gap:4px;
+    }
+
+    .quantity button{
+        width:29px;
+        height:29px;
+        font-size:18px;
+    }
+
+    .quantity span{
+        font-size:13px;
+        min-width:18px;
+    }
+
+    #cart{
+        margin:20px 8px 40px;
+        padding:20px 15px;
+    }
+
+    #cart h2{
+        font-size:25px;
+    }
+
+    .extra-selector{
+        padding:10px;
+    }
+
+}
+
+</style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
-    <div class="logo">
+<div class="logo">
+🧇 Şeker Krizi Waffle
+</div>
 
-        🧇 Şeker Krizi Waffle
+<nav>
 
-    </div>
+<a href="#menu" onclick="menuyuAc(); return false;">
+Menü
+</a>
 
+<a href="#iletisim"
+onclick="document.getElementById('iletisim').scrollIntoView({behavior:'smooth'}); return false;">
+İletişim
+</a>
 
-    <nav>
-
-        <a href="#menu" onclick="menuyuAc(); return false;">
-
-            Menü
-
-        </a>
-
-        <a href="#iletisim"
-           onclick="document.getElementById('iletisim').scrollIntoView({behavior:'smooth'}); return false;">
-
-            İletişim
-
-        </a>
-
-    </nav>
+</nav>
 
 </header>
 
-
 <section class="hero">
 
-    <div>
-
-        <h1>
-
-            Şeker Krizi Waffle 🧇
-
-        </h1>
-
-
-        <h2>
-
-            Mutluluğun en tatlı hali!
-
-        </h2>
-
-
-        <p>
-
-            İstanbul Bahçelievler'de bol çikolatalı,
-            taze meyveli ve birbirinden lezzetli
-            waffle çeşitleri hazırlıyoruz. 🧇🍓🍫
-
-        </p>
-
-
-        <button class="button" onclick="menuyuAc()">
-
-            🍽️ Menüyü Gör
-
-        </button>
-
-    </div>
-
-</section>
-
-
-<section id="menu">
-
-
-    <h2>
-
-        Menümüz 🧇
-
-    </h2>
-
-
-    <!-- =========================
-         WAFFLE
-    ========================= -->
-
-    <div class="menu-box">
-
-
-        <button
-            id="waffleToggle"
-            class="menu-toggle"
-            onclick="menuBolumuAc('waffleContent','waffleToggle')"
-        >
-
-            <span>
-
-                🧇 Waffle Çeşitleri
-
-            </span>
-
-
-            <span class="arrow">
-
-                ▼
-
-            </span>
-
-        </button>
-
-
-        <div
-            id="waffleContent"
-            class="menu-content"
-        >
-
-            <div id="waffleList"></div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         İÇECEKLER
-    ========================= -->
-
-    <div class="menu-box">
-
-
-        <button
-            id="drinkToggle"
-            class="menu-toggle"
-            onclick="menuBolumuAc('drinkContent','drinkToggle')"
-        >
-
-            <span>
-
-                🥤 İçecekler
-
-            </span>
-
-
-            <span class="arrow">
-
-                ▼
-
-            </span>
-
-        </button>
-
-
-        <div
-            id="drinkContent"
-            class="menu-content"
-        >
-
-            <div id="drinkList"></div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         MEYVELER
-    ========================= -->
-
-    <div class="menu-box">
-
-
-        <button
-            id="fruitToggle"
-            class="menu-toggle"
-            onclick="menuBolumuAc('fruitContent','fruitToggle')"
-        >
-
-            <span>
-
-                🍓 Meyveler
-
-            </span>
-
-
-            <span class="arrow">
-
-                ▼
-
-            </span>
-
-        </button>
-
-
-        <div
-            id="fruitContent"
-            class="menu-content"
-        >
-
-            <div id="fruitList"></div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         SOSLAR
-    ========================= -->
-
-    <div class="menu-box">
-
-
-        <button
-            id="sauceToggle"
-            class="menu-toggle"
-            onclick="menuBolumuAc('sauceContent','sauceToggle')"
-        >
-
-            <span>
-
-                🍫 Soslar
-
-            </span>
-
-
-            <span class="arrow">
-
-                ▼
-
-            </span>
-
-        </button>
-
-
-        <div
-            id="sauceContent"
-            class="menu-content"
-        >
-
-            <div id="sauceList"></div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         SÜSLEMELER
-    ========================= -->
-
-    <div class="menu-box">
-
-
-        <button
-            id="decorationToggle"
-            class="menu-toggle"
-            onclick="menuBolumuAc('decorationContent','decorationToggle')"
-        >
-
-            <span>
-
-                ✨ Süslemeler
-
-            </span>
-
-
-            <span class="arrow">
-
-                ▼
-
-            </span>
-
-        </button>
-
-
-        <div
-            id="decorationContent"
-            class="menu-content"
-        >
-
-            <div id="decorationList"></div>
-
-        </div>
-
-    </div>
-
-
-</section>
-
-
-<!-- =========================
-     SEPET
-========================= -->
-
-<div id="cart">
-
-
-    <h2>
-
-        🛒 Sipariş Sepetim
-
-    </h2>
-
-
-    <div id="cartItems"></div>
-
-
-    <div class="cart-total">
-
-        Toplam:
-
-        <span id="cartTotal">
-
-            0
-
-        </span>
-
-        TL
-
-    </div>
-
-
-    <button
-        class="order-button"
-        onclick="whatsappSiparis()"
-    >
-
-        📱 WhatsApp'tan Sipariş Ver
-
-    </button>
-
+<div>
+
+<h1>
+Şeker Krizi Waffle 🧇
+</h1>
+
+<h2>
+Mutluluğun en tatlı hali!
+</h2>
+
+<p>
+İstanbul Bahçelievler'de bol çikolatalı,
+taze meyveli ve birbirinden lezzetli
+waffle çeşitleri hazırlıyoruz. 🧇🍓🍫
+</p>
+
+<button class="button" onclick="menuyuAc()">
+🍽️ Menüyü Gör
+</button>
 
 </div>
 
+</section>
 
-<!-- =========================
-     İLETİŞİM
-========================= -->
+<section id="menu">
 
-<section
-    class="contact"
-    id="iletisim"
+<h2>
+Menümüz 🧇
+</h2>
+
+<!-- WAFFLE -->
+
+<div class="menu-box">
+
+<button
+id="waffleToggle"
+class="menu-toggle"
+onclick="menuBolumuAc('waffleContent','waffleToggle')"
 >
 
+<span>
+🧇 Waffle Çeşitleri
+</span>
 
-    <h2>
+<span class="arrow">
+▼
+</span>
 
-        Bizi Ziyaret Et ❤️
+</button>
 
-    </h2>
+<div id="waffleContent" class="menu-content">
 
+<div class="extra-selector">
 
-    <p>
+<div class="extra-selector-title">
+🎯 Ekstrayı hangi wafflea ekleyeceksin?
+</div>
 
-        📍 Adres:
-        İstanbul / Bahçelievler Zafer Mahallesi Uğurlu Sokak
+<select id="extraTarget" onchange="hedefWaffleDegistir(this.value)">
+<option value="">Önce bir waffle seç</option>
+</select>
 
-    </p>
+<div class="extra-help">
+Önce waffle seç, sonra aşağıdaki meyve / sos / süslemelerden ekstra ekle.
+</div>
 
+</div>
 
-    <p>
+<div id="waffleList"></div>
 
-        📞 Telefon:
-        0535 873 17 57
+</div>
 
-    </p>
+</div>
 
+<!-- İÇECEKLER -->
 
-    <div class="links">
+<div class="menu-box">
 
+<button
+id="drinkToggle"
+class="menu-toggle"
+onclick="menuBolumuAc('drinkContent','drinkToggle')"
+>
 
-        <a
-            class="button"
-            href="https://maps.app.goo.gl/DyTMhM9Ahvof9vaa7"
-            target="_blank"
-        >
+<span>
+🥤 İçecekler
+</span>
 
-            📍 Konumu Gör
+<span class="arrow">
+▼
+</span>
 
-        </a>
+</button>
 
+<div id="drinkContent" class="menu-content">
 
-        <a
-            class="button"
-            href="https://tgoyemek.com/restoranlar/414629#bu-restoranin-en-sevilenleri"
-            target="_blank"
-        >
+<div id="drinkList"></div>
 
-            🛵 Trendyol Yemek
+</div>
 
-        </a>
+</div>
 
+<!-- MEYVELER -->
 
-        <a
-            class="button"
-            href="https://yemek.go.link/3SIGb"
-            target="_blank"
-        >
+<div class="menu-box">
 
-            🛵 Yemeksepeti
+<button
+id="fruitToggle"
+class="menu-toggle"
+onclick="menuBolumuAc('fruitContent','fruitToggle')"
+>
 
-        </a>
+<span>
+🍓 Meyveler
+</span>
 
+<span class="arrow">
+▼
+</span>
 
-        <a
-            class="button"
-            href="https://www.instagram.com/sekerkriziwaffle.bv/"
-            target="_blank"
-        >
+</button>
 
-            📸 Instagram
+<div id="fruitContent" class="menu-content">
 
-        </a>
+<div id="fruitList"></div>
 
+</div>
 
-    </div>
+</div>
 
+<!-- SOSLAR -->
+
+<div class="menu-box">
+
+<button
+id="sauceToggle"
+class="menu-toggle"
+onclick="menuBolumuAc('sauceContent','sauceToggle')"
+>
+
+<span>
+🍫 Soslar
+</span>
+
+<span class="arrow">
+▼
+</span>
+
+</button>
+
+<div id="sauceContent" class="menu-content">
+
+<div id="sauceList"></div>
+
+</div>
+
+</div>
+
+<!-- SÜSLEMELER -->
+
+<div class="menu-box">
+
+<button
+id="decorationToggle"
+class="menu-toggle"
+onclick="menuBolumuAc('decorationContent','decorationToggle')"
+>
+
+<span>
+✨ Süslemeler
+</span>
+
+<span class="arrow">
+▼
+</span>
+
+</button>
+
+<div id="decorationContent" class="menu-content">
+
+<div id="decorationList"></div>
+
+</div>
+
+</div>
 
 </section>
 
+<!-- SEPET -->
+
+<div id="cart">
+
+<h2>
+🛒 Sipariş Sepetim
+</h2>
+
+<div id="cartItems"></div>
+
+<div class="cart-total">
+
+Toplam:
+<span id="cartTotal">0</span>
+TL
+
+</div>
+
+<button
+class="order-button"
+onclick="whatsappSiparis()"
+>
+
+📱 WhatsApp'tan Sipariş Ver
+
+</button>
+
+</div>
+
+<!-- İLETİŞİM -->
+
+<section class="contact" id="iletisim">
+
+<h2>
+Bizi Ziyaret Et ❤️
+</h2>
+
+<p>
+📍 Adres:
+İstanbul / Bahçelievler Zafer Mahallesi Uğurlu Sokak
+</p>
+
+<p>
+📞 Telefon:
+0535 873 17 57
+</p>
+
+<div class="links">
+
+<a
+class="button"
+href="https://maps.app.goo.gl/DyTMhM9Ahvof9vaa7"
+target="_blank"
+>
+📍 Konumu Gör
+</a>
+
+<a
+class="button"
+href="https://tgoyemek.com/restoranlar/414629#bu-restoranin-en-sevilenleri"
+target="_blank"
+>
+🛵 Trendyol Yemek
+</a>
+
+<a
+class="button"
+href="https://yemek.go.link/3SIGb"
+target="_blank"
+>
+🛵 Yemeksepeti
+</a>
+
+<a
+class="button"
+href="https://www.instagram.com/sekerkriziwaffle.bv/"
+target="_blank"
+>
+📸 Instagram
+</a>
+
+</div>
+
+</section>
 
 <footer>
-
-    © 2026 Şeker Krizi Waffle — Tüm hakları saklıdır.
-
+© 2026 Şeker Krizi Waffle — Tüm hakları saklıdır.
 </footer>
 
-
 <script>
-
 
 /* =========================================
    WAFFLELER
@@ -1250,59 +797,59 @@
 
 const waffleler = [
 
-    {
-        id: "waffle1",
-        isim: "Standart Waffle",
-        fiyat: 200
-    },
+{
+id:"waffle1",
+isim:"Standart Waffle",
+fiyat:200
+},
 
-    {
-        id: "waffle2",
-        isim: "Çilekli Waffle",
-        fiyat: 220
-    },
+{
+id:"waffle2",
+isim:"Çilekli Waffle",
+fiyat:220
+},
 
-    {
-        id: "waffle3",
-        isim: "Lotus Waffle",
-        fiyat: 250
-    },
+{
+id:"waffle3",
+isim:"Lotus Waffle",
+fiyat:250
+},
 
-    {
-        id: "waffle4",
-        isim: "Oreolu Kriz Waffle",
-        fiyat: 275
-    },
+{
+id:"waffle4",
+isim:"Oreolu Kriz Waffle",
+fiyat:275
+},
 
-    {
-        id: "waffle5",
-        isim: "Double Oreolu Waffle",
-        fiyat: 325
-    },
+{
+id:"waffle5",
+isim:"Double Oreolu Waffle",
+fiyat:325
+},
 
-    {
-        id: "waffle6",
-        isim: "Lotuslu Bowl Waffle",
-        fiyat: 275
-    },
+{
+id:"waffle6",
+isim:"Lotuslu Bowl Waffle",
+fiyat:275
+},
 
-    {
-        id: "waffle7",
-        isim: "Double Lotuslu Bowl Waffle",
-        fiyat: 325
-    },
+{
+id:"waffle7",
+isim:"Double Lotuslu Bowl Waffle",
+fiyat:325
+},
 
-    {
-        id: "waffle8",
-        isim: "Standart Karışık Waffle",
-        fiyat: 225
-    },
+{
+id:"waffle8",
+isim:"Standart Karışık Waffle",
+fiyat:225
+},
 
-    {
-        id: "waffle9",
-        isim: "Double Standart Karışık Bowl Waffle",
-        fiyat: 275
-    }
+{
+id:"waffle9",
+isim:"Double Standart Karışık Bowl Waffle",
+fiyat:275
+}
 
 ];
 
@@ -1313,77 +860,18 @@ const waffleler = [
 
 const icecekler = [
 
-    {
-        id: "drink1",
-        isim: "Coca-Cola",
-        fiyat: 75
-    },
-
-    {
-        id: "drink2",
-        isim: "Fanta",
-        fiyat: 75
-    },
-
-    {
-        id: "drink3",
-        isim: "Sprite",
-        fiyat: 75
-    },
-
-    {
-        id: "drink4",
-        isim: "Lipton Şeftali",
-        fiyat: 75
-    },
-
-    {
-        id: "drink5",
-        isim: "Lipton Limon",
-        fiyat: 75
-    },
-
-    {
-        id: "drink6",
-        isim: "Fuse Tea Mango",
-        fiyat: 75
-    },
-
-    {
-        id: "drink7",
-        isim: "Nescafe Xpress",
-        fiyat: 100
-    },
-
-    {
-        id: "drink8",
-        isim: "Red Bull",
-        fiyat: 100
-    },
-
-    {
-        id: "drink9",
-        isim: "Bardak Limonata",
-        fiyat: 40
-    },
-
-    {
-        id: "drink10",
-        isim: "Limonlu Soda",
-        fiyat: 50
-    },
-
-    {
-        id: "drink11",
-        isim: "Sade Soda",
-        fiyat: 40
-    },
-
-    {
-        id: "drink12",
-        isim: "Su",
-        fiyat: 20
-    }
+{id:"drink1",isim:"Coca-Cola",fiyat:75},
+{id:"drink2",isim:"Fanta",fiyat:75},
+{id:"drink3",isim:"Sprite",fiyat:75},
+{id:"drink4",isim:"Lipton Şeftali",fiyat:75},
+{id:"drink5",isim:"Lipton Limon",fiyat:75},
+{id:"drink6",isim:"Fuse Tea Mango",fiyat:75},
+{id:"drink7",isim:"Nescafe Xpress",fiyat:100},
+{id:"drink8",isim:"Red Bull",fiyat:100},
+{id:"drink9",isim:"Bardak Limonata",fiyat:40},
+{id:"drink10",isim:"Limonlu Soda",fiyat:50},
+{id:"drink11",isim:"Sade Soda",fiyat:40},
+{id:"drink12",isim:"Su",fiyat:20}
 
 ];
 
@@ -1394,194 +882,92 @@ const icecekler = [
 
 const ekstralar = {
 
-    meyveler: [
+meyveler:[
 
-        {
-            id: "muz",
-            isim: "Muz",
-            fiyat: 30
-        },
+{id:"muz",isim:"Muz",fiyat:30},
+{id:"cilek",isim:"Çilek",fiyat:30},
+{id:"kivi",isim:"Kivi",fiyat:30},
+{id:"orman",isim:"Orman Meyvesi",fiyat:30}
 
-        {
-            id: "cilek",
-            isim: "Çilek",
-            fiyat: 30
-        },
+],
 
-        {
-            id: "kivi",
-            isim: "Kivi",
-            fiyat: 30
-        },
+soslar:[
 
-        {
-            id: "orman",
-            isim: "Orman Meyvesi",
-            fiyat: 30
-        }
+{id:"antep",isim:"Antep Sosu",fiyat:30},
+{id:"lotus",isim:"Lotus Sosu",fiyat:30},
+{id:"sutlu",isim:"Sütlü Çikolata",fiyat:30},
+{id:"beyaz",isim:"Beyaz Çikolata",fiyat:30},
+{id:"bitter",isim:"Bitter Çikolata",fiyat:30},
+{id:"karamel",isim:"Karamel",fiyat:30},
+{id:"frambuaz",isim:"Frambuaz",fiyat:30},
+{id:"cileksosu",isim:"Çilek Sosu",fiyat:30}
 
-    ],
+],
 
+suslemeler:[
 
-    soslar: [
+{id:"oreo",isim:"Oreo Parçacıkları",fiyat:30},
+{id:"lotusparca",isim:"Lotus Parçacıkları",fiyat:30},
+{id:"findik",isim:"Fındık Parçacıkları",fiyat:30},
+{id:"bonibon",isim:"Renkli Bonibon",fiyat:30},
+{id:"pirinc",isim:"Renkli Pirinç Patlağı",fiyat:30},
+{id:"sutludamla",isim:"Sütlü Damla Çikolata",fiyat:30},
+{id:"bitterdamla",isim:"Bitter Damla Çikolata",fiyat:30},
+{id:"cakil",isim:"Çakıl Taşı Çikolata",fiyat:30}
 
-        {
-            id: "antep",
-            isim: "Antep Sosu",
-            fiyat: 30
-        },
-
-        {
-            id: "lotus",
-            isim: "Lotus Sosu",
-            fiyat: 30
-        },
-
-        {
-            id: "sutlu",
-            isim: "Sütlü Çikolata",
-            fiyat: 30
-        },
-
-        {
-            id: "beyaz",
-            isim: "Beyaz Çikolata",
-            fiyat: 30
-        },
-
-        {
-            id: "bitter",
-            isim: "Bitter Çikolata",
-            fiyat: 30
-        },
-
-        {
-            id: "karamel",
-            isim: "Karamel",
-            fiyat: 30
-        },
-
-        {
-            id: "frambuaz",
-            isim: "Frambuaz",
-            fiyat: 30
-        },
-
-        {
-            id: "cileksosu",
-            isim: "Çilek Sosu",
-            fiyat: 30
-        }
-
-    ],
-
-
-    suslemeler: [
-
-        {
-            id: "oreo",
-            isim: "Oreo Parçacıkları",
-            fiyat: 30
-        },
-
-        {
-            id: "lotusparca",
-            isim: "Lotus Parçacıkları",
-            fiyat: 30
-        },
-
-        {
-            id: "findik",
-            isim: "Fındık Parçacıkları",
-            fiyat: 30
-        },
-
-        {
-            id: "bonibon",
-            isim: "Renkli Bonibon",
-            fiyat: 30
-        },
-
-        {
-            id: "pirinc",
-            isim: "Renkli Pirinç Patlağı",
-            fiyat: 30
-        },
-
-        {
-            id: "sutludamla",
-            isim: "Sütlü Damla Çikolata",
-            fiyat: 30
-        },
-
-        {
-            id: "bitterdamla",
-            isim: "Bitter Damla Çikolata",
-            fiyat: 30
-        },
-
-        {
-            id: "cakil",
-            isim: "Çakıl Taşı Çikolata",
-            fiyat: 30
-        }
-
-    ]
+]
 
 };
 
 
 /* =========================================
-   SEPETLER
+   TÜM EKSTRALAR
 ========================================= */
-
-const waffleSepeti = {};
-const icecekSepeti = {};
-const ekstraSepeti = {};
-
-
-waffleler.forEach(function(waffle) {
-
-    waffleSepeti[waffle.id] = 0;
-
-});
-
-
-icecekler.forEach(function(icecek) {
-
-    icecekSepeti[icecek.id] = 0;
-
-});
-
 
 const tumEkstralar = [
 
-    ...ekstralar.meyveler,
-    ...ekstralar.soslar,
-    ...ekstralar.suslemeler
+...ekstralar.meyveler,
+...ekstralar.soslar,
+...ekstralar.suslemeler
 
 ];
 
 
-tumEkstralar.forEach(function(ekstra) {
+/* =========================================
+   WAFFLE SİPARİŞLERİ
+   Her waffle'ın kendi ekstraları var.
+========================================= */
 
-    ekstraSepeti[ekstra.id] = 0;
+const waffleSiparisleri = {};
+
+waffleler.forEach(function(waffle){
+
+waffleSiparisleri[waffle.id] = [];
 
 });
+
+
+const icecekSepeti = {};
+
+icecekler.forEach(function(icecek){
+
+icecekSepeti[icecek.id] = 0;
+
+});
+
+
+let seciliWaffle = "";
 
 
 /* =========================================
    MENÜ AÇ
 ========================================= */
 
-function menuyuAc() {
+function menuyuAc(){
 
-    const menu =
-        document.getElementById("menu");
-
-    menu.scrollIntoView({
-        behavior: "smooth"
-    });
+document.getElementById("menu").scrollIntoView({
+behavior:"smooth"
+});
 
 }
 
@@ -1590,93 +976,143 @@ function menuyuAc() {
    ANA KUTU AÇ / KAPAT
 ========================================= */
 
-function menuBolumuAc(
-    contentId,
-    toggleId
-) {
+function menuBolumuAc(contentId,toggleId){
 
-    const content =
-        document.getElementById(contentId);
+const content=document.getElementById(contentId);
+const toggle=document.getElementById(toggleId);
 
-    const toggle =
-        document.getElementById(toggleId);
-
-
-    content.classList.toggle("open");
-
-    toggle.classList.toggle("open");
+content.classList.toggle("open");
+toggle.classList.toggle("open");
 
 }
 
 
 /* =========================================
-   WAFFLE ADET
+   WAFFLE EKLE / ÇIKAR
 ========================================= */
 
-function waffleDegistir(
-    id,
-    miktar
-) {
+function waffleDegistir(id,miktar){
 
-    waffleSepeti[id] += miktar;
+const liste=waffleSiparisleri[id];
 
+if(miktar>0){
 
-    if (waffleSepeti[id] < 0) {
+liste.push({
+ekstralar:{}
+});
 
-        waffleSepeti[id] = 0;
+seciliWaffle=id+"_"+liste.length;
 
-    }
+}else{
 
+if(liste.length>0){
 
-    urunleriGoster();
+liste.pop();
+
+}
+
+if(liste.length===0 && seciliWaffle.startsWith(id+"_")){
+
+seciliWaffle="";
+
+}
+
+}
+
+urunleriGoster();
 
 }
 
 
 /* =========================================
-   İÇECEK ADET
+   WAFFLE HEDEFİ SEÇ
 ========================================= */
 
-function icecekDegistir(
-    id,
-    miktar
-) {
+function hedefWaffleDegistir(deger){
 
-    icecekSepeti[id] += miktar;
+seciliWaffle=deger;
 
-
-    if (icecekSepeti[id] < 0) {
-
-        icecekSepeti[id] = 0;
-
-    }
-
-
-    urunleriGoster();
+urunleriGoster();
 
 }
 
 
 /* =========================================
-   EKSTRA ADET
+   WAFFLE HEDEF SEÇENEKLERİNİ OLUŞTUR
 ========================================= */
 
-function ekstraDegistir(
-    id,
-    miktar
-) {
+function waffleHedefleriniGoster(){
 
-    ekstraSepeti[id] += miktar;
+const select=document.getElementById("extraTarget");
+
+if(!select) return;
+
+let html='<option value="">Waffle seç</option>';
+
+waffleler.forEach(function(waffle){
+
+const liste=waffleSiparisleri[waffle.id];
+
+liste.forEach(function(siparis,index){
+
+const hedef=waffle.id+"_"+(index+1);
+
+const secili=seciliWaffle===hedef ? "selected" : "";
+
+html+=`
+<option value="${hedef}" ${secili}>
+${waffle.isim} #${index+1}
+</option>
+`;
+
+});
+
+});
+
+select.innerHTML=html;
+
+}
 
 
-    if (ekstraSepeti[id] < 0) {
+/* =========================================
+   SEÇİLİ WAFFLE'IN EKSTRASINI DEĞİŞTİR
+========================================= */
 
-        ekstraSepeti[id] = 0;
+function ekstraDegistir(id,miktar){
 
-    }
+if(!seciliWaffle){
 
+alert("Önce ekstrayı ekleyeceğin waffleaı seç!");
 
-    urunleriGoster();
+return;
+
+}
+
+const parcalar=seciliWaffle.split("_");
+
+const waffleId=parcalar[0];
+
+const index=parseInt(parcalar[1])-1;
+
+const siparis=waffleSiparisleri[waffleId][index];
+
+if(!siparis) return;
+
+if(!siparis.ekstralar[id]){
+
+siparis.ekstralar[id]=0;
+
+}
+
+siparis.ekstralar[id]+=miktar;
+
+if(siparis.ekstralar[id]<0){
+
+siparis.ekstralar[id]=0;
+
+}
+
+urunleriGoster();
 
 }
 
@@ -1685,65 +1121,143 @@ function ekstraDegistir(
    ÜRÜN SATIRI
 ========================================= */
 
-function urunHTML(
-    urun,
-    adet,
-    fonksiyon
-) {
+function urunHTML(urun,adet,fonksiyon){
 
-    return `
+return `
 
-        <div class="product-row">
+<div class="product-row">
 
-            <div class="product-main">
+<div class="product-main">
 
-                <div class="product-name">
+<div class="product-name">
+${urun.isim}
+</div>
 
-                    ${urun.isim}
+<div class="product-price">
+${urun.fiyat} TL
+</div>
 
-                </div>
+<div class="quantity">
+
+<button
+onclick="${fonksiyon}('${urun.id}',-1)"
+>
+−
+</button>
+
+<span>
+${adet}
+</span>
+
+<button
+onclick="${fonksiyon}('${urun.id}',1)"
+>
++
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
 
 
-                <div class="product-price">
+/* =========================================
+   EKSTRA ÜRÜN SATIRI
+========================================= */
 
-                    ${urun.fiyat} TL
+function ekstraHTML(urun){
 
-                </div>
+let adet=0;
+
+if(seciliWaffle){
+
+const parcalar=seciliWaffle.split("_");
+
+const waffleId=parcalar[0];
+
+const index=parseInt(parcalar[1])-1;
+
+const siparis=waffleSiparisleri[waffleId][index];
+
+if(siparis){
+
+adet=siparis.ekstralar[urun.id] || 0;
+
+}
+
+}
+
+return `
+
+<div class="product-row">
+
+<div class="product-main">
+
+<div class="product-name">
+${urun.isim}
+</div>
+
+<div class="product-price">
+${urun.fiyat} TL
+</div>
+
+<div class="quantity">
+
+<button
+onclick="ekstraDegistir('${urun.id}',-1)"
+>
+−
+</button>
+
+<span>
+${adet}
+</span>
+
+<button
+onclick="ekstraDegistir('${urun.id}',1)"
+>
++
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
 
 
-                <div class="quantity">
+/* =========================================
+   WAFFLE LİSTESİ
+========================================= */
 
-                    <button
-                        onclick="${fonksiyon}('${urun.id}', -1)"
-                    >
+function waffleListesiGoster(){
 
-                        −
+const waffleList=document.getElementById("waffleList");
 
-                    </button>
+waffleList.innerHTML="";
 
+waffleler.forEach(function(waffle){
 
-                    <span>
+const liste=waffleSiparisleri[waffle.id];
 
-                        ${adet}
+const adet=liste.length;
 
-                    </span>
+waffleList.innerHTML+=urunHTML(
+waffle,
+adet,
+"waffleDegistir"
+);
 
-
-                    <button
-                        onclick="${fonksiyon}('${urun.id}', 1)"
-                    >
-
-                        +
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
+});
 
 }
 
@@ -1752,105 +1266,146 @@ function urunHTML(
    ÜRÜNLERİ GÖSTER
 ========================================= */
 
-function urunleriGoster() {
+function urunleriGoster(){
+
+waffleListesiGoster();
+
+waffleHedefleriniGoster();
 
 
-    const waffleList =
-        document.getElementById("waffleList");
+/* İÇECEKLER */
+
+const drinkList=document.getElementById("drinkList");
+
+drinkList.innerHTML="";
+
+icecekler.forEach(function(icecek){
+
+drinkList.innerHTML+=urunHTML(
+icecek,
+icecekSepeti[icecek.id],
+"icecekDegistir"
+);
+
+});
 
 
-    waffleList.innerHTML = "";
+/* MEYVELER */
+
+const fruitList=document.getElementById("fruitList");
+
+fruitList.innerHTML="";
+
+ekstralar.meyveler.forEach(function(meyve){
+
+fruitList.innerHTML+=ekstraHTML(meyve);
+
+});
 
 
-    waffleler.forEach(function(waffle) {
+/* SOSLAR */
 
-        waffleList.innerHTML +=
-            urunHTML(
-                waffle,
-                waffleSepeti[waffle.id],
-                "waffleDegistir"
-            );
+const sauceList=document.getElementById("sauceList");
 
-    });
+sauceList.innerHTML="";
 
+ekstralar.soslar.forEach(function(sos){
 
-    const drinkList =
-        document.getElementById("drinkList");
+sauceList.innerHTML+=ekstraHTML(sos);
+
+});
 
 
-    drinkList.innerHTML = "";
+/* SÜSLEMELER */
+
+const decorationList=document.getElementById("decorationList");
+
+decorationList.innerHTML="";
+
+ekstralar.suslemeler.forEach(function(susleme){
+
+decorationList.innerHTML+=ekstraHTML(susleme);
+
+});
 
 
-    icecekler.forEach(function(icecek) {
+sepetiGoster();
 
-        drinkList.innerHTML +=
-            urunHTML(
-                icecek,
-                icecekSepeti[icecek.id],
-                "icecekDegistir"
-            );
-
-    });
+}
 
 
-    const fruitList =
-        document.getElementById("fruitList");
+/* =========================================
+   İÇECEK ADET
+========================================= */
+
+function icecekDegistir(id,miktar){
+
+icecekSepeti[id]+=miktar;
+
+if(icecekSepeti[id]<0){
+
+icecekSepeti[id]=0;
+
+}
+
+urunleriGoster();
+
+}
 
 
-    fruitList.innerHTML = "";
+/* =========================================
+   WAFFLE EKSTRALARINI TOPLA
+========================================= */
+
+function waffleEkstralariToplam(siparis){
+
+let toplam=0;
+
+tumEkstralar.forEach(function(ekstra){
+
+const adet=siparis.ekstralar[ekstra.id] || 0;
+
+toplam+=ekstra.fiyat*adet;
+
+});
+
+return toplam;
+
+}
 
 
-    ekstralar.meyveler.forEach(function(meyve) {
+/* =========================================
+   EKSTRALARI HTML OLARAK GÖSTER
+========================================= */
 
-        fruitList.innerHTML +=
-            urunHTML(
-                meyve,
-                ekstraSepeti[meyve.id],
-                "ekstraDegistir"
-            );
+function waffleEkstraHTML(siparis){
 
-    });
+let html="";
 
+tumEkstralar.forEach(function(ekstra){
 
-    const sauceList =
-        document.getElementById("sauceList");
+const adet=siparis.ekstralar[ekstra.id] || 0;
 
+if(adet>0){
 
-    sauceList.innerHTML = "";
+html+=`
 
+<div class="cart-extra">
 
-    ekstralar.soslar.forEach(function(sos) {
+➕ ${ekstra.isim} x${adet}
+<strong>
+${ekstra.fiyat*adet} TL
+</strong>
 
-        sauceList.innerHTML +=
-            urunHTML(
-                sos,
-                ekstraSepeti[sos.id],
-                "ekstraDegistir"
-            );
+</div>
 
-    });
+`;
 
+}
 
-    const decorationList =
-        document.getElementById("decorationList");
+});
 
-
-    decorationList.innerHTML = "";
-
-
-    ekstralar.suslemeler.forEach(function(susleme) {
-
-        decorationList.innerHTML +=
-            urunHTML(
-                susleme,
-                ekstraSepeti[susleme.id],
-                "ekstraDegistir"
-            );
-
-    });
-
-
-    sepetiGoster();
+return html;
 
 }
 
@@ -1859,255 +1414,116 @@ function urunleriGoster() {
    SEPET
 ========================================= */
 
-function sepetiGoster() {
+function sepetiGoster(){
 
-    const cart =
-        document.getElementById("cart");
+const cart=document.getElementById("cart");
 
-    const cartItems =
-        document.getElementById("cartItems");
+const cartItems=document.getElementById("cartItems");
 
-    const cartTotal =
-        document.getElementById("cartTotal");
+const cartTotal=document.getElementById("cartTotal");
 
+cartItems.innerHTML="";
 
-    cartItems.innerHTML = "";
+let toplam=0;
 
+let urunVar=false;
 
-    let toplam = 0;
 
-    let urunVar = false;
+/* WAFFLELAR */
 
+waffleler.forEach(function(waffle){
 
-    waffleler.forEach(function(waffle) {
+const liste=waffleSiparisleri[waffle.id];
 
-        const adet =
-            waffleSepeti[waffle.id];
+liste.forEach(function(siparis,index){
 
+urunVar=true;
 
-        if (adet > 0) {
+const ekstraToplam=waffleEkstralariToplam(siparis);
 
-            urunVar = true;
+const araToplam=waffle.fiyat+ekstraToplam;
 
+toplam+=araToplam;
 
-            const araToplam =
-                waffle.fiyat * adet;
+cartItems.innerHTML+=`
 
+<div class="cart-item">
 
-            toplam += araToplam;
+<div class="cart-item-top">
 
+<span>
+🧇 ${waffle.isim} #${index+1}
+</span>
 
-            cartItems.innerHTML += `
+<strong>
+${araToplam} TL
+</strong>
 
-                <div class="cart-item">
+</div>
 
-                    <div class="cart-item-top">
+${waffleEkstraHTML(siparis)}
 
-                        <span>
-                            🧇 ${waffle.isim} x${adet}
-                        </span>
+</div>
 
-                        <strong>
-                            ${araToplam} TL
-                        </strong>
+`;
 
-                    </div>
+});
 
-                </div>
+});
 
-            `;
 
-        }
+/* İÇECEKLER */
 
-    });
+icecekler.forEach(function(icecek){
 
+const adet=icecekSepeti[icecek.id];
 
-    icecekler.forEach(function(icecek) {
+if(adet>0){
 
-        const adet =
-            icecekSepeti[icecek.id];
+urunVar=true;
 
+const araToplam=icecek.fiyat*adet;
 
-        if (adet > 0) {
+toplam+=araToplam;
 
-            urunVar = true;
+cartItems.innerHTML+=`
 
+<div class="cart-item">
 
-            const araToplam =
-                icecek.fiyat * adet;
+<div class="cart-item-top">
 
+<span>
+🥤 ${icecek.isim} x${adet}
+</span>
 
-            toplam += araToplam;
+<strong>
+${araToplam} TL
+</strong>
 
+</div>
 
-            cartItems.innerHTML += `
+</div>
 
-                <div class="cart-item">
+`;
 
-                    <div class="cart-item-top">
+}
 
-                        <span>
-                            🥤 ${icecek.isim} x${adet}
-                        </span>
+});
 
-                        <strong>
-                            ${araToplam} TL
-                        </strong>
 
-                    </div>
+if(!urunVar){
 
-                </div>
+cart.style.display="none";
 
-            `;
+cartTotal.textContent="0";
 
-        }
+return;
 
-    });
+}
 
+cart.style.display="block";
 
-    ekstralar.meyveler.forEach(function(meyve) {
-
-        const adet =
-            ekstraSepeti[meyve.id];
-
-
-        if (adet > 0) {
-
-            urunVar = true;
-
-
-            const araToplam =
-                meyve.fiyat * adet;
-
-
-            toplam += araToplam;
-
-
-            cartItems.innerHTML += `
-
-                <div class="cart-item">
-
-                    <div class="cart-item-top">
-
-                        <span>
-                            🍓 ${meyve.isim} x${adet}
-                        </span>
-
-                        <strong>
-                            ${araToplam} TL
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-
-    });
-
-
-    ekstralar.soslar.forEach(function(sos) {
-
-        const adet =
-            ekstraSepeti[sos.id];
-
-
-        if (adet > 0) {
-
-            urunVar = true;
-
-
-            const araToplam =
-                sos.fiyat * adet;
-
-
-            toplam += araToplam;
-
-
-            cartItems.innerHTML += `
-
-                <div class="cart-item">
-
-                    <div class="cart-item-top">
-
-                        <span>
-                            🍫 ${sos.isim} x${adet}
-                        </span>
-
-                        <strong>
-                            ${araToplam} TL
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-
-    });
-
-
-    ekstralar.suslemeler.forEach(function(susleme) {
-
-        const adet =
-            ekstraSepeti[susleme.id];
-
-
-        if (adet > 0) {
-
-            urunVar = true;
-
-
-            const araToplam =
-                susleme.fiyat * adet;
-
-
-            toplam += araToplam;
-
-
-            cartItems.innerHTML += `
-
-                <div class="cart-item">
-
-                    <div class="cart-item-top">
-
-                        <span>
-                            ✨ ${susleme.isim} x${adet}
-                        </span>
-
-                        <strong>
-                            ${araToplam} TL
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-
-    });
-
-
-    if (!urunVar) {
-
-        cart.style.display = "none";
-
-        cartTotal.textContent = "0";
-
-        return;
-
-    }
-
-
-    cart.style.display = "block";
-
-    cartTotal.textContent = toplam;
+cartTotal.textContent=toplam;
 
 }
 
@@ -2116,137 +1532,125 @@ function sepetiGoster() {
    WHATSAPP SİPARİŞ
 ========================================= */
 
-function whatsappSiparis() {
+function whatsappSiparis(){
 
-    let mesaj =
-        "Merhaba, Şeker Krizi Waffle'dan sipariş vermek istiyorum:%0A%0A";
+let mesaj=
+"Merhaba, Şeker Krizi Waffle'dan sipariş vermek istiyorum:%0A%0A";
 
+let toplam=0;
 
-    let toplam = 0;
-
-    let urunVar = false;
-
-
-    waffleler.forEach(function(waffle) {
-
-        const adet =
-            waffleSepeti[waffle.id];
+let urunVar=false;
 
 
-        if (adet > 0) {
+/* WAFFLELAR */
 
-            urunVar = true;
+waffleler.forEach(function(waffle){
 
+const liste=waffleSiparisleri[waffle.id];
 
-            const araToplam =
-                waffle.fiyat * adet;
+liste.forEach(function(siparis,index){
 
+urunVar=true;
 
-            toplam += araToplam;
+const ekstraToplam=waffleEkstralariToplam(siparis);
 
+const araToplam=waffle.fiyat+ekstraToplam;
 
-            mesaj +=
-                "🧇 " +
-                waffle.isim +
-                " x" +
-                adet +
-                " = " +
-                araToplam +
-                " TL%0A";
+toplam+=araToplam;
 
-        }
-
-    });
-
-
-    icecekler.forEach(function(icecek) {
-
-        const adet =
-            icecekSepeti[icecek.id];
+mesaj+=
+"🧇 "+
+waffle.isim+
+" #"+
+(index+1)+
+" = "+
+waffle.fiyat+
+" TL%0A";
 
 
-        if (adet > 0) {
+tumEkstralar.forEach(function(ekstra){
 
-            urunVar = true;
+const adet=siparis.ekstralar[ekstra.id] || 0;
 
+if(adet>0){
 
-            const araToplam =
-                icecek.fiyat * adet;
+const ekstraFiyat=ekstra.fiyat*adet;
 
+mesaj+=
+"   ➕ "+
+ekstra.isim+
+" x"+
+adet+
+" = "+
+ekstraFiyat+
+" TL%0A";
 
-            toplam += araToplam;
+}
 
-
-            mesaj +=
-                "🥤 " +
-                icecek.isim +
-                " x" +
-                adet +
-                " = " +
-                araToplam +
-                " TL%0A";
-
-        }
-
-    });
+});
 
 
-    tumEkstralar.forEach(function(ekstra) {
+mesaj+=
+"   Ara toplam: "+
+araToplam+
+" TL%0A%0A";
 
-        const adet =
-            ekstraSepeti[ekstra.id];
+});
 
-
-        if (adet > 0) {
-
-            urunVar = true;
-
-
-            const araToplam =
-                ekstra.fiyat * adet;
+});
 
 
-            toplam += araToplam;
+/* İÇECEKLER */
+
+icecekler.forEach(function(icecek){
+
+const adet=icecekSepeti[icecek.id];
+
+if(adet>0){
+
+urunVar=true;
+
+const araToplam=icecek.fiyat*adet;
+
+toplam+=araToplam;
+
+mesaj+=
+"🥤 "+
+icecek.isim+
+" x"+
+adet+
+" = "+
+araToplam+
+" TL%0A";
+
+}
+
+});
 
 
-            mesaj +=
-                "🍓 " +
-                ekstra.isim +
-                " x" +
-                adet +
-                " = " +
-                araToplam +
-                " TL%0A";
+if(!urunVar){
 
-        }
+alert("Sepetiniz boş!");
 
-    });
+return;
+
+}
 
 
-    if (!urunVar) {
-
-        alert("Sepetiniz boş!");
-
-        return;
-
-    }
+mesaj+=
+"%0A💰 Toplam: "+
+toplam+
+" TL";
 
 
-    mesaj +=
-        "%0A💰 Toplam: " +
-        toplam +
-        " TL";
+const whatsappLink=
+"https://wa.me/905358731757?text="+mesaj;
 
 
-    const whatsappLink =
-        "https://wa.me/905358731757?text=" +
-        mesaj;
-
-
-    window.open(
-        whatsappLink,
-        "_blank"
-    );
+window.open(
+whatsappLink,
+"_blank"
+);
 
 }
 
@@ -2259,7 +1663,6 @@ urunleriGoster();
 
 </script>
 
-
 </body>
-
 </html>
+```
