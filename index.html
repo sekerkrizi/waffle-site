@@ -602,6 +602,32 @@ header{
     font-weight:bold;
 }
 
+.restore-ingredient{
+    border:0;
+    border-radius:8px;
+    padding:7px 9px;
+    background:#e7f8e9;
+    color:#16812b;
+    font-size:11px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.removed-ingredients-title{
+    margin:14px 0 8px;
+    padding-top:12px;
+    border-top:1px solid #eee;
+    font-size:13px;
+    font-weight:900;
+    color:#8a5a43;
+}
+
+.removed-ingredients-empty{
+    margin:0 0 8px;
+    color:#888;
+    font-size:12px;
+}
+
 .modal-save{
     width:100%;
     margin-top:10px;
@@ -1080,6 +1106,22 @@ function icerikleriGetir(urun){
     }
 
     return [...urun.icerikler];
+
+}
+
+function cikarilanIcerikleriGetir(urun){
+
+    const kayıt = localStorage.getItem(
+        "cikarilan_icerik_" + urun.id
+    );
+
+    if(kayıt){
+        try{
+            return JSON.parse(kayıt);
+        }catch(e){}
+    }
+
+    return [];
 
 }
 
@@ -1628,113 +1670,18 @@ function anlikExtraFiyatGoster(
 function anlikSepetToplamiGuncelle(){
 
     /*
-       Önce gerçekten sepette olanların toplamı.
+       Alttaki sepet tutarı yalnızca gerçekten
+       sepete eklenmiş ürünleri göstermeli.
+
+       Ekstra seçimi tek başına ürünü sepete eklemez.
+       Seçilen ekstralar, kullanıcı "Sepete Ekle"ye
+       bastığında waffle ile birlikte sepete kaydedilir.
     */
 
-    let toplam = sepetToplami();
-
-
-    /*
-       Henüz sepete eklenmemiş ürünlerin
-       seçili ekstralarını bul.
-    */
-
-    const urunler = {};
-
-    Object.keys(
-        ekstraSecimleri
-    ).forEach(key => {
-
-        const urunId =
-            key.split("|")[0];
-
-        urunler[urunId] = true;
-
-    });
-
-
-    /*
-       Ekstraları hesaba kat.
-    */
-
-    Object.keys(urunler).forEach(
-        urunId => {
-
-            const urun =
-                waffleler.find(
-                    x => x.id === urunId
-                );
-
-            if(!urun){
-                return;
-            }
-
-
-            const extraToplam =
-                extraToplamHesapla(
-                    urunId
-                );
-
-
-            /*
-               Ürün zaten sepette mi?
-            */
-
-            const sepettekiUrun =
-                sepet.find(
-                    item =>
-                        item.tip === "waffle" &&
-                        item.id === urunId
-                );
-
-
-            /*
-               Ürün sepette DEĞİLSE:
-               waffle fiyatı + ekstra fiyatı ekle.
-            */
-
-            if(!sepettekiUrun){
-
-                if(extraToplam > 0){
-
-                    toplam +=
-                        urun.fiyat +
-                        extraToplam;
-
-                }
-
-            }
-            /*
-               Ürün zaten sepetteyse:
-               Sadece ekstranın fiyatını ekle.
-            */
-
-            else{
-
-                toplam +=
-                    extraToplam *
-                    sepettekiUrun.adet;
-
-            }
-
-        }
-    );
-
-
-    /*
-       Alttaki sepet toplamını güncelle.
-    */
-
-    const cartTotal =
-        document.getElementById(
-            "cartTotal"
-        );
+    const cartTotal = document.getElementById("cartTotal");
 
     if(cartTotal){
-
-        cartTotal.textContent =
-            toplam + " TL";
-
+        cartTotal.textContent = sepetToplami() + " TL";
     }
 
 }
@@ -2348,62 +2295,81 @@ function icerigiDuzenle(
         urun.isim +
         " - İçeriği Düzenle";
 
-
     const container =
         document.getElementById(
             "editIngredients"
         );
 
-    const icerikler =
-        icerikleriGetir(urun);
+    const icerikler = icerikleriGetir(urun);
+    const cikarilanlar = cikarilanIcerikleriGetir(urun);
 
     container.innerHTML = "";
 
+    if(icerikler.length === 0){
+        const bos = document.createElement("p");
+        bos.className = "removed-ingredients-empty";
+        bos.textContent = "Aktif içerik kalmadı.";
+        container.appendChild(bos);
+    }
 
-    icerikler.forEach(
-        (isim,index) => {
+    icerikler.forEach((isim,index) => {
 
-            const div =
-                document.createElement(
-                    "div"
-                );
+        const div = document.createElement("div");
+        div.className = "edit-ingredient";
 
-            div.className =
-                "edit-ingredient";
+        const name = document.createElement("span");
+        name.textContent = isim;
 
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "remove-ingredient";
+        button.textContent = "Çıkar";
+        button.onclick = () => icerikSil(urunId,index);
 
-            div.innerHTML = `
+        div.appendChild(name);
+        div.appendChild(button);
+        container.appendChild(div);
+    });
 
-                <span>
-                    ${isim}
-                </span>
+    const title = document.createElement("div");
+    title.className = "removed-ingredients-title";
+    title.textContent = "Çıkarılan içerikler";
+    container.appendChild(title);
 
-                <button
-                    type="button"
-                    class="remove-ingredient"
-                    onclick="icerikSil('${urunId}',${index})">
+    if(cikarilanlar.length === 0){
+        const bos = document.createElement("p");
+        bos.className = "removed-ingredients-empty";
+        bos.textContent = "Çıkardığın içerikler burada görünecek.";
+        container.appendChild(bos);
+    } else {
+        cikarilanlar.forEach((isim,index) => {
 
-                    Çıkar
+            const div = document.createElement("div");
+            div.className = "edit-ingredient";
 
-                </button>
+            const name = document.createElement("span");
+            name.textContent = isim;
 
-            `;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "restore-ingredient";
+            button.textContent = "↩ Geri Ekle";
+            button.onclick = () => icerigiGeriEkle(urunId,index);
 
+            div.appendChild(name);
+            div.appendChild(button);
             container.appendChild(div);
-
-        }
-    );
-
+        });
+    }
 
     document.getElementById(
         "editModal"
     ).classList.add("active");
-
 }
 
 
 /* =====================================================
-   İÇERİK SİL
+   İÇERİĞİ ÇIKAR
 ===================================================== */
 
 function icerikSil(
@@ -2411,36 +2377,54 @@ function icerikSil(
     index
 ){
 
-    const urun =
-        waffleler.find(
-            x => x.id === urunId
-        );
+    const urun = waffleler.find(x => x.id === urunId);
+    if(!urun) return;
 
-    if(!urun){
-        return;
-    }
+    const icerikler = icerikleriGetir(urun);
+    if(index < 0 || index >= icerikler.length) return;
 
-    const icerikler =
-        icerikleriGetir(urun);
+    const [cikarilan] = icerikler.splice(index,1);
+    const cikarilanlar = cikarilanIcerikleriGetir(urun);
+    cikarilanlar.push(cikarilan);
 
-    icerikler.splice(
-        index,
-        1
-    );
-
+    localStorage.setItem(localKey(urunId),JSON.stringify(icerikler));
     localStorage.setItem(
-        localKey(urunId),
-        JSON.stringify(
-            icerikler
-        )
+        "cikarilan_icerik_" + urunId,
+        JSON.stringify(cikarilanlar)
     );
 
     waffleleriGoster();
+    icerigiDuzenle(urunId);
+}
 
-    icerigiDuzenle(
-        urunId
+
+/* =====================================================
+   ÇIKARILAN İÇERİĞİ GERİ EKLE
+===================================================== */
+
+function icerigiGeriEkle(
+    urunId,
+    index
+){
+
+    const urun = waffleler.find(x => x.id === urunId);
+    if(!urun) return;
+
+    const cikarilanlar = cikarilanIcerikleriGetir(urun);
+    if(index < 0 || index >= cikarilanlar.length) return;
+
+    const [geriEklenecek] = cikarilanlar.splice(index,1);
+    const icerikler = icerikleriGetir(urun);
+    icerikler.push(geriEklenecek);
+
+    localStorage.setItem(localKey(urunId),JSON.stringify(icerikler));
+    localStorage.setItem(
+        "cikarilan_icerik_" + urunId,
+        JSON.stringify(cikarilanlar)
     );
 
+    waffleleriGoster();
+    icerigiDuzenle(urunId);
 }
 
 
@@ -2698,4 +2682,4 @@ sepetGuncelle();
 </script>
 
 </body>
-</ht
+</html>
