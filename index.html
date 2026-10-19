@@ -125,7 +125,6 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
    Fotoğrafı olmayan ürünlerde gorsel:"" bırakın, 🧇 simgesi görünür.
    boy = [Standart, Double, XXL] fiyatları. */
 const boyutlar=["Standart","Double","XXL (2-3 kişilik)"];
-
 const waffleler=[
 {id:"standart",isim:"Standart Karışık Waffle",boy:[225,275,350],aciklama:"Taze muz, çilek, çikolata, beyaz çikolata sos, Bonibon.",gorsel:"standart.jpg"},
 {id:"oreolu",isim:"Oreo'lu Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, taze muz dilimi, çilek parçaları, sütlü çikolata ve beyaz çikolata, parçalanmış Oreo bisküvisi.",gorsel:"oreolu.jpg"},
@@ -135,72 +134,29 @@ const waffleler=[
 {id:"bitter",isim:"Bitter Çikolatalı Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, muz, çilek, sütlü çikolata, bitter çikolata sosu, bitter damla çikolata.",gorsel:"bitter.jpg"},
 {id:"kendin",isim:"Kendi Wafflenizi Oluşturun",boy:[179.9],bl:["Standart"],aciklama:"Seçeceğiniz taze meyve, çikolata sosları ve nefis süslemelerle tamamen kendi zevkinize göre tasarlayın.",gorsel:""}
 ];
-
 /* Ekstra fiyatı (TL): hepsi 30. Üçüncü değer kategori: S=Soslar, D=Süslemeler, E=Ekstra Meyveler */
 const ekstralar=[
-["Bonibon",30,"D"],
-["Muz",30,"E"],
-["Çilek",30,"E"],
-["Kivi",30,"E"],
-["Orman Meyvesi",30,"E"],
-
-["Beyaz Çikolata",30,"S"],
-["Sütlü Çikolata",30,"S"],
-["Bitter Çikolata",30,"S"],
-["Karamel Çikolata",30,"S"],
-["Frambuaz Çikolata",30,"S"],
-
-["Sütlü Damla Çikolata",30,"D"],
-["Bitter Damla Çikolata",30,"D"],
-["Çakıl Taşı Çikolata",30,"D"],
-["Oreo Parçacıkları",30,"D"],
-["Lotus Parçacıkları",30,"D"],
-["Fındık Parçacıkları",30,"D"],
-["Renkli Pirinç Patlağı",30,"D"],
-
-["Lotus Sosu",30,"S"],
-["Çilek Sosu",30,"S"],
-["Antep Fıstığı Sosu",30,"S"]
+["Bonibon",30,"D"],["Muz",30,"E"],["Çilek",30,"E"],["Kivi",30,"E"],["Orman Meyvesi",30,"E"],
+["Beyaz Çikolata",30,"S"],["Sütlü Çikolata",30,"S"],["Bitter Çikolata",30,"S"],["Karamel Çikolata",30,"S"],["Frambuaz Çikolata",30,"S"],
+["Sütlü Damla Çikolata",30,"D"],["Bitter Damla Çikolata",30,"D"],["Çakıl Taşı Çikolata",30,"D"],
+["Oreo Parçacıkları",30,"D"],["Lotus Parçacıkları",30,"D"],["Fındık Parçacıkları",30,"D"],
+["Renkli Pirinç Patlağı",30,"D"],["Lotus Sosu",30,"S"],["Çilek Sosu",30,"S"],["Antep Fıstığı Sosu",30,"S"]
 ];
 
-const GRUPLAR=[
-["S","🍫 Soslar"],
-["D","✨ Süslemeler"],
-["E","🍓 Ekstra Meyveler"]
-];
-
+const GRUPLAR=[["S","🍫 Soslar"],["D","✨ Süslemeler"],["E","🍓 Ekstra Meyveler"]];
 const TL=n=>(Number.isInteger(n)?String(n):n.toFixed(2).replace('.',','))+' TL';
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-
 /* TESLİMAT AYARLARI */
-const TRENDYOL_LINK="";
+const TRENDYOL_LINK=""; /* Trendyol GO mağaza linkinizi tırnakların içine yapıştırın. Boşsa Trendyol butonu görünmez. */
 const UCRETSIZ_LIMIT=400,TESLIMAT_UCRETI=35;
-
 const mahalleler=[
-{ad:"Zafer",izin:true},
-{ad:"Soğanlı",izin:true},
-{ad:"Siyavuşpaşa",izin:true},
-{ad:"Şirinevler",izin:true},
-{ad:"Çobançeşme",izin:true},
-{ad:"Yenibosna Merkez",izin:true},
-{ad:"Hürriyet",izin:true},
-{ad:"Fevzi Çakmak",izin:true},
-{ad:"Kocasinan Merkez",izin:true},
-{ad:"Bahçelievler",izin:false},
-{ad:"Cumhuriyet",izin:false}
+{ad:"Zafer",izin:true},{ad:"Soğanlı",izin:true},{ad:"Siyavuşpaşa",izin:true},{ad:"Şirinevler",izin:true},{ad:"Çobançeşme",izin:true},
+{ad:"Yenibosna Merkez",izin:true},{ad:"Hürriyet",izin:true},{ad:"Fevzi Çakmak",izin:true},{ad:"Kocasinan Merkez",izin:true},
+{ad:"Bahçelievler",izin:false},{ad:"Cumhuriyet",izin:false}
 ];
-
 let sepet=[],curBoy=0,cur=null,curEx={},curQty=1,not="",ad="",yontem="adres",mah="",adres="",hata="";
-
-try{
-  sepet=JSON.parse(localStorage.getItem("sk_sepet2")||"[]");
-}catch(e){}
-
-const kaydet=()=>{
-  try{
-    localStorage.setItem("sk_sepet2",JSON.stringify(sepet));
-  }catch(e){}
-};
+try{sepet=JSON.parse(localStorage.getItem("sk_sepet2")||"[]")}catch(e){}
+const kaydet=()=>{try{localStorage.setItem("sk_sepet2",JSON.stringify(sepet))}catch(e){}};
 
 function img(u,cls){
   if(!u)return '<div class="ph">🧇</div>';
@@ -210,106 +166,47 @@ function img(u,cls){
 function draw(){
   const q=document.getElementById("q").value.toLocaleLowerCase("tr").trim();
   const liste=waffleler.filter(w=>!q||(w.isim+" "+w.aciklama).toLocaleLowerCase("tr").includes(q));
-
   document.getElementById("list").innerHTML=liste.length?liste.map(w=>
     '<div class="item" onclick="openS(\''+w.id+'\')"><div class="info"><div class="name">'+esc(w.isim)+'</div><div class="desc">'+esc(w.aciklama)+'</div><div class="price">'+TL(w.boy[0])+'</div></div><div class="thumb">'+img(w.gorsel,w.isim)+'<button class="add" aria-label="Ekle">+</button></div></div>').join(""):'<div class="empty">Sonuç bulunamadı 🧇</div>';
 }
 
-function lock(){
-  document.body.classList.toggle("lock",document.querySelector(".bg.on")!==null);
-}
+function lock(){document.body.classList.toggle("lock",document.querySelector(".bg.on")!==null)}
 
 function openS(id){
-  cur=waffleler.find(w=>w.id===id);
-  curEx={};
-  curQty=1;
-  curBoy=0;
-  document.getElementById("sbg").classList.add("on");
-  lock();
-  renderS();
+  cur=waffleler.find(w=>w.id===id);curEx={};curQty=1;curBoy=0;
+  document.getElementById("sbg").classList.add("on");lock();renderS();
 }
-
 function renderS(){
   const BL=cur.bl||boyutlar;
-
   let bo=BL.map((b,i)=>'<div class="ex" style="cursor:pointer" onclick="setBoy('+i+')"><div class="exn">'+b+'</div><div style="display:flex;align-items:center"><span class="exn" style="color:#ff5500">'+TL(cur.boy[i])+'</span><span class="rd'+(i===curBoy?' on':'')+'"></span></div></div>').join("");
-
   let ex=GRUPLAR.map(g=>'<div class="grp" id="grp_'+g[0]+'"><button class="gh" onclick="tg(\''+g[0]+'\')"><span>'+g[1]+'<span class="bdg" id="bg_'+g[0]+'"></span></span><span class="ar">▾</span></button><div class="gb">'+ekstralar.map((e,i)=>e[2]===g[0]?exRow(e,i):"").join("")+'</div></div>').join("");
-
   document.getElementById("sheet").innerHTML=
    '<div class="sbody"><div class="hero"><button class="x" onclick="closeS()">×</button>'+img(cur.gorsel,cur.isim)+'</div>'+
    '<div class="pad"><div class="h1">'+esc(cur.isim)+'</div><div class="desc" style="-webkit-line-clamp:unset">'+esc(cur.aciklama)+'</div>'+
    (BL.length>1?'<div class="sec">Boyut Seçin</div>'+bo:'')+'<div class="sec">Ekstra Seçenekler</div>'+ex+'</div></div>'+
    '<div class="sfoot"><div class="qty"><button onclick="qD(-1)">−</button><span id="qn">'+curQty+'</span><button class="p" onclick="qD(1)">+</button></div><button class="go" onclick="addCart()">Sepete Ekle · <span id="sp">'+TL(sPrice())+'</span></button></div>';
 }
-
-function exRow(e,i){
-  return '<div class="ex"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(e[1]?'+'+TL(e[1]):'Ücretsiz')+'</div></div><div class="qty"><button onclick="exD('+i+',-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div></div>';
-}
-
-function tg(k){
-  document.getElementById("grp_"+k).classList.toggle("open");
-}
-
-function bad(){
-  GRUPLAR.forEach(g=>{
-    let n=0;
-    ekstralar.forEach((e,i)=>{
-      if(e[2]===g[0])n+=curEx[i]||0;
-    });
-    const b=document.getElementById("bg_"+g[0]);
-    if(b)b.textContent=n||"";
-  });
-}
-
-function exFiyat(){
-  return Object.keys(curEx).reduce((t,i)=>t+ekstralar[i][1]*curEx[i],0);
-}
-
-function sPrice(){
-  return (cur.boy[curBoy]+exFiyat())*curQty;
-}
-
-function upd(){
-  document.getElementById("sp").textContent=TL(sPrice());
-  document.getElementById("qn").textContent=curQty;
-}
-
-function setBoy(i){
-  curBoy=i;
-  document.querySelectorAll('.rd').forEach((r,j)=>r.classList.toggle('on',j===i));
-  upd();
-}
-
+function exRow(e,i){return '<div class="ex"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(e[1]?'+'+TL(e[1]):'Ücretsiz')+'</div></div><div class="qty"><button onclick="exD('+i+',-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div></div>'}
+function tg(k){document.getElementById("grp_"+k).classList.toggle("open")}
+function bad(){GRUPLAR.forEach(g=>{let n=0;ekstralar.forEach((e,i)=>{if(e[2]===g[0])n+=curEx[i]||0});const b=document.getElementById("bg_"+g[0]);if(b)b.textContent=n||""})}
+function exFiyat(){return Object.keys(curEx).reduce((t,i)=>t+ekstralar[i][1]*curEx[i],0)}
+function sPrice(){return (cur.boy[curBoy]+exFiyat())*curQty}
+function upd(){document.getElementById("sp").textContent=TL(sPrice());document.getElementById("qn").textContent=curQty}
+function setBoy(i){curBoy=i;document.querySelectorAll('.rd').forEach((r,j)=>r.classList.toggle('on',j===i));upd()}
 function exD(i,d){
-  curEx[i]=Math.max(0,(curEx[i]||0)+d);
-  if(!curEx[i])delete curEx[i];
-  document.getElementById("ex"+i).textContent=curEx[i]||0;
-  upd();
-  bad();
+  curEx[i]=Math.max(0,(curEx[i]||0)+d);if(!curEx[i])delete curEx[i];
+  document.getElementById("ex"+i).textContent=curEx[i]||0;upd();bad();
 }
-
-function qD(d){
-  curQty=Math.max(1,curQty+d);
-  upd();
-}
-
-function closeS(){
-  document.getElementById("sbg").classList.remove("on");
-  lock();
-}
+function qD(d){curQty=Math.max(1,curQty+d);upd()}
+function closeS(){document.getElementById("sbg").classList.remove("on");lock()}
 
 function addCart(){
   const ex=Object.keys(curEx).map(i=>({isim:ekstralar[i][0],f:ekstralar[i][1],adet:curEx[i]}));
   const imza=cur.id+"|"+curBoy+"|"+ex.map(e=>e.isim+e.adet).sort().join(",");
   const var_=sepet.find(s=>s.imza===imza);
-
   if(var_)var_.adet+=curQty;
   else sepet.push({imza,id:cur.id,isim:cur.isim,boy:(cur.bl||boyutlar)[curBoy],fiyat:cur.boy[curBoy],ekstralar:ex,adet:curQty});
-
-  kaydet();
-  closeS();
-  upBar();
+  kaydet();closeS();upBar();
 }
 
 const satir=s=>(s.fiyat+s.ekstralar.reduce((t,e)=>t+e.f*e.adet,0))*s.adet;
@@ -323,60 +220,30 @@ function upBar(){
   if(!sepet.length)closeC();
 }
 
-function openCart(){
-  document.getElementById("cbg").classList.add("on");
-  lock();
-  renderC();
-}
-
-function closeC(){
-  document.getElementById("cbg").classList.remove("on");
-  lock();
-}
-
+function openCart(){document.getElementById("cbg").classList.add("on");lock();renderC()}
+function closeC(){document.getElementById("cbg").classList.remove("on");lock()}
 const mObj=()=>mah===""?null:(mah==="diger"?{ad:"Diğer",izin:false}:mahalleler[+mah]);
 const bolgeDisi=()=>yontem==="adres"&&mObj()!==null&&!mObj().izin;
 const ucret=()=>(yontem==="gel"||!sepet.length)?0:(toplam()>=UCRETSIZ_LIMIT?0:TESLIMAT_UCRETI);
 const genel=()=>toplam()+ucret();
-
-function setY(k){
-  yontem=k;
-  hata="";
-  renderC();
-}
-
-function setM(v){
-  mah=v;
-  hata="";
-  renderC();
-}
-
+function setY(k){yontem=k;hata="";renderC()}
+function setM(v){mah=v;hata="";renderC()}
 function renderC(){
   const c=document.getElementById("csheet");
-  const old=c.querySelector?c.querySelector('.sbody'):null;
-  const st=old?old.scrollTop:0;
-
-  if(!sepet.length){
-    c.innerHTML='<div class="sbody pad"><div class="empty">Sepetiniz boş 🧇</div></div>';
-    return;
-  }
-
+  const old=c.querySelector?c.querySelector('.sbody'):null;const st=old?old.scrollTop:0;
+  if(!sepet.length){c.innerHTML='<div class="sbody pad"><div class="empty">Sepetiniz boş 🧇</div></div>';return}
   const items=sepet.map((s,i)=>'<div class="ci"><div class="t"><span>'+esc(s.isim)+(s.boy?'<br><small style="font-weight:600;color:#7a655a">'+s.boy+'</small>':'')+'</span><b>'+TL(satir(s))+'</b></div>'+
     (s.ekstralar.length?'<div class="e"><strong>Ekstralar:</strong> '+s.ekstralar.map(e=>e.adet+'x '+esc(e.isim)).join(", ")+'</div>':'')+
     '<div class="b"><div class="qty"><button onclick="cD('+i+',-1)">−</button><span>'+s.adet+'</span><button class="p" onclick="cD('+i+',1)">+</button></div><button class="rm" onclick="cDel('+i+')">Kaldır</button></div></div>').join("");
-
   const disi=bolgeDisi();
   const yb=(k,t)=>'<button class="ym'+(yontem===k?' on':'')+'" onclick="setY(\''+k+'\')">'+t+'</button>';
-
   let h='<div class="sbody pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="h1">🛒 Sepetim</div><button class="x" style="position:static" onclick="closeC()">×</button></div>'+items+
    '<div class="sec">Teslimat Yöntemi</div><div class="ymrow">'+yb('adres','🛵 Adrese Teslimat')+yb('gel','🛍️ Gel-Al (Dükkândan Teslim)')+'</div>'+
    '<input id="ad" class="inp" placeholder="Adınız Soyadınız *" value="'+esc(ad)+'" oninput="ad=this.value">';
-
   if(yontem==="adres"){
     h+='<select id="mah" class="inp" onchange="setM(this.value)"><option value="">Mahalle seçin * (Bahçelievler / İstanbul)</option>'+
       mahalleler.map((x,i)=>'<option value="'+i+'"'+(mah===String(i)?' selected':'')+'>'+x.ad+' Mahallesi</option>').join("")+
       '<option value="diger"'+(mah==="diger"?' selected':'')+'>Diğer (listede yok)</option></select>';
-
     if(disi){
       h+='<div class="blok"><div class="bt">Üzgünüz, şu anda adresinize kendi paket servisimizle teslimat yapamıyoruz. Dilerseniz siparişinizi Gel-Al olarak oluşturabilirsiniz.</div>'+
         '<button class="gelbig" onclick="setY(\'gel\')">🛍️ Gel-Al Siparişi Oluştur</button>'+
@@ -387,88 +254,58 @@ function renderC(){
   }else{
     h+='<div class="gelinfo">🛍️ Siparişinizi dükkândan teslim alacaksınız. Mahalle ve adres gerekmez.</div>';
   }
-
   const u=ucret();
-
   h+='<textarea id="not" class="inp" rows="2" placeholder="Sipariş notu (isteğe bağlı)" oninput="not=this.value">'+esc(not)+'</textarea>'+
    '<div class="row"><span>Ürünlerin toplamı</span><span>'+TL(toplam())+'</span></div>'+
    '<div class="row"><span>Teslimat ücreti</span><span>'+(yontem==="gel"?'Gel-Al · Ücretsiz':(u?TL(u):'Ücretsiz'))+'</span></div>'+
    '<div class="tot"><span>Genel toplam</span><span>'+TL(genel())+'</span></div>';
-
   if(yontem==="adres"&&!disi){
     h+='<div class="fino">🛵 400 TL ve üzeri siparişlerde ücretsiz teslimat!'+(toplam()<UCRETSIZ_LIMIT?' <b>'+TL(UCRETSIZ_LIMIT-toplam())+'</b> daha ekleyin.':' 🎉 Ücretsiz teslimat kazandınız.')+'</div>';
   }
-
   h+=(hata?'<div class="hata" id="hata">'+esc(hata)+'</div>':'')+
    '<button class="wa'+(disi?' off':'')+'" onclick="waSiparis()">'+(disi?'Bu bölgeye teslimat yapılamıyor':'💬 WhatsApp\'tan Sipariş Ver')+'</button><button class="clr" onclick="if(confirm(\'Sepet temizlensin mi?\')){sepet=[];kaydet();upBar()}">🗑️ Sepeti Temizle</button></div>';
-
   c.innerHTML=h;
-  const nb=c.querySelector?c.querySelector('.sbody'):null;
-  if(nb)nb.scrollTop=st;
+  const nb=c.querySelector?c.querySelector('.sbody'):null;if(nb)nb.scrollTop=st;
 }
-
-function cD(i,d){
-  sepet[i].adet+=d;
-  if(sepet[i].adet<1)sepet.splice(i,1);
-  kaydet();
-  upBar();
-  renderC();
-}
-
-function cDel(i){
-  sepet.splice(i,1);
-  kaydet();
-  upBar();
-  renderC();
-}
+function cD(i,d){sepet[i].adet+=d;if(sepet[i].adet<1)sepet.splice(i,1);kaydet();upBar();renderC()}
+function cDel(i){sepet.splice(i,1);kaydet();upBar();renderC()}
 
 function hataGoster(t){
-  hata=t;
-  renderC();
-  const e=document.getElementById("hata");
-  if(e&&e.scrollIntoView)e.scrollIntoView({block:"center"});
+  hata=t;renderC();
+  const e=document.getElementById("hata");if(e&&e.scrollIntoView)e.scrollIntoView({block:"center"});
 }
-
 function waSiparis(){
   if(!sepet.length)return;
   if(!ad.trim())return hataGoster("Lütfen adınızı yazın.");
-
   if(yontem==="adres"){
     if(mah==="")return hataGoster("Lütfen mahalle seçin.");
     if(bolgeDisi())return hataGoster("Seçtiğiniz mahalleye teslimat yapılamıyor. Gel-Al siparişi oluşturabilirsiniz.");
     if(adres.trim().length<10)return hataGoster("Lütfen açık adresinizi yazın (sokak, bina no, daire no).");
   }
-
   const u=ucret();
   let m="🛒 *Şeker Krizi Waffle - Yeni Sipariş*\n\n";
   m+="👤 Müşteri: "+ad.trim()+"\n";
   m+="🚚 Teslimat: "+(yontem==="adres"?"Adrese Teslimat":"Gel-Al (Dükkândan Teslim)")+"\n";
-
   if(yontem==="adres"){
     m+="📍 Mahalle: "+mahalleler[+mah].ad+" Mahallesi, Bahçelievler / İstanbul\n";
     m+="🏠 Adres: "+adres.trim()+"\n";
   }else{
     m+="🏠 Adres: Gel-Al Siparişi\n";
   }
-
   m+="\n*Ürünler:*\n";
-
   sepet.forEach(s=>{
     m+="• "+s.adet+"x "+s.isim+(s.boy?" ("+s.boy+")":"")+" - "+TL(satir(s))+"\n";
     if(s.ekstralar.length)m+="   _Ekstralar: "+s.ekstralar.map(e=>e.adet+"x "+e.isim).join(", ")+"_\n";
   });
-
   if(not.trim())m+="\n📝 Not: "+not.trim()+"\n";
   m+="\nÜrünlerin toplamı: "+TL(toplam());
   m+="\nTeslimat ücreti: "+(yontem==="gel"?"Gel-Al (Ücretsiz)":(u?TL(u):"Ücretsiz"));
   m+="\n*Genel toplam: "+TL(genel())+"*";
   m+="\n\nSiparişiniz işletme tarafından onaylandıktan sonra hazırlanacaktır.";
-
   window.open("https://wa.me/905358731757?text="+encodeURIComponent(m),"_blank");
 }
 
-draw();
-upBar();
+draw();upBar();
 </script>
 </body>
 </html>
