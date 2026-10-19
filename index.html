@@ -68,6 +68,19 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px}
 .tot{display:flex;justify-content:space-between;font-weight:900;font-size:17px;margin:14px 0 4px}
 .wa{width:100%;padding:14px;border-radius:12px;background:#25d366;color:#fff;font-weight:900;font-size:15px;margin-top:10px}
 .clr{width:100%;padding:11px;border-radius:12px;background:#eee;color:#555;font-weight:700;font-size:13px;margin-top:8px}
+.ymrow{display:flex;gap:8px;margin-top:4px}
+.ym{flex:1;padding:12px 6px;border-radius:12px;background:#f3ece5;border:2px solid transparent;font-weight:800;font-size:13px;color:#6b5143;line-height:1.3}
+.ym.on{background:#fff3e6;border-color:#ff5a00;color:#d94800}
+.gelinfo{margin-top:8px;padding:11px;border-radius:10px;background:#eefaf0;color:#2a6b36;font-size:13px;font-weight:600;line-height:1.4}
+.blok{background:#fff1f0;border:1px solid #ffc9c4;border-radius:12px;padding:12px;margin-top:8px}
+.bt{font-size:13px;color:#a02318;line-height:1.45;font-weight:600}
+.gelbig{width:100%;margin-top:10px;padding:15px;border-radius:12px;background:#ff5a00;color:#fff;font-weight:900;font-size:15px}
+.tgo{display:block;text-align:center;margin-top:12px;font-size:12px;color:#666;text-decoration:underline}
+.tnot{text-align:center;font-size:11px;color:#999;margin-top:3px}
+.row{display:flex;justify-content:space-between;font-size:14px;margin-top:8px;color:#5a463b}
+.fino{margin-top:8px;padding:9px 10px;border-radius:10px;background:#fff8e6;color:#8a5a00;font-size:12px;font-weight:600;line-height:1.4}
+.hata{margin-top:10px;padding:10px;border-radius:10px;background:#ffe5e5;color:#c00;font-size:13px;font-weight:700;line-height:1.4}
+.wa.off{background:#b5b5b5}
 </style>
 </head>
 <body>
@@ -121,7 +134,15 @@ const ekstralar=[
 
 const TL=n=>(Number.isInteger(n)?String(n):n.toFixed(2).replace('.',','))+' TL';
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-let sepet=[],curBoy=0,cur=null,curEx={},curQty=1,not="",ad="";
+/* TESLİMAT AYARLARI */
+const TRENDYOL_LINK=""; /* Trendyol GO mağaza linkinizi tırnakların içine yapıştırın. Boşsa Trendyol butonu görünmez. */
+const UCRETSIZ_LIMIT=400,TESLIMAT_UCRETI=35;
+const mahalleler=[
+{ad:"Zafer",izin:true},{ad:"Soğanlı",izin:true},{ad:"Siyavuşpaşa",izin:true},{ad:"Şirinevler",izin:true},{ad:"Çobançeşme",izin:true},
+{ad:"Yenibosna Merkez",izin:true},{ad:"Hürriyet",izin:true},{ad:"Fevzi Çakmak",izin:true},{ad:"Kocasinan Merkez",izin:true},
+{ad:"Bahçelievler",izin:false},{ad:"Cumhuriyet",izin:false}
+];
+let sepet=[],curBoy=0,cur=null,curEx={},curQty=1,not="",ad="",yontem="adres",mah="",adres="",hata="";
 try{sepet=JSON.parse(localStorage.getItem("sk_sepet2")||"[]")}catch(e){}
 const kaydet=()=>{try{localStorage.setItem("sk_sepet2",JSON.stringify(sepet))}catch(e){}};
 
@@ -186,32 +207,86 @@ function upBar(){
 
 function openCart(){document.getElementById("cbg").classList.add("on");lock();renderC()}
 function closeC(){document.getElementById("cbg").classList.remove("on");lock()}
+const mObj=()=>mah===""?null:(mah==="diger"?{ad:"Diğer",izin:false}:mahalleler[+mah]);
+const bolgeDisi=()=>yontem==="adres"&&mObj()!==null&&!mObj().izin;
+const ucret=()=>(yontem==="gel"||!sepet.length)?0:(toplam()>=UCRETSIZ_LIMIT?0:TESLIMAT_UCRETI);
+const genel=()=>toplam()+ucret();
+function setY(k){yontem=k;hata="";renderC()}
+function setM(v){mah=v;hata="";renderC()}
 function renderC(){
   const c=document.getElementById("csheet");
+  const old=c.querySelector?c.querySelector('.sbody'):null;const st=old?old.scrollTop:0;
   if(!sepet.length){c.innerHTML='<div class="sbody pad"><div class="empty">Sepetiniz boş 🧇</div></div>';return}
   const items=sepet.map((s,i)=>'<div class="ci"><div class="t"><span>'+esc(s.isim)+(s.boy?'<br><small style="font-weight:600;color:#7a655a">'+s.boy+'</small>':'')+'</span><b>'+TL(satir(s))+'</b></div>'+
     (s.ekstralar.length?'<div class="e"><strong>Ekstralar:</strong> '+s.ekstralar.map(e=>e.adet+'x '+esc(e.isim)).join(", ")+'</div>':'')+
     '<div class="b"><div class="qty"><button onclick="cD('+i+',-1)">−</button><span>'+s.adet+'</span><button class="p" onclick="cD('+i+',1)">+</button></div><button class="rm" onclick="cDel('+i+')">Kaldır</button></div></div>').join("");
-  c.innerHTML='<div class="sbody pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="h1">🛒 Sepetim</div><button class="x" style="position:static" onclick="closeC()">×</button></div>'+items+
-   '<input id="ad" class="inp" placeholder="Adınız" value="'+esc(ad)+'" oninput="ad=this.value">'+
-   '<textarea id="not" class="inp" rows="2" placeholder="Sipariş notu (adres, masa no, vb.)" oninput="not=this.value">'+esc(not)+'</textarea>'+
-   '<div class="tot"><span>Toplam</span><span>'+TL(toplam())+'</span></div>'+
-   '<button class="wa" onclick="waSiparis()">💬 WhatsApp\'tan Sipariş Ver</button><button class="clr" onclick="if(confirm(\'Sepet temizlensin mi?\')){sepet=[];kaydet();upBar()}">🗑️ Sepeti Temizle</button></div>';
+  const disi=bolgeDisi();
+  const yb=(k,t)=>'<button class="ym'+(yontem===k?' on':'')+'" onclick="setY(\''+k+'\')">'+t+'</button>';
+  let h='<div class="sbody pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="h1">🛒 Sepetim</div><button class="x" style="position:static" onclick="closeC()">×</button></div>'+items+
+   '<div class="sec">Teslimat Yöntemi</div><div class="ymrow">'+yb('adres','🛵 Adrese Teslimat')+yb('gel','🛍️ Gel-Al (Dükkândan Teslim)')+'</div>'+
+   '<input id="ad" class="inp" placeholder="Adınız Soyadınız *" value="'+esc(ad)+'" oninput="ad=this.value">';
+  if(yontem==="adres"){
+    h+='<select id="mah" class="inp" onchange="setM(this.value)"><option value="">Mahalle seçin * (Bahçelievler / İstanbul)</option>'+
+      mahalleler.map((x,i)=>'<option value="'+i+'"'+(mah===String(i)?' selected':'')+'>'+x.ad+' Mahallesi</option>').join("")+
+      '<option value="diger"'+(mah==="diger"?' selected':'')+'>Diğer (listede yok)</option></select>';
+    if(disi){
+      h+='<div class="blok"><div class="bt">Üzgünüz, şu anda adresinize kendi paket servisimizle teslimat yapamıyoruz. Dilerseniz siparişinizi Gel-Al olarak oluşturabilirsiniz.</div>'+
+        '<button class="gelbig" onclick="setY(\'gel\')">🛍️ Gel-Al Siparişi Oluştur</button>'+
+        (TRENDYOL_LINK?'<a class="tgo" href="'+TRENDYOL_LINK+'" target="_blank" rel="noopener">Trendyol GO\'da Kontrol Et</a><div class="tnot">Bölgenize hizmet verilip verilmediğini Trendyol GO\'da kontrol edebilirsiniz.</div>':'')+'</div>';
+    }else{
+      h+='<textarea id="adres" class="inp" rows="3" placeholder="Açık adres * (sokak, bina no, daire no, tarif)" oninput="adres=this.value">'+esc(adres)+'</textarea>';
+    }
+  }else{
+    h+='<div class="gelinfo">🛍️ Siparişinizi dükkândan teslim alacaksınız. Mahalle ve adres gerekmez.</div>';
+  }
+  const u=ucret();
+  h+='<textarea id="not" class="inp" rows="2" placeholder="Sipariş notu (isteğe bağlı)" oninput="not=this.value">'+esc(not)+'</textarea>'+
+   '<div class="row"><span>Ürünlerin toplamı</span><span>'+TL(toplam())+'</span></div>'+
+   '<div class="row"><span>Teslimat ücreti</span><span>'+(yontem==="gel"?'Gel-Al · Ücretsiz':(u?TL(u):'Ücretsiz'))+'</span></div>'+
+   '<div class="tot"><span>Genel toplam</span><span>'+TL(genel())+'</span></div>';
+  if(yontem==="adres"&&!disi){
+    h+='<div class="fino">🛵 400 TL ve üzeri siparişlerde ücretsiz teslimat!'+(toplam()<UCRETSIZ_LIMIT?' <b>'+TL(UCRETSIZ_LIMIT-toplam())+'</b> daha ekleyin.':' 🎉 Ücretsiz teslimat kazandınız.')+'</div>';
+  }
+  h+=(hata?'<div class="hata" id="hata">'+esc(hata)+'</div>':'')+
+   '<button class="wa'+(disi?' off':'')+'" onclick="waSiparis()">'+(disi?'Bu bölgeye teslimat yapılamıyor':'💬 WhatsApp\'tan Sipariş Ver')+'</button><button class="clr" onclick="if(confirm(\'Sepet temizlensin mi?\')){sepet=[];kaydet();upBar()}">🗑️ Sepeti Temizle</button></div>';
+  c.innerHTML=h;
+  const nb=c.querySelector?c.querySelector('.sbody'):null;if(nb)nb.scrollTop=st;
 }
 function cD(i,d){sepet[i].adet+=d;if(sepet[i].adet<1)sepet.splice(i,1);kaydet();upBar();renderC()}
 function cDel(i){sepet.splice(i,1);kaydet();upBar();renderC()}
 
+function hataGoster(t){
+  hata=t;renderC();
+  const e=document.getElementById("hata");if(e&&e.scrollIntoView)e.scrollIntoView({block:"center"});
+}
 function waSiparis(){
   if(!sepet.length)return;
-  let m="🛒 *Şeker Krizi Waffle - Yeni Sipariş*\n";
-  if(ad.trim())m+="👤 "+ad.trim()+"\n";
-  m+="\n";
+  if(!ad.trim())return hataGoster("Lütfen adınızı yazın.");
+  if(yontem==="adres"){
+    if(mah==="")return hataGoster("Lütfen mahalle seçin.");
+    if(bolgeDisi())return hataGoster("Seçtiğiniz mahalleye teslimat yapılamıyor. Gel-Al siparişi oluşturabilirsiniz.");
+    if(adres.trim().length<10)return hataGoster("Lütfen açık adresinizi yazın (sokak, bina no, daire no).");
+  }
+  const u=ucret();
+  let m="🛒 *Şeker Krizi Waffle - Yeni Sipariş*\n\n";
+  m+="👤 Müşteri: "+ad.trim()+"\n";
+  m+="🚚 Teslimat: "+(yontem==="adres"?"Adrese Teslimat":"Gel-Al (Dükkândan Teslim)")+"\n";
+  if(yontem==="adres"){
+    m+="📍 Mahalle: "+mahalleler[+mah].ad+" Mahallesi, Bahçelievler / İstanbul\n";
+    m+="🏠 Adres: "+adres.trim()+"\n";
+  }else{
+    m+="🏠 Adres: Gel-Al Siparişi\n";
+  }
+  m+="\n*Ürünler:*\n";
   sepet.forEach(s=>{
     m+="• "+s.adet+"x "+s.isim+(s.boy?" ("+s.boy+")":"")+" - "+TL(satir(s))+"\n";
     if(s.ekstralar.length)m+="   _Ekstralar: "+s.ekstralar.map(e=>e.adet+"x "+e.isim).join(", ")+"_\n";
   });
-  if(not.trim())m+="\n📝 "+not.trim()+"\n";
-  m+="\n*Toplam: "+TL(toplam())+"*";
+  if(not.trim())m+="\n📝 Not: "+not.trim()+"\n";
+  m+="\nÜrünlerin toplamı: "+TL(toplam());
+  m+="\nTeslimat ücreti: "+(yontem==="gel"?"Gel-Al (Ücretsiz)":(u?TL(u):"Ücretsiz"));
+  m+="\n*Genel toplam: "+TL(genel())+"*";
+  m+="\n\nSiparişiniz işletme tarafından onaylandıktan sonra hazırlanacaktır.";
   window.open("https://wa.me/905358731757?text="+encodeURIComponent(m),"_blank");
 }
 
