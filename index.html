@@ -121,9 +121,6 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 <div id="cbg" class="bg" onclick="if(event.target===this)closeC()"><div class="sheet" id="csheet"></div></div>
 
 <script>
-/* Fotoğraflar index.html ile aynı yerde durmalı (klasör yok).
-   Fotoğrafı olmayan ürünlerde gorsel:"" bırakın, 🧇 simgesi görünür.
-   boy = [Standart, Double, XXL] fiyatları. */
 const boyutlar=["Standart","Double","XXL (2-3 kişilik)"];
 const waffleler=[
 {id:"standart",isim:"Standart Karışık Waffle",boy:[225,275,350],aciklama:"Taze muz, çilek, çikolata, beyaz çikolata sos, Bonibon.",gorsel:"standart.jpg"},
@@ -134,7 +131,7 @@ const waffleler=[
 {id:"bitter",isim:"Bitter Çikolatalı Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, muz, çilek, sütlü çikolata, bitter çikolata sosu, bitter damla çikolata.",gorsel:"bitter.jpg"},
 {id:"kendin",isim:"Kendi Wafflenizi Oluşturun",boy:[179.9],bl:["Standart"],aciklama:"Seçeceğiniz taze meyve, çikolata sosları ve nefis süslemelerle tamamen kendi zevkinize göre tasarlayın.",gorsel:""}
 ];
-/* Ekstra fiyatı (TL): hepsi 30. Üçüncü değer kategori: S=Soslar, D=Süslemeler, E=Ekstra Meyveler */
+
 const ekstralar=[
 ["Bonibon",30,"D"],["Muz",30,"E"],["Çilek",30,"E"],["Kivi",30,"E"],["Orman Meyvesi",30,"E"],
 ["Beyaz Çikolata",30,"S"],["Sütlü Çikolata",30,"S"],["Bitter Çikolata",30,"S"],["Karamel Çikolata",30,"S"],["Frambuaz Çikolata",30,"S"],
@@ -146,8 +143,8 @@ const ekstralar=[
 const GRUPLAR=[["S","🍫 Soslar"],["D","✨ Süslemeler"],["E","🍓 Ekstra Meyveler"]];
 const TL=n=>(Number.isInteger(n)?String(n):n.toFixed(2).replace('.',','))+' TL';
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-/* TESLİMAT AYARLARI */
-const TRENDYOL_LINK=""; /* Trendyol GO mağaza linkinizi tırnakların içine yapıştırın. Boşsa Trendyol butonu görünmez. */
+
+const TRENDYOL_LINK="";
 const UCRETSIZ_LIMIT=400,TESLIMAT_UCRETI=35;
 const mahalleler=[
 {ad:"Zafer",izin:true},{ad:"Soğanlı",izin:true},{ad:"Siyavuşpaşa",izin:true},{ad:"Şirinevler",izin:true},{ad:"Çobançeşme",izin:true},
