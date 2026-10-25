@@ -19,13 +19,20 @@ button{font-family:inherit;cursor:pointer;border:0}
 .links a{flex:1;color:#fff;text-decoration:none;text-align:center;background:rgba(255,255,255,.2);border-radius:10px;padding:8px 4px;font-size:12px;font-weight:700}
 .sticky{position:sticky;top:0;z-index:50;background:#f6f1ec;padding:10px 14px 6px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .search{width:100%;border:1px solid #e6d9cc;border-radius:12px;padding:11px 14px;font-size:15px;background:#fff;outline:none}
+.cats{position:relative;display:flex;gap:8px;overflow-x:auto;padding:9px 0 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cats::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 15px;border-radius:20px;background:#fff;border:1px solid #e6d9cc;font-weight:800;font-size:13px;color:#6b5143;white-space:nowrap}
+.chip.on{background:#ff5a00;border-color:#ff5a00;color:#fff}
 .list{padding:8px 14px}
+.cath{font-size:18px;font-weight:900;margin:10px 2px 10px;color:#2d1b12}
 .item{display:flex;gap:12px;background:#fff;border-radius:14px;padding:10px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer}
 .info{flex:1;min-width:0;display:flex;flex-direction:column}
 .name{font-size:15px;font-weight:800;line-height:1.25}
 .desc{font-size:12px;color:#7a655a;line-height:1.4;margin:4px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{margin-top:auto;font-size:15px;font-weight:900;color:#ff5500}
+.price{margin-top:auto;padding-top:6px;font-size:15px;font-weight:900;color:#ff5500}
 .thumb{position:relative;flex:none;width:106px;height:106px;border-radius:12px;overflow:hidden;background:#fde9c8}
+.item.mini .thumb{width:76px;height:76px}
+.item.mini .ph{font-size:30px}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:38px}
 .add{position:absolute;right:6px;bottom:6px;width:30px;height:30px;border-radius:50%;background:#fff;color:#ff5500;font-size:20px;font-weight:900;box-shadow:0 2px 6px rgba(0,0,0,.25);line-height:30px}
@@ -35,6 +42,8 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 .bar.show{transform:none}
 .cbtn{width:100%;max-width:600px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,#ff7200,#ff4d00);color:#fff;font-weight:900;font-size:15px}
 .cnt{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:50%;background:#fff;color:#ff5500;font-size:12px;margin-right:8px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#2d1b12;color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;font-weight:700;z-index:70;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis}
+.toast.on{opacity:1}
 .bg{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center}
 .bg.on{display:flex}
 .sheet{width:100%;max-width:600px;max-height:92vh;background:#fff;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:up .25s}
@@ -106,12 +115,15 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
   <div class="adr">📍 <b>Şeker Krizi Waffle</b><br>Zafer Mahallesi, Elmalı 1. Sokak, No: 2/A<br>Bahçelievler / İstanbul 🍓🧇</div>
 </div></div>
 
-<div class="sticky"><div class="wrap"> 
-  <input id="q" class="search" type="search" placeholder="🔍 Waffle ara..." oninput="draw()">
+<div class="sticky"><div class="wrap">
+  <input id="q" class="search" type="search" placeholder="🔍 Ara..." oninput="draw()">
+  <div class="cats" id="cats"></div>
 </div></div>
 
 <div class="wrap list" id="list"></div>
 <footer>Şeker Krizi Waffle<br>📍 Zafer Mahallesi, Elmalı 1. Sokak, No: 2/A, Bahçelievler / İstanbul<br>📞 0535 873 17 57</footer>
+
+<div id="toast" class="toast"></div>
 
 <div id="bar" class="bar"><button class="cbtn" onclick="openCart()">
   <span><span id="cnt" class="cnt">0</span>Sepeti Görüntüle</span><span id="tot">0,00 TL</span>
@@ -129,8 +141,33 @@ const waffleler=[
 {id:"orman",isim:"Orman Meyveli Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, orman meyveleri, çilek, sütlü çikolata, beyaz çikolata, frambuaz çikolata, renkli pirinç patlağı.",gorsel:"orman.jpg"},
 {id:"lotus",isim:"Lotuslu Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, muz, çilek, sütlü çikolata, beyaz çikolata, lotus sos, lotus bisküvisi.",gorsel:"Gemini_Generated_Image_uqvsr4uqvsr4uqvs.jpg"},
 {id:"bitter",isim:"Bitter Çikolatalı Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, muz, çilek, sütlü çikolata, bitter çikolata sosu, bitter damla çikolata.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (6).jpeg"},
-{id:"kendin",isim:"Kendi Wafflenizi Oluşturun",boy:[179.9],bl:["Standart"],aciklama:"Seçeceğiniz taze meyve, çikolata sosları ve nefis süslemelerle tamamen kendi zevkinize göre tasarlayın.",gorsel:""}
+{id:"kendin",isim:"Kendi Wafflenizi Oluşturun",boy:[179.9],bl:["Standart"],aciklama:"Seçeceğiniz taze meyve, çikolata sosları ve nefis süslemelerle tamamen kendi zevkinize göre tasarlayın.",gorsel:""},
+
+/* ===== BARDAK WAFFLE (FİYAT: boy:[150] kısımlarını gerçek fiyatla değiştir) ===== */
+{kat:"bardak",id:"b_karisik",isim:"Bardak Waffle Karışık",boy:[150] /* FİYAT */,bl:["Bardak"],aciklama:"Bardakta servis edilen karışık waffle.",gorsel:"",emo:"🥣"},
+{kat:"bardak",id:"b_cilekli",isim:"Bardak Waffle Çilekli",boy:[150] /* FİYAT */,bl:["Bardak"],aciklama:"Bardakta servis edilen çilekli waffle.",gorsel:"",emo:"🥣"},
+{kat:"bardak",id:"b_muzlu",isim:"Bardak Waffle Muzlu",boy:[150] /* FİYAT */,bl:["Bardak"],aciklama:"Bardakta servis edilen muzlu waffle.",gorsel:"",emo:"🥣"},
+{kat:"bardak",id:"b_lotus",isim:"Lotus Bardak Waffle",boy:[150] /* FİYAT */,bl:["Bardak"],aciklama:"Bardakta servis edilen lotuslu waffle.",gorsel:"",emo:"🥣"},
+{kat:"bardak",id:"b_oreo",isim:"Oreo'lu Bardak Waffle",boy:[150] /* FİYAT */,bl:["Bardak"],aciklama:"Bardakta servis edilen Oreo'lu waffle.",gorsel:"",emo:"🥣"},
+{kat:"bardak",id:"b_esref",isim:"Eşref Rüya",boy:[150] /* FİYAT */,bl:["Bardak"],aciklama:"Bardakta servis edilen özel waffle.",gorsel:"",emo:"🥣"},
+
+/* ===== İÇECEKLER (direkt sepete eklenir) ===== */
+{kat:"icecek",direkt:true,id:"i_su",isim:"Su",boy:[20],aciklama:"",gorsel:"",emo:"💧"},
+{kat:"icecek",direkt:true,id:"i_limonata",isim:"Bardak Limonata",boy:[40],aciklama:"",gorsel:"",emo:"🍋"},
+{kat:"icecek",direkt:true,id:"i_sade_soda",isim:"Sade Soda",boy:[40],aciklama:"",gorsel:"",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_limonlu_soda",isim:"Limonlu Soda",boy:[50],aciklama:"",gorsel:"",emo:"🍋"},
+{kat:"icecek",direkt:true,id:"i_cola",isim:"Coca-Cola",boy:[75],aciklama:"",gorsel:"",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_fanta",isim:"Fanta",boy:[75],aciklama:"",gorsel:"",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_sprite",isim:"Sprite",boy:[75],aciklama:"",gorsel:"",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_lipton_seftali",isim:"Lipton Şeftali",boy:[75],aciklama:"",gorsel:"",emo:"🍑"},
+{kat:"icecek",direkt:true,id:"i_lipton_limon",isim:"Lipton Limon",boy:[75],aciklama:"",gorsel:"",emo:"🍋"},
+{kat:"icecek",direkt:true,id:"i_fuse_mango",isim:"Fuse Tea Mango",boy:[75],aciklama:"",gorsel:"",emo:"🥭"},
+{kat:"icecek",direkt:true,id:"i_nescafe",isim:"Nescafe Xpress",boy:[100],aciklama:"",gorsel:"",emo:"☕"},
+{kat:"icecek",direkt:true,id:"i_redbull",isim:"Red Bull",boy:[100],aciklama:"",gorsel:"",emo:"⚡"}
 ];
+waffleler.forEach(w=>{w.kat=w.kat||"waffle"});
+const KAT=[["waffle","🧇 Waffle'lar"],["bardak","🥣 Bardak Waffle"],["icecek","🥤 İçecekler"]];
+
 const ekstralar=[
 ["Bonibon",30,"D"],["Muz",30,"E"],["Çilek",30,"E"],["Kivi",30,"E"],["Orman Meyvesi",30,"E"],
 ["Beyaz Çikolata",30,"S"],["Sütlü Çikolata",30,"S"],["Bitter Çikolata",30,"S"],["Karamel Çikolata",30,"S"],["Frambuaz Çikolata",30,"S"],
@@ -154,16 +191,82 @@ let sepet=[],curBoy=0,cur=null,curEx={},curQty=1,not="",ad="",yontem="adres",mah
 try{sepet=JSON.parse(localStorage.getItem("sk_sepet2")||"[]")}catch(e){}
 const kaydet=()=>{try{localStorage.setItem("sk_sepet2",JSON.stringify(sepet))}catch(e){}};
 
-function img(u,cls){
-  if(!u)return '<div class="ph">🧇</div>';
-  return '<img src="'+encodeURI(u)+'" alt="'+esc(cls)+'" loading="lazy" onerror="this.outerHTML=\'<div class=ph>🧇</div>\'">';
+function img(u,cls,emo){
+  emo=emo||'🧇';
+  if(!u)return '<div class="ph">'+emo+'</div>';
+  return '<img src="'+encodeURI(u)+'" alt="'+esc(cls)+'" loading="lazy" onerror="this.outerHTML=\'<div class=ph>'+emo+'</div>\'">';
 }
 
+/* ===== MENÜ ÇİZİMİ ===== */
+function card(w){
+  const click=w.direkt?"addDirect('"+w.id+"')":"openS('"+w.id+"')";
+  return '<div class="item'+(w.direkt?' mini':'')+'" onclick="'+click+'"><div class="info"><div class="name">'+esc(w.isim)+'</div>'+
+    (w.aciklama?'<div class="desc">'+esc(w.aciklama)+'</div>':'')+
+    '<div class="price">'+TL(w.boy[0])+'</div></div><div class="thumb">'+img(w.gorsel,w.isim,w.emo)+'<button class="add" aria-label="Ekle">+</button></div></div>';
+}
 function draw(){
   const q=document.getElementById("q").value.toLocaleLowerCase("tr").trim();
   const liste=waffleler.filter(w=>!q||(w.isim+" "+w.aciklama).toLocaleLowerCase("tr").includes(q));
-  document.getElementById("list").innerHTML=liste.length?liste.map(w=>
-    '<div class="item" onclick="openS(\''+w.id+'\')"><div class="info"><div class="name">'+esc(w.isim)+'</div><div class="desc">'+esc(w.aciklama)+'</div><div class="price">'+TL(w.boy[0])+'</div></div><div class="thumb">'+img(w.gorsel,w.isim)+'<button class="add" aria-label="Ekle">+</button></div></div>').join(""):'<div class="empty">Sonuç bulunamadı 🧇</div>';
+  let h="",any=false;
+  KAT.forEach(k=>{
+    const l=liste.filter(w=>w.kat===k[0]);
+    if(!l.length)return;
+    any=true;
+    h+='<div class="cat" id="cat_'+k[0]+'"><div class="cath">'+k[1]+'</div>'+l.map(card).join("")+'</div>';
+  });
+  document.getElementById("list").innerHTML=any?h:'<div class="empty">Sonuç bulunamadı 🧇</div>';
+  curKat=null;spy();
+}
+
+/* ===== KATEGORİ ÇUBUĞU ===== */
+let curKat=null,spyLock=false,spyT=null,tick=false;
+function buildChips(){
+  document.getElementById("cats").innerHTML=KAT.map(k=>'<button class="chip" data-k="'+k[0]+'" onclick="goKat(\''+k[0]+'\')">'+k[1]+'</button>').join("");
+}
+function setChip(k){
+  document.querySelectorAll(".chip").forEach(c=>{
+    const on=c.dataset.k===k;
+    c.classList.toggle("on",on);
+    if(on){const n=document.getElementById("cats");n.scrollTo({left:c.offsetLeft-n.clientWidth/2+c.clientWidth/2,behavior:"smooth"})}
+  });
+}
+function goKat(k){
+  const el=document.getElementById("cat_"+k);
+  if(!el)return;
+  curKat=k;setChip(k);
+  spyLock=true;clearTimeout(spyT);spyT=setTimeout(()=>{spyLock=false},900);
+  const h=document.querySelector(".sticky").offsetHeight;
+  window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-h-6,behavior:"smooth"});
+}
+function spy(){
+  if(spyLock)return;
+  const var_=KAT.filter(k=>document.getElementById("cat_"+k[0]));
+  if(!var_.length)return;
+  const h=document.querySelector(".sticky").offsetHeight+20;
+  let act=var_[0][0];
+  var_.forEach(k=>{if(document.getElementById("cat_"+k[0]).getBoundingClientRect().top<=h)act=k[0]});
+  if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4)act=var_[var_.length-1][0];
+  if(act!==curKat){curKat=act;setChip(act)}
+}
+window.addEventListener("scroll",()=>{
+  if(tick)return;tick=true;
+  requestAnimationFrame(()=>{tick=false;spy()});
+},{passive:true});
+
+/* ===== BİLDİRİM + DİREKT EKLEME (İÇECEKLER) ===== */
+let toastT=null;
+function toast(t){
+  const e=document.getElementById("toast");
+  e.textContent="✓ "+t;e.classList.add("on");
+  clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("on"),1100);
+}
+function addDirect(id){
+  const w=waffleler.find(x=>x.id===id);if(!w)return;
+  const imza=w.id+"|0|";
+  const v=sepet.find(s=>s.imza===imza);
+  if(v)v.adet+=1;
+  else sepet.push({imza,id:w.id,isim:w.isim,boy:"",fiyat:w.boy[0],ekstralar:[],adet:1});
+  kaydet();upBar();toast(w.isim+" eklendi");
 }
 
 function lock(){document.body.classList.toggle("lock",document.querySelector(".bg.on")!==null)}
@@ -177,7 +280,7 @@ function renderS(){
   let bo=BL.map((b,i)=>'<div class="ex" style="cursor:pointer" onclick="setBoy('+i+')"><div class="exn">'+b+'</div><div style="display:flex;align-items:center"><span class="exn" style="color:#ff5500">'+TL(cur.boy[i])+'</span><span class="rd'+(i===curBoy?' on':'')+'"></span></div></div>').join("");
   let ex=GRUPLAR.map(g=>'<div class="grp" id="grp_'+g[0]+'"><button class="gh" onclick="tg(\''+g[0]+'\')"><span>'+g[1]+'<span class="bdg" id="bg_'+g[0]+'"></span></span><span class="ar">▾</span></button><div class="gb">'+ekstralar.map((e,i)=>e[2]===g[0]?exRow(e,i):"").join("")+'</div></div>').join("");
   document.getElementById("sheet").innerHTML=
-   '<div class="sbody"><div class="hero"><button class="x" onclick="closeS()">×</button>'+img(cur.gorsel,cur.isim)+'</div>'+
+   '<div class="sbody"><div class="hero"><button class="x" onclick="closeS()">×</button>'+img(cur.gorsel,cur.isim,cur.emo)+'</div>'+
    '<div class="pad"><div class="h1">'+esc(cur.isim)+'</div><div class="desc" style="-webkit-line-clamp:unset">'+esc(cur.aciklama)+'</div>'+
    (BL.length>1?'<div class="sec">Boyut Seçin</div>'+bo:'')+'<div class="sec">Ekstra Seçenekler</div>'+ex+'</div></div>'+
    '<div class="sfoot"><div class="qty"><button onclick="qD(-1)">−</button><span id="qn">'+curQty+'</span><button class="p" onclick="qD(1)">+</button></div><button class="go" onclick="addCart()">Sepete Ekle · <span id="sp">'+TL(sPrice())+'</span></button></div>';
@@ -301,7 +404,7 @@ function waSiparis(){
   window.open("https://wa.me/905358731757?text="+encodeURIComponent(m),"_blank");
 }
 
-draw();upBar();
+buildChips();draw();upBar();
 </script>
 </body>
 </html>
