@@ -100,6 +100,10 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 .bdg:empty{display:none}
 .adr{margin-top:10px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.16);font-size:11px;line-height:1.45;text-align:center}
 .adr b{font-size:12px}
+.item.out{opacity:.6}
+.item.out .thumb img,.item.out .ph{filter:grayscale(1)}
+.item.out .price{color:#999}
+.tuk{position:absolute;left:0;right:0;bottom:0;background:rgba(45,27,18,.88);color:#fff;font-size:11px;font-weight:800;text-align:center;padding:4px 0}
 </style>
 </head>
 <body>
@@ -403,7 +407,56 @@ function waSiparis(){
   window.open("https://wa.me/905358731757?text="+encodeURIComponent(m),"_blank");
 }
 
-buildChips();draw();upBar();
+/* ===== STOK (Google Tablolar) ===== */
+const STOK_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRrMMZjFjK9kDTaMDO874rFwnFw5R6zgyp8X0nyit6hGRe7-Fage2HOdKKpTkI6v9bgRVNb51p1BUHU/pub?output=csv";
+const norm=s=>(s||"").replace(/[’‘]/g,"'").toLocaleLowerCase("tr").replace(/\s+/g," ").trim();
+let tukenler=new Set();
+try{tukenler=new Set(JSON.parse(localStorage.getItem("sk_stok")||"[]"))}catch(e){}
+const yok=w=>tukenler.has(norm(w.isim));
+function csvParse(t){
+  const rows=[];let r=[],c="",q=false;
+  for(let i=0;i<t.length;i++){
+    const ch=t[i];
+    if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=ch}
+    else if(ch=='"')q=true;
+    else if(ch==','){r.push(c);c=""}
+    else if(ch=='\n'||ch=='\r'){if(ch=='\r'&&t[i+1]=='\n')i++;r.push(c);rows.push(r);r=[];c=""}
+    else c+=ch;
+  }
+  if(c!==""||r.length){r.push(c);rows.push(r)}
+  return rows;
+}
+async function stokYukle(){
+  try{
+    const res=await fetch(STOK_URL+"&t="+Date.now(),{cache:"no-store"});
+    if(!res.ok)return;
+    const rows=csvParse(await res.text());
+    const s=new Set();
+    rows.slice(1).forEach(r=>{if(["yok","bitti","tükendi","tukendi"].includes(norm(r[1])))s.add(norm(r[0]))});
+    const a=[...s].sort().join("|"),b=[...tukenler].sort().join("|");
+    if(a!==b){tukenler=s;try{localStorage.setItem("sk_stok",JSON.stringify([...s]))}catch(e){}draw()}
+  }catch(e){}
+}
+function tukToast(){
+  const e=document.getElementById("toast");
+  e.textContent="Bu ürün şu an tükendi";e.classList.add("on");
+  clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("on"),1400);
+}
+card=function(w){
+  const out=yok(w);
+  const click=out?"tukToast()":(w.direkt?"addDirect('"+w.id+"')":"openS('"+w.id+"')");
+  return '<div class="item'+(w.direkt?' mini':'')+(out?' out':'')+'" onclick="'+click+'"><div class="info"><div class="name">'+esc(w.isim)+'</div>'+
+    (w.aciklama?'<div class="desc">'+esc(w.aciklama)+'</div>':'')+
+    '<div class="price">'+TL(w.boy[0])+'</div></div><div class="thumb">'+img(w.gorsel,w.isim,w.emo)+(out?'<span class="tuk">Tükendi</span>':'<button class="add" aria-label="Ekle">+</button>')+'</div></div>';
+};
+const _wa=waSiparis;
+waSiparis=function(){
+  const biten=sepet.filter(s=>{const w=waffleler.find(x=>x.id===s.id);return w&&yok(w)}).map(s=>s.isim);
+  if(biten.length)return hataGoster("Sepetinizdeki şu ürün(ler) tükendi: "+biten.join(", ")+". Lütfen sepetten kaldırın.");
+  _wa();
+};
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)stokYukle()});
+buildChips();draw();upBar();stokYukle();setInterval(stokYukle,60000);
 </script>
 </body>
 </html>
