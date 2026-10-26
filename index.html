@@ -2,10 +2,12 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Şeker Krizi Waffle</title>
 <meta name="description" content="Şeker Krizi Waffle - Taptaze waffle, meyve, sos ve süsleme seçenekleri.">
 <link rel="canonical" href="https://sekerkrizi.github.io/waffle-site/">
+<!-- Supabase Kütüphanesi -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f6f1ec;color:#2d1b12;padding-bottom:90px}
@@ -138,6 +140,20 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 <div id="cbg" class="bg" onclick="if(event.target===this)closeC()"><div class="sheet" id="csheet"></div></div>
 
 <script>
+// SUPABASE BAĞLANTISI & ZİYARETÇİ SAYACI
+const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function ziyaretciKaydet() {
+    try {
+        await supabaseClient.from('ziyaretciler').insert([{}]);
+    } catch(e) {
+        console.error("Ziyaretçi kaydolamadı:", e);
+    }
+}
+ziyaretciKaydet();
+
 const boyutlar=["Standart","Double","XXL (2-3 kişilik)"];
 const waffleler=[
 {id:"standart",isim:"Standart Karışık Waffle",boy:[225,275,350],aciklama:"Taze muz, çilek, çikolata, beyaz çikolata sos, Bonibon.",gorsel:"standart.jpg"},
@@ -148,7 +164,7 @@ const waffleler=[
 {id:"bitter",isim:"Bitter Çikolatalı Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, muz, çilek, sütlü çikolata, bitter çikolata sosu, bitter damla çikolata.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (6).jpeg"},
 {id:"kendin",isim:"Kendi Wafflenizi Oluşturun",boy:[149.99],bl:["Standart"],aciklama:"Seçeceğiniz taze meyve, çikolata sosları ve nefis süslemelerle tamamen kendi zevkinize göre tasarlayın.",gorsel:""},
 
-/* ===== BARDAK WAFFLE (fiyat: boy:[...] içindeki sayı) ===== */
+/* ===== BARDAK WAFFLE ===== */
 {kat:"bardak",id:"b_karisik",isim:"Bardak Waffle Karışık",boy:[200],bl:["Bardak"],aciklama:"bowl waffle hamuru, çilek, muz, sütlü çikolata sosu, beyaz çikolata sosu ve bonibon çikolata.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (8).jpeg",emo:"🥣"},
 {kat:"bardak",id:"b_lotus",isim:"Lotus Bardak Waffle",boy:[230],bl:["Bardak"],aciklama:"bowl waffle hamuru, çilek, muz, sütlü çikolata sosu, beyaz çikolata sosu, lotus sosu ve lotus parçacıkları.",gorsel:"Gemini_Generated_Image_yty2n1yty2n1yty2.jpg",emo:"🥣"},
 {kat:"bardak",id:"b_oreo",isim:"Oreo'lu Bardak Waffle",boy:[230],bl:["Bardak"],aciklama:"bowl waffle hamuru, beyaz, sütlü çikolata sosu, muz, çilek, oreo parçacıklarıyla servis edilir.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (9).jpeg",emo:"🥣"},
@@ -156,7 +172,7 @@ const waffleler=[
 {kat:"bardak",id:"b_prenses",isim:"Prenses Bardak",boy:[230],bl:["Bardak"],aciklama:"Bowl waffle hamuru, taze muz ve çilek, üzerine yoğun çikolata, frambuaz ve çilek sosları, beyaz çikolata dokunuşu ve renkli bonibonlarla dolu dolu bardak lezzeti.",gorsel:"Gemini_Generated_Image_mp7pkump7pkump7p.jpg",emo:"🥣"},
 {kat:"bardak",id:"b_bitirim",isim:"Bitirim 2'li Bardak Waffle (2 Kişilik)",boy:[380],bl:["Bardak"],aciklama:"Taze çilek ve muz dilimleri, bowl waffle hamuru, yoğun çikolata ve beyaz çikolata sosları, renkli bonibon.",gorsel:"Gemini_Generated_Image_pg36wqpg36wqpg36.jpg",emo:"🥣"},
 
-/* ===== İÇECEKLER (direkt sepete eklenir) ===== */
+/* ===== İÇECEKLER ===== */
 {kat:"icecek",direkt:true,id:"i_su",isim:"Su",boy:[20],aciklama:"",gorsel:"",emo:"💧"},
 {kat:"icecek",direkt:true,id:"i_limonata",isim:"Bardak Limonata",boy:[40],aciklama:"",gorsel:"",emo:"🍋"},
 {kat:"icecek",direkt:true,id:"i_sade_soda",isim:"Sade Soda",boy:[40],aciklama:"",gorsel:"",emo:"🥤"},
@@ -181,7 +197,6 @@ const ekstralar=[
 ["Renkli Pirinç Patlağı",30,"D"],["Lotus Sosu",30,"S"],["Çilek Sosu",30,"S"],["Antep Fıstığı Sosu",30,"S"]
 ];
 
-/* Kendi Wafflenizi Oluşturun: malzeme listesi ve en az seçim sayısı */
 const MIN_MALZ=1;
 const MALZ=["Bonibon","Muz","Çilek","Beyaz Çikolata","Oreo Parçacıkları","Lotus Parçacıkları","Çakıl Taşı Çikolata","Renkli Pirinç Patlağı","Sütlü Damla Çikolata","Bitter Damla Çikolata","Bitter Çikolata","Karamel Çikolata","Frambuaz Çikolata","Lotus Sosu","Çilek Sosu","Fındık Parçacıkları","Orman Meyvesi","Kivi","Sütlü Çikolata"];
 
@@ -294,7 +309,7 @@ window.addEventListener("scroll",()=>{
   requestAnimationFrame(()=>{tick=false;spy()});
 },{passive:true});
 
-/* ===== BİLDİRİM + DİREKT EKLEME (İÇECEKLER) ===== */
+/* ===== BİLDİRİM + DİREKT EKLEME ===== */
 let toastT=null;
 function toast(t){
   const e=document.getElementById("toast");
@@ -434,7 +449,9 @@ function hataGoster(t){
   hata=t;renderC();
   const e=document.getElementById("hata");if(e&&e.scrollIntoView)e.scrollIntoView({block:"center"});
 }
-function waSiparis(){
+
+// SUPABASE SİPARİŞ VERME & WHATSAPP YÖNLENDİRME
+async function waSiparis(){
   if(!sepet.length)return;
   const biten=sepet.filter(s=>{const w=waffleler.find(x=>x.id===s.id);return w&&yok(w)}).map(s=>s.isim);
   if(biten.length)return hataGoster("Sepetinizdeki şu ürün(ler) tükendi: "+biten.join(", ")+". Lütfen sepetten kaldırın.");
@@ -442,75 +459,59 @@ function waSiparis(){
   if(yontem==="adres"){
     if(mah==="")return hataGoster("Lütfen mahalle seçin.");
     if(bolgeDisi())return hataGoster("Seçtiğiniz mahalleye teslimat yapılamıyor. Gel-Al siparişi oluşturabilirsiniz.");
-    if(adres.trim().length<10)return hataGoster("Lütfen açık adresinizi yazın (sokak, bina no, daire no).");
+    if(adres.trim().length<10)return hataGoster("Lütfen açık adresinizi yazın.");
   }
-  const u=ucret();
-  let m="🛒 *Şeker Krizi Waffle - Yeni Sipariş*\n\n";
-  m+="👤 Müşteri: "+ad.trim()+"\n";
-  m+="🚚 Teslimat: "+(yontem==="adres"?"Adrese Teslimat":"Gel-Al (Dükkândan Teslim)")+"\n";
-  if(yontem==="adres"){
-    m+="📍 Mahalle: "+mahalleler[+mah].ad+" Mahallesi, Bahçelievler / İstanbul\n";
-    m+="🏠 Adres: "+adres.trim()+"\n";
-  }else{
-    m+="🏠 Adres: Gel-Al Siparişi\n";
+
+  // Supabase Veritabanına Sipariş Kaydetme
+  try {
+    const siparisSatirlari = sepet.map(s => {
+      let tutar = satir(s);
+      let maliyet = Math.round(tutar * 0.4); // Tahmini %40 maliyet
+      let kar = tutar - maliyet;
+      return {
+        urun_adi: s.isim + (s.boy ? ' (' + s.boy + ')' : ''),
+        adet: s.adet,
+        tutar: tutar,
+        maliyet: maliyet,
+        kar: kar
+      };
+    });
+
+    await supabaseClient.from('siparisler').insert(siparisSatirlari);
+  } catch(err) {
+    console.error("Sipariş veritabanına kaydedilemedi:", err);
   }
-  m+="\n*Ürünler:*\n";
-  sepet.forEach(s=>{
-    m+="• "+s.adet+"x "+s.isim+(s.boy?" ("+s.boy+")":"")+" - "+TL(satir(s))+"\n";
-    if(s.ekstralar.length)m+="   _Ekstralar: "+s.ekstralar.map(e=>e.adet+"x "+e.isim).join(", ")+"_\n";
+
+  // WhatsApp Mesajı Oluşturma
+  let m = "🧇 *ŞEKER KRİZİ WAFFLE SİPARİŞİ*\n\n";
+  m += "👤 *Müşteri:* " + ad.trim() + "\n";
+  if(yontem === "adres"){
+    const mAd = mObj() ? mObj().ad + " Mah." : "";
+    m += "🛵 *Teslimat:* Adrese Teslimat (" + mAd + ")\n";
+    m += "📍 *Adres:* " + adres.trim() + "\n";
+  } else {
+    m += "🛍️ *Teslimat:* Gel-Al (Dükkândan Teslim)\n";
+  }
+  if(not.trim()) m += "📝 *Not:* " + not.trim() + "\n";
+  m += "\n🛒 *SİPARİŞ DETAYI:*\n";
+  sepet.forEach(s => {
+    m += "• " + s.adet + "x " + s.isim + (s.boy ? " (" + s.boy + ")" : "") + " - " + TL(satir(s)) + "\n";
+    if(s.ekstralar.length){
+      m += "  _Ekstralar: " + s.ekstralar.map(e => e.adet + "x " + e.isim).join(", ") + "_\n";
+    }
   });
-  if(not.trim())m+="\n📝 Not: "+not.trim()+"\n";
-  m+="\nÜrünlerin toplamı: "+TL(toplam());
-  m+="\nTeslimat ücreti: "+(yontem==="gel"?"Gel-Al (Ücretsiz)":(u?TL(u):"Ücretsiz"));
-  m+="\n*Genel toplam: "+TL(genel())+"*";
-  m+="\n\nSiparişiniz işletme tarafından onaylandıktan sonra hazırlanacaktır.";
-  window.open("https://wa.me/905358731757?text="+encodeURIComponent(m),"_blank");
+  const u = ucret();
+  m += "\n💰 *Ürün Toplamı:* " + TL(toplam()) + "\n";
+  m += "🛵 *Teslimat Ücreti:* " + (yontem === "gel" ? "Gel-Al (Ücretsiz)" : (u ? TL(u) : "Ücretsiz")) + "\n";
+  m += "💵 *GENEL TOPLAM:* " + TL(genel());
+
+  window.open("https://wa.me/905358731757?text=" + encodeURIComponent(m), "_blank");
 }
 
-document.addEventListener("visibilitychange",()=>{if(!document.hidden)stokYukle()});
-buildChips();draw();upBar();stokYukle();setInterval(stokYukle,60000);
-</script>
-  <!-- Supabase Kütüphanesi -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  async function ziyaretciyiKaydet() {
-    if (localStorage.getItem('seker_krizi_admin') === 'true') return;
-
-    const bugun = new Date().toISOString().split('T')[0];
-    const sonZiyaret = localStorage.getItem('son_ziyaret_tarihi');
-
-    if (sonZiyaret !== bugun) {
-      localStorage.setItem('son_ziyaret_tarihi', bugun);
-      await supabaseClient.from('ziyaretciler').insert([
-        { session_id: 'visitor_' + Math.random().toString(36).substring(2) }
-      ]);
-    }
-  }
-  ziyaretciyiKaydet();
-</script>
-  <!-- Tek tıkla admin paneline giden akıllı buton -->
-
-  <script>
-    // Supabase Bağlantısı ve Ziyaretçi Sayacı
-    const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function ziyaretciKaydet() {
-        try {
-            await supabaseClient
-                .from('ziyaretciler')
-                .insert([{}]); 
-        } catch (err) {
-            console.error("Ziyaretçi kaydedilemedi:", err);
-        }
-    }
-
-    ziyaretciKaydet();
+buildChips();
+draw();
+upBar();
+stokYukle();
 </script>
 </body>
 </html>
