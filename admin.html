@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şeker Krizi Waffle - Admin Paneli</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #d63384; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .card { background: #fff5f8; border: 1px solid #ffd6e0; padding: 20px; border-radius: 8px; text-align: center; }
+        .card h3 { margin: 0 0 10px 0; font-size: 16px; color: #666; }
+        .card p { margin: 0; font-size: 24px; font-weight: bold; color: #d63384; }
+        #login-box { text-align: center; padding: 40px; }
+        input[type="password"] { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; width: 200px; }
+        button { padding: 10px 20px; background: #d63384; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #b0236c; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+        th { background: #fff5f8; color: #d63384; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧇 Şeker Krizi - Yönetim Paneli</h1>
+
+    <!-- GİRİŞ EKRANI -->
+    <div id="login-box">
+        <p>Lütfen Admin Şifresini Girin:</p>
+        <input type="password" id="admin-pass" placeholder="Şifre">
+        <br><br>
+        <button onclick="girisYap()">Giriş Yap</button>
+        <p id="hata" style="color: red; margin-top: 10px;"></p>
+    </div>
+
+    <!-- PANEL İÇERİĞİ -->
+    <div id="admin-content" class="hidden">
+        <div class="stats-grid">
+            <div class="card">
+                <h3>Gerçek Müşteri (Ziyaretçi)</h3>
+                <p id="stat-ziyaretci">0</p>
+            </div>
+            <div class="card">
+                <h3>Toplam Sipariş</h3>
+                <p id="stat-siparis">0</p>
+            </div>
+            <div class="card">
+                <h3>Toplam Ciro</h3>
+                <p id="stat-ciro">0 TL</p>
+            </div>
+            <div class="card">
+                <h3>Toplam Net Kâr</h3>
+                <p id="stat-kar" style="color: #28a745;">0 TL</p>
+            </div>
+        </div>
+
+        <h2>Son Gelen Siparişler</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Ürün</th>
+                    <th>Adet</th>
+                    <th>Tutar</th>
+                    <th>Net Kâr</th>
+                </tr>
+            </thead>
+            <tbody id="siparis-listesi"></tbody>
+        </table>
+        
+        <br>
+        <button onclick="verileriYenile()" style="background: #6c757d;">Yenile</button>
+    </div>
+</div>
+
+<script>
+    const DOGRU_SIFRE = "1453"; // Şifreyi buradan sonradan değiştirebilirsin
+    const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    function girisYap() {
+        const girilen = document.getElementById('admin-pass').value;
+        if (girilen === DOGRU_SIFRE) {
+            localStorage.setItem('seker_krizi_admin', 'true');
+            document.getElementById('login-box').classList.add('hidden');
+            document.getElementById('admin-content').classList.remove('hidden');
+            verileriYenile();
+        } else {
+            document.getElementById('hata').innerText = "Hatalı şifre kanka!";
+        }
+    }
+
+    async function verileriYenile() {
+        const { count: ziyaretciSayisi } = await supabaseClient
+            .from('ziyaretciler')
+            .select('*', { count: 'exact', head: true });
+        document.getElementById('stat-ziyaretci').innerText = ziyaretciSayisi || 0;
+
+        const { data: siparisler, error } = await supabaseClient
+            .from('siparisler')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) return;
+
+        let toplamCiro = 0;
+        let toplamKar = 0;
+        let tabloHTML = '';
+
+        siparisler.forEach(s => {
+            toplamCiro += Number(s.tutar);
+            toplamKar += Number(s.kar);
+            let tarih = new Date(s.created_at).toLocaleString('tr-TR');
+            tabloHTML += `<tr>
+                <td>${tarih}</td>
+                <td><b>${s.urun_adi}</b></td>
+                <td>${s.adet}</td>
+                <td>${s.tutar} TL</td>
+                <td style="color: #28a745; font-weight: bold;">+${s.kar} TL</td>
+            </tr>`;
+        });
+
+        document.getElementById('stat-siparis').innerText = siparisler.length;
+        document.getElementById('stat-ciro').innerText = toplamCiro + ' TL';
+        document.getElementById('stat-kar').innerText = toplamKar + ' TL';
+        document.getElementById('siparis-listesi').innerHTML = tabloHTML;
+    }
+</script>
+</body>
+</html>
