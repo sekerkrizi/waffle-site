@@ -470,5 +470,27 @@ function waSiparis(){
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)stokYukle()});
 buildChips();draw();upBar();stokYukle();setInterval(stokYukle,60000);
 </script>
+  <!-- Supabase JS Kütüphanesi ve Ziyaretçi Sayacı -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function ziyaretciyiKaydet() {
+    if (localStorage.getItem('seker_krizi_admin') === 'true') return;
+
+    const bugun = new Date().toISOString().split('T')[0];
+    const sonZiyaret = localStorage.getItem('son_ziyaret_tarihi');
+
+    if (sonZiyaret !== bugun) {
+      localStorage.setItem('son_ziyaret_tarihi', bugun);
+      await supabaseClient.from('ziyaretciler').insert([
+        { session_id: 'visitor_' + Math.random().toString(36).substring(2) }
+      ]);
+    }
+  }
+  ziyaretciyiKaydet();
+</script>
 </body>
 </html>
