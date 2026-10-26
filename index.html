@@ -107,7 +107,7 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 </style>
 </head>
 <body>
-
+.zor{display:inline-block;background:#ff5a00;color:#fff;border-radius:6px;font-size:10px;padding:2px 7px;margin-left:8px;letter-spacing:0;text-transform:none}
 <div class="top"><div class="wrap">
   <div class="logo">🧇 Şeker Krizi Waffle</div>
   <div class="sub">Tatlı krizinin en lezzetli adresi 🍓🍫</div>
@@ -454,6 +454,34 @@ waSiparis=function(){
   _wa();
 };
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)stokYukle()});
+  /* ===== KENDİ WAFFLENİZİ OLUŞTURUN: MALZEME SEÇİMİ ===== */
+const MIN_MALZ=1; /* en az kaç malzeme seçilsin */
+const MALZ=["Bonibon","Muz","Çilek","Beyaz Çikolata","Oreo Parçacıkları","Lotus Parçacıkları","Çakıl Taşı Çikolata","Renkli Pirinç Patlağı","Sütlü Damla Çikolata","Bitter Damla Çikolata","Bitter Çikolata","Karamel Çikolata","Frambuaz Çikolata","Lotus Sosu","Çilek Sosu","Fındık Parçacıkları","Orman Meyvesi","Kivi","Sütlü Çikolata"];
+const _renderS=renderS;
+renderS=function(){
+  _renderS();
+  if(cur.id!=="kendin")return;
+  const pad=document.querySelector("#sheet .pad");
+  const secs=pad.querySelectorAll(".sec");
+  const sec=secs[secs.length-1];
+  pad.querySelectorAll(".grp").forEach(g=>g.remove());
+  sec.innerHTML='Malzeme Seçimi <span class="zor">Zorunlu</span>';
+  sec.insertAdjacentHTML("afterend",'<div id="malz">'+MALZ.map(n=>ekstralar.findIndex(e=>e[0]===n)).filter(i=>i>=0).map(i=>exRow(ekstralar[i],i)).join("")+'</div>');
+};
+const _addCart=addCart;
+addCart=function(){
+  if(cur.id==="kendin"){
+    const n=Object.values(curEx).reduce((t,v)=>t+v,0);
+    if(n<MIN_MALZ){
+      if(!document.getElementById("malzhata"))document.getElementById("malz").insertAdjacentHTML("beforebegin",'<div class="hata" id="malzhata"></div>');
+      const m=document.getElementById("malzhata");
+      m.textContent="Lütfen en az "+MIN_MALZ+" malzeme seçin.";
+      m.scrollIntoView({block:"center",behavior:"smooth"});
+      return;
+    }
+  }
+  _addCart();
+};
 buildChips();draw();upBar();stokYukle();setInterval(stokYukle,60000);
 </script>
 </body>
