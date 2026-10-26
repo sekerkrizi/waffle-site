@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Şeker Krizi Waffle - Admin Paneli</title>
+    <title>Şeker Krizi Waffle - Yönetim Paneli</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
@@ -21,11 +21,17 @@
         th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
         th { background: #fff5f8; color: #d63384; }
         .hidden { display: none; }
+        .nav-links { text-align: center; margin-bottom: 20px; }
+        .nav-links a { color: #d63384; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="nav-links">
+        <a href="index.html">← Ana Sayfaya Dön</a>
+    </div>
+    
     <h1>🧇 Şeker Krizi - Yönetim Paneli</h1>
 
     <!-- GİRİŞ EKRANI -->
@@ -78,10 +84,19 @@
 </div>
 
 <script>
-    const DOGRU_SIFRE = "1453"; // Şifreyi buradan sonradan değiştirebilirsin
+    const DOGRU_SIFRE = "1453"; 
     const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Sayfa açıldığında daha önceden giriş yapıldıysa direkt paneli aç
+    window.onload = function() {
+        if (localStorage.getItem('seker_krizi_admin') === 'true') {
+            document.getElementById('login-box').classList.add('hidden');
+            document.getElementById('admin-content').classList.remove('hidden');
+            verileriYenile();
+        }
+    }
 
     function girisYap() {
         const girilen = document.getElementById('admin-pass').value;
