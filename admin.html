@@ -106,12 +106,14 @@
     }
 
     async function verileriYenile() {
-        // Ziyaretçi sayısını çek
-        const { count: ziyaretciSayisi } = await supabaseClient
-            .from('ziyaretciler')
-            .select('*', { count: 'exact', head: true });
-        document.getElementById('stat-ziyaretci').innerText = ziyaretciSayisi || 0;
+       // Ziyaretçi sayısını Supabase'den tam ve net şekilde çekelim:
+const { count: ziyaretciSayisi, error: ziyaretciHata } = await supabaseClient
+  .from('ziyaretciler')
+  .select('*', { count: 'exact', head: true });
 
+if (!ziyaretciHata) {
+    document.getElementById('stat-ziyaretci').innerText = ziyaretciSayisi || 0;
+}
         // Siparişleri çek
         const { data: siparisler, error } = await supabaseClient
             .from('siparisler')
