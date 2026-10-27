@@ -513,5 +513,29 @@ draw();
 upBar();
 stokYukle();
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function ziyaretciKaydet() {
+    try {
+      await supabaseClient
+        .from('ziyaretciler')
+        .insert([
+          {
+            path: window.location.pathname,
+            user_agent: navigator.userAgent
+          }
+        ]);
+      console.log("Ziyaretçi kaydedildi!");
+    } catch (e) {
+      console.error('Ziyaretçi kaydı hatası:', e);
+    }
+  }
+
+  window.addEventListener('load', ziyaretciKaydet);
+</script>
 </body>
 </html>
