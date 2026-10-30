@@ -146,11 +146,9 @@ const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function ziyaretciKaydet() {
-    // Aynı kişi sayfayı yenileyince sayaç bin defa artmasın diye kontrol
     if (sessionStorage.getItem('ziyaret_edildi')) return;
 
     try {
-        // 1. Ziyaretciler tablosundan mevcut sayıyı al (id'si 1 olan satır)
         const { data, error } = await supabaseClient
             .from('ziyaretciler')
             .select('ziyaret_sayisi')
@@ -158,16 +156,13 @@ async function ziyaretciKaydet() {
             .single();
 
         if (data) {
-            // 2. Sayıyı 1 artırıp Supabase'e geri kaydet
             const yeniSayi = (data.ziyaret_sayisi || 0) + 1;
             await supabaseClient
                 .from('ziyaretciler')
                 .update({ ziyaret_sayisi: yeniSayi })
                 .eq('id', 1);
 
-            // Bu oturum için işaretle
             sessionStorage.setItem('ziyaret_edildi', 'true');
-            console.log("Ziyaretçi sayısı güncellendi:", yeniSayi);
         }
     } catch(e) {
         console.error("Ziyaretçi güncellenemedi:", e);
@@ -435,7 +430,7 @@ function cDel(i){
   kaydet();upBar();renderC();
 }
 
-// SEPETİ VE SİPARİŞİ TEK SEFERDE GÖNDERME FONKSİYONU
+// SEPETTEKİ ÜRÜNLERİ TABLONA UYGUN ŞEKİlde TEK TEK EKLEME FONKSİYONU
 async function siparisGonder() {
   if(!sepet.length) return;
   if(!ad.trim()){ hata="Lütfen adınızı ve soyadınızı girin."; renderC(); return; }
@@ -445,46 +440,45 @@ async function siparisGonder() {
     if(!adres.trim()){ hata="Lütfen açık adresinizi girin."; renderC(); return; }
   }
 
-  // Tüm sepet ürünlerini tek bir metin halinde özetliyoruz
-  const urunOzet = sepet.map(s => {
-    let oz = `${s.adet}x ${s.isim} (${s.boy || 'Standart'})`;
-    if(s.ekstralar && s.ekstralar.length > 0) {
-      oz += ` [Ekstralar: ${s.ekstralar.map(e => e.adet + 'x ' + e.isim).join(', ')}]`;
-    }
-    return oz;
-  }).join(' | ');
-
-  const siparisAdres = yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : `${mahalleler[+mah]?.ad || ''} Mah. - ${adres}`;
-
   try {
-    const { data, error } = await supabaseClient
-      .from('siparisler')
-      .insert([
-        {
-          musteri_adi: ad.trim(),
-          telefon: "",
-          adres: siparisAdres,
-          urunler: urunOzet,
-          toplam_tutar: genel(),
-          not: not,
-          durum: 'Yeni Sipariş'
-        }
-      ]);
+    // Sepetteki her ürünü tablonun sütunlarına uygun şekilde sırayla ekliyoruz
+    for(let s of sepet) {
+      let urunAdi = s.isim;
+      if(s.boy) urunAdi += ` (${s.boy})`;
+      if(s.ekstralar && s.ekstralar.length > 0) {
+        urunAdi += ` [${s.ekstralar.map(e => e.adet + 'x ' + e.isim).join(', ')}]`;
+      }
+      
+      const birimFiyat = s.fiyat + s.ekstralar.reduce((t,e)=>t+e.f*e.adet,0);
+      const toplamFiyat = birimFiyat * s.adet;
 
-    if(error) {
-      console.error("Sipariş gönderme hatası:", error);
-      hata = "Sipariş gönderilirken bir hata oluştu!";
-      renderC();
-    } else {
-      alert("Siparişiniz başarıyla alındı! Teşekkür ederiz.");
-      sepet = [];
-      kaydet();
-      upBar();
-      closeC();
+      const { error } = await supabaseClient
+        .from('siparisler')
+        .insert([
+          {
+            urun_adi: urunAdi,
+            adet: s.adet,
+            tutar: toplamFiyat,
+            maliyet: 0, // Maliyet girilmediyse 0 bırakılır
+            kar: toplamFiyat // Şimdilik karı tutar olarak yazar, panelden güncelleyebilirsin
+          }
+        ]);
+
+      if(error) {
+        console.error("Kayıt hatası:", error);
+        throw error;
+      }
     }
+
+    alert("Siparişiniz başarıyla alındı! Teşekkür ederiz.");
+    sepet = [];
+    kaydet();
+    upBar();
+    closeC();
+
   } catch(e) {
     console.error("Hata:", e);
-    hata = "Sipariş verilemedi!";
+    hata = "Sipariş verilirken bir hata oluştu!";
     renderC();
   }
 }
