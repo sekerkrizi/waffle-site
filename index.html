@@ -174,7 +174,7 @@ async function ziyaretciKaydet() {
     }
 }
 window.addEventListener('load', ziyaretciKaydet);
-  
+
 const boyutlar=["Standart","Double","XXL (2-3 kişilik)"];
 const waffleler=[
 {id:"standart",isim:"Standart Karışık Waffle",boy:[225,275,350],aciklama:"Taze muz, çilek, çikolata, beyaz çikolata sos, Bonibon.",gorsel:"standart.jpg"},
@@ -424,6 +424,71 @@ const ucret=()=>(yontem==="gel"||!sepet.length)?0:(toplam()>=UCRETSIZ_LIMIT?0:TE
 const genel=()=>toplam()+ucret();
 function setY(k){yontem=k;hata="";renderC()}
 function setM(v){mah=v;hata="";renderC()}
+
+function cD(i,d){
+  sepet[i].adet+=d;
+  if(sepet[i].adet<=0)sepet.splice(i,1);
+  kaydet();upBar();renderC();
+}
+function cDel(i){
+  sepet.splice(i,1);
+  kaydet();upBar();renderC();
+}
+
+// SEPETİ VE SİPARİŞİ TEK SEFERDE GÖNDERME FONKSİYONU
+async function siparisGonder() {
+  if(!sepet.length) return;
+  if(!ad.trim()){ hata="Lütfen adınızı ve soyadınızı girin."; renderC(); return; }
+  if(yontem==="adres"){
+    if(mah===""){ hata="Lütfen mahalle seçin."; renderC(); return; }
+    if(bolgeDisi()){ hata="Bölge dışına adrese teslimat yapılmamaktadır."; renderC(); return; }
+    if(!adres.trim()){ hata="Lütfen açık adresinizi girin."; renderC(); return; }
+  }
+
+  // Tüm sepet ürünlerini tek bir metin halinde özetliyoruz
+  const urunOzet = sepet.map(s => {
+    let oz = `${s.adet}x ${s.isim} (${s.boy || 'Standart'})`;
+    if(s.ekstralar && s.ekstralar.length > 0) {
+      oz += ` [Ekstralar: ${s.ekstralar.map(e => e.adet + 'x ' + e.isim).join(', ')}]`;
+    }
+    return oz;
+  }).join(' | ');
+
+  const siparisAdres = yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : `${mahalleler[+mah]?.ad || ''} Mah. - ${adres}`;
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('siparisler')
+      .insert([
+        {
+          musteri_adi: ad.trim(),
+          telefon: "",
+          adres: siparisAdres,
+          urunler: urunOzet,
+          toplam_tutar: genel(),
+          not: not,
+          durum: 'Yeni Sipariş'
+        }
+      ]);
+
+    if(error) {
+      console.error("Sipariş gönderme hatası:", error);
+      hata = "Sipariş gönderilirken bir hata oluştu!";
+      renderC();
+    } else {
+      alert("Siparişiniz başarıyla alındı! Teşekkür ederiz.");
+      sepet = [];
+      kaydet();
+      upBar();
+      closeC();
+    }
+  } catch(e) {
+    console.error("Hata:", e);
+    hata = "Sipariş verilemedi!";
+    renderC();
+  }
+}
+
 function renderC(){
   const c=document.getElementById("csheet");
   const old=c.querySelector?c.querySelector('.sbody'):null;const st=old?old.scrollTop:0;
@@ -459,97 +524,10 @@ function renderC(){
     h+='<div class="fino">🛵 400 TL ve üzeri siparişlerde ücretsiz teslimat!'+(toplam()<UCRETSIZ_LIMIT?' <b>'+TL(UCRETSIZ_LIMIT-toplam())+'</b> daha ekleyin.':' 🎉 Ücretsiz teslimat kazandınız.')+'</div>';
   }
   h+=(hata?'<div class="hata" id="hata">'+esc(hata)+'</div>':'')+
-   '<button class="wa'+(disi?' off':'')+'" onclick="waSiparis()">'+(disi?'Bu bölgeye teslimat yapılamıyor':'💬 WhatsApp\'tan Sipariş Ver')+'</button><button class="clr" onclick="if(confirm(\'Sepet temizlensin mi?\')){sepet=[];kaydet();upBar()}">🗑️ Sepeti Temizle</button></div>';
+   '<button class="wa'+(disi?' off':'')+'" onclick="siparisGonder()">✅ Siparişi Tamamla</button></div>';
   c.innerHTML=h;
-  const nb=c.querySelector?c.querySelector('.sbody'):null;if(nb)nb.scrollTop=st;
+  if(old)c.querySelector('.sbody').scrollTop=st;
 }
-function cD(i,d){sepet[i].adet+=d;if(sepet[i].adet<1)sepet.splice(i,1);kaydet();upBar();renderC()}
-function cDel(i){sepet.splice(i,1);kaydet();upBar();renderC()}
-
-function hataGoster(t){
-  hata=t;renderC();
-  const e=document.getElementById("hata");if(e&&e.scrollIntoView)e.scrollIntoView({block:"center"});
-}
-
-// SUPABASE SİPARİŞ VERME & WHATSAPP YÖNLENDİRME
-async function waSiparis(){
-  if(!sepet.length)return;
-  const biten=sepet.filter(s=>{const w=waffleler.find(x=>x.id===s.id);return w&&yok(w)}).map(s=>s.isim);
-  if(biten.length)return hataGoster("Sepetinizdeki şu ürün(ler) tükendi: "+biten.join(", ")+". Lütfen sepetten kaldırın.");
-  if(!ad.trim())return hataGoster("Lütfen adınızı yazın.");
-  if(yontem==="adres"){
-    if(mah==="")return hataGoster("Lütfen mahalle seçin.");
-    if(bolgeDisi())return hataGoster("Seçtiğiniz mahalleye teslimat yapılamıyor. Gel-Al siparişi oluşturabilirsiniz.");
-    if(adres.trim().length<10)return hataGoster("Lütfen açık adresinizi yazın.");
-  }
-
-  // Supabase Veritabanına Sipariş Kaydetme
-  try {
-    const siparisSatirlari = sepet.map(s => {
-      let tutar = satir(s);
-      let maliyet = Math.round(tutar * 0.4); // Tahmini %40 maliyet
-      let kar = tutar - maliyet;
-      return {
-        urun_adi: s.isim + (s.boy ? ' (' + s.boy + ')' : ''),
-        adet: s.adet,
-        tutar: tutar,
-        maliyet: maliyet,
-        kar: kar
-      };
-    });
-
-    await supabaseClient.from('siparisler').insert(siparisSatirlari);
-  } catch(err) {
-    console.error("Sipariş veritabanına kaydedilemedi:", err);
-  }
-
-  // WhatsApp Mesajı Oluşturma
-  let m = "🧇 *ŞEKER KRİZİ WAFFLE SİPARİŞİ*\n\n";
-  m += "👤 *Müşteri:* " + ad.trim() + "\n";
-  if(yontem === "adres"){
-    const mAd = mObj() ? mObj().ad + " Mah." : "";
-    m += "🛵 *Teslimat:* Adrese Teslimat (" + mAd + ")\n";
-    m += "📍 *Adres:* " + adres.trim() + "\n";
-  } else {
-    m += "🛍️ *Teslimat:* Gel-Al (Dükkândan Teslim)\n";
-  }
-  if(not.trim()) m += "📝 *Not:* " + not.trim() + "\n";
-  m += "\n🛒 *SİPARİŞ DETAYI:*\n";
-  sepet.forEach(s => {
-    m += "• " + s.adet + "x " + s.isim + (s.boy ? " (" + s.boy + ")" : "") + " - " + TL(satir(s)) + "\n";
-    if(s.ekstralar.length){
-      m += "  _Ekstralar: " + s.ekstralar.map(e => e.adet + "x " + e.isim).join(", ") + "_\n";
-    }
-  });
-  const u = ucret();
-  m += "\n💰 *Ürün Toplamı:* " + TL(toplam()) + "\n";
-  m += "🛵 *Teslimat Ücreti:* " + (yontem === "gel" ? "Gel-Al (Ücretsiz)" : (u ? TL(u) : "Ücretsiz")) + "\n";
-  m += "💵 *GENEL TOPLAM:* " + TL(genel());
-
-  window.open("https://wa.me/905358731757?text=" + encodeURIComponent(m), "_blank");
-}
-
-buildChips();
-draw();
-upBar();
-stokYukle();
-</script>
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-// SUPABASE BAĞLANTISI & ZİYARETÇİ SAYACI
-const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-async function ziyaretciKaydet() {
-    try {
-        await supabaseClient.from('ziyaretciler').insert([{ }]);
-        console.log("Ziyaretçi başarıyla kaydedildi!");
-    } catch(e) {
-        console.error("Ziyaretçi kaydolamadı:", e);
-    }
-}
-window.addEventListener('load', ziyaretciKaydet);
 
 buildChips();
 draw();
