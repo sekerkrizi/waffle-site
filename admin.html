@@ -64,8 +64,8 @@
             <thead>
                 <tr>
                     <th>Tarih</th>
-                    <th>Ürün</th>
-                    <th>Adet</th>
+                    <th>Sipariş İçeriği / Müşteri</th>
+                    <th>Toplam Ürün</th>
                     <th>Tutar</th>
                     <th>Net Kâr</th>
                 </tr>
@@ -75,6 +75,7 @@
         
         <br>
         <button onclick="verileriYenile()" style="background: #6c757d;">Verileri Yenile</button>
+        <button onclick="verileriSifirla()" style="background: #dc3545; margin-left: 10px;">Verileri Sıfırla</button>
     </div>
 </div>
 
@@ -84,7 +85,6 @@
     const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Daha önce giriş yaptıysa direkt paneli aç
     window.onload = function() {
         if (localStorage.getItem('seker_krizi_admin') === 'true') {
             document.getElementById('login-box').classList.add('hidden');
@@ -106,14 +106,15 @@
     }
 
     async function verileriYenile() {
-       // Ziyaretçi sayısını Supabase'den tam ve net şekilde çekelim:
-const { count: ziyaretciSayisi, error: ziyaretciHata } = await supabaseClient
-  .from('ziyaretciler')
-  .select('*', { count: 'exact', head: true });
+        // Ziyaretçi sayısını çek
+        const { count: ziyaretciSayisi, error: ziyaretciHata } = await supabaseClient
+            .from('ziyaretciler')
+            .select('*', { count: 'exact', head: true });
 
-if (!ziyaretciHata) {
-    document.getElementById('stat-ziyaretci').innerText = ziyaretciSayisi || 0;
-}
+        if (!ziyaretciHata) {
+            document.getElementById('stat-ziyaretci').innerText = ziyaretciSayisi || 0;
+        }
+
         // Siparişleri çek
         const { data: siparisler, error } = await supabaseClient
             .from('siparisler')
@@ -146,6 +147,24 @@ if (!ziyaretciHata) {
         document.getElementById('stat-ciro').innerText = toplamCiro + ' TL';
         document.getElementById('stat-kar').innerText = toplamKar + ' TL';
         document.getElementById('siparis-listesi').innerHTML = tabloHTML;
+    }
+
+    // VERİLERİ SIFIRLAMA FONKSİYONU
+    async function verileriSifirla() {
+        if(!confirm("⚠️ TÜM geçmiş siparişler ve ziyaretçi kayıtları silinecek! Emin misin?")) return;
+
+        try {
+            // Siparişler tablosunu temizle
+            await supabaseClient.from('siparisler').delete().neq('id', 0);
+            // Ziyaretçiler tablosunu temizle
+            await supabaseClient.from('ziyaretciler').delete().neq('id', 0);
+
+            alert("Tüm veriler başarıyla sıfırlandı!");
+            verileriYenile();
+        } catch(e) {
+            console.error("Sıfırlama hatası:", e);
+            alert("Sıfırlama sırasında hata oluştu!");
+        }
     }
 </script>
 </body>
