@@ -140,7 +140,7 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 <div id="cbg" class="bg" onclick="if(event.target===this)closeC()"><div class="sheet" id="csheet"></div></div>
 
 <script>
-// SUPABASE BAĞLANTISI & ZİYARETÇİ SAYACI
+// SUPABASE BAĞLANTISI & ZİYARETÇİ SAYACI (Çalışan sistem)
 const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -367,7 +367,7 @@ function renderS(){
    (BL.length>1?'<div class="sec">Boyut Seçin</div>'+bo:'')+ex+'</div></div>'+
    '<div class="sfoot"><div class="qty"><button onclick="qD(-1)">−</button><span id="qn">'+curQty+'</span><button class="p" onclick="qD(1)">+</button></div><button class="go" onclick="addCart()">Sepete Ekle · <span id="sp">'+TL(sPrice())+'</span></button></div>';
 }
-function exRow(e,i){return '<div class="ex"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(e[1]?'+'+TL(e[1]):'Ücretsiz')+'</div></div><div class="qty"><button onclick="exD('+i+',-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div></div>'}
+function exRow(e,i){return '<div class="ex"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(e[1]?'+'+TL(e[1]):'Ücretsiz')+'</div></div><div class="qty"><button onclick="exD('+i,+'-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div></div>'}
 function tg(k){document.getElementById("grp_"+k).classList.toggle("open")}
 function bad(){GRUPLAR.forEach(g=>{let n=0;ekstralar.forEach((e,i)=>{if(e[2]===g[0])n+=curEx[i]||0});const b=document.getElementById("bg_"+g[0]);if(b)b.textContent=n||""})}
 function exFiyat(){return Object.keys(curEx).reduce((t,i)=>t+ekstralar[i][1]*curEx[i],0)}
@@ -430,8 +430,8 @@ function cDel(i){
   kaydet();upBar();renderC();
 }
 
-// SEPETTEKİ ÜRÜNLERİ TABLONA UYGUN ŞEKİlde TEK TEK EKLEME FONKSİYONU
-async function siparisGonder() {
+// WHATSAPP İLE SİPARİŞ GÖNDERME FONKSİYONU
+function siparisGonder() {
   if(!sepet.length) return;
   if(!ad.trim()){ hata="Lütfen adınızı ve soyadınızı girin."; renderC(); return; }
   if(yontem==="adres"){
@@ -440,47 +440,41 @@ async function siparisGonder() {
     if(!adres.trim()){ hata="Lütfen açık adresinizi girin."; renderC(); return; }
   }
 
-  try {
-    // Sepetteki her ürünü tablonun sütunlarına uygun şekilde sırayla ekliyoruz
-    for(let s of sepet) {
-      let urunAdi = s.isim;
-      if(s.boy) urunAdi += ` (${s.boy})`;
-      if(s.ekstralar && s.ekstralar.length > 0) {
-        urunAdi += ` [${s.ekstralar.map(e => e.adet + 'x ' + e.isim).join(', ')}]`;
-      }
-      
-      const birimFiyat = s.fiyat + s.ekstralar.reduce((t,e)=>t+e.f*e.adet,0);
-      const toplamFiyat = birimFiyat * s.adet;
+  let siparisAdres = yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : `${mahalleler[+mah]?.ad || ''} Mah. - ${adres}`;
 
-      const { error } = await supabaseClient
-        .from('siparisler')
-        .insert([
-          {
-            urun_adi: urunAdi,
-            adet: s.adet,
-            tutar: toplamFiyat,
-            maliyet: 0, // Maliyet girilmediyse 0 bırakılır
-            kar: toplamFiyat // Şimdilik karı tutar olarak yazar, panelden güncelleyebilirsin
-          }
-        ]);
+  let mesaj = `*🍓 Yeni Sipariş - Şeker Krizi Waffle*\n\n`;
+  mesaj += `*Ad Soyad:* ${ad}\n`;
+  mesaj += `*Yöntem:* ${yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : "Adrese Teslim"}\n`;
+  if(yontem === "adres") mesaj += `*Adres:* ${siparisAdres}\n`;
+  if(not) mesaj += `*Not:* ${not}\n`;
+  mesaj += `\n*Sipariş İçeriği:*\n`;
 
-      if(error) {
-        console.error("Kayıt hatası:", error);
-        throw error;
-      }
+  sepet.forEach(s => {
+    mesaj += `• ${s.adet}x ${s.isim}`;
+    if(s.boy) mesaj += ` (${s.boy})`;
+    if(s.ekstralar && s.ekstralar.length > 0) {
+      mesaj += `\n  *Ekstralar:* ${s.ekstralar.map(e => e.adet + 'x ' + e.isim).join(', ')}`;
     }
+    mesaj += ` - ${TL(satir(s))}\n`;
+  });
 
-    alert("Siparişiniz başarıyla alındı! Teşekkür ederiz.");
-    sepet = [];
-    kaydet();
-    upBar();
-    closeC();
-
-  } catch(e) {
-    console.error("Hata:", e);
-    hata = "Sipariş verilirken bir hata oluştu!";
-    renderC();
+  mesaj += `\n*Ürün Toplamı:* ${TL(toplam())}`;
+  if(yontem === "adres") {
+    const u = ucret();
+    mesaj += `\n*Teslimat Ücreti:* ${u ? TL(u) : 'Ücretsiz'}`;
   }
+  mesaj += `\n*Genel Toplam:* ${TL(genel())}`;
+
+  const telNo = "905358731757"; // Dükkanın WhatsApp numarası
+  const url = `https://wa.me/${telNo}?text=` + encodeURIComponent(mesaj);
+
+  window.open(url, '_blank');
+
+  // Sepeti temizle ve kapat
+  sepet = [];
+  kaydet();
+  upBar();
+  closeC();
 }
 
 function renderC(){
@@ -518,7 +512,7 @@ function renderC(){
     h+='<div class="fino">🛵 400 TL ve üzeri siparişlerde ücretsiz teslimat!'+(toplam()<UCRETSIZ_LIMIT?' <b>'+TL(UCRETSIZ_LIMIT-toplam())+'</b> daha ekleyin.':' 🎉 Ücretsiz teslimat kazandınız.')+'</div>';
   }
   h+=(hata?'<div class="hata" id="hata">'+esc(hata)+'</div>':'')+
-   '<button class="wa'+(disi?' off':'')+'" onclick="siparisGonder()">✅ Siparişi Tamamla</button></div>';
+   '<button class="wa'+(disi?' off':'')+'" onclick="siparisGonder()">🟢 WhatsApp ile Sipariş Ver</button></div>';
   c.innerHTML=h;
   if(old)c.querySelector('.sbody').scrollTop=st;
 }
