@@ -146,14 +146,35 @@ const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function ziyaretciKaydet() {
+    // Aynı kişi sayfayı yenileyince sayaç bin defa artmasın diye kontrol
+    if (sessionStorage.getItem('ziyaret_edildi')) return;
+
     try {
-        await supabaseClient.from('ziyaretciler').insert([{}]);
+        // 1. Ziyaretciler tablosundan mevcut sayıyı al (id'si 1 olan satır)
+        const { data, error } = await supabaseClient
+            .from('ziyaretciler')
+            .select('ziyaret_sayisi')
+            .eq('id', 1)
+            .single();
+
+        if (data) {
+            // 2. Sayıyı 1 artırıp Supabase'e geri kaydet
+            const yeniSayi = (data.ziyaret_sayisi || 0) + 1;
+            await supabaseClient
+                .from('ziyaretciler')
+                .update({ ziyaret_sayisi: yeniSayi })
+                .eq('id', 1);
+
+            // Bu oturum için işaretle
+            sessionStorage.setItem('ziyaret_edildi', 'true');
+            console.log("Ziyaretçi sayısı güncellendi:", yeniSayi);
+        }
     } catch(e) {
-        console.error("Ziyaretçi kaydolamadı:", e);
+        console.error("Ziyaretçi güncellenemedi:", e);
     }
 }
-ziyaretciKaydet();
-
+window.addEventListener('load', ziyaretciKaydet);
+  
 const boyutlar=["Standart","Double","XXL (2-3 kişilik)"];
 const waffleler=[
 {id:"standart",isim:"Standart Karışık Waffle",boy:[225,275,350],aciklama:"Taze muz, çilek, çikolata, beyaz çikolata sos, Bonibon.",gorsel:"standart.jpg"},
