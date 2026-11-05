@@ -146,7 +146,16 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function ziyaretciKaydet() {
     try {
-        await supabaseClient.from('ziyaretciler').insert([{ }]);
+        let id = localStorage.getItem('sk_visitor_id');
+        if (!id) {
+            id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+                 : 'v' + Date.now() + Math.random().toString(36).slice(2);
+            localStorage.setItem('sk_visitor_id', id);
+        }
+        // Aynı kimlik zaten varsa hiçbir şey yapmaz, sayaç artmaz
+        await supabaseClient
+            .from('ziyaretciler')
+            .upsert([{ visitor_id: id }], { onConflict: 'visitor_id', ignoreDuplicates: true });
     } catch(e) {
         console.error("Ziyaretçi kaydolamadı:", e);
     }
