@@ -8,19 +8,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h1 { color: #d63384; text-align: center; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin: 20px 0; }
-        .card { background: #fff5f8; border: 1px solid #ffd6e0; padding: 20px; border-radius: 8px; text-align: center; }
-        .card h3 { margin: 0 0 10px 0; font-size: 15px; color: #666; }
-        .card p { margin: 0; font-size: 22px; font-weight: bold; color: #d63384; }
+        h2 { margin: 28px 0 6px; font-size: 19px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 14px 0; }
+        .card { background: #fff5f8; border: 1px solid #ffd6e0; padding: 16px 10px; border-radius: 8px; text-align: center; }
+        .card h3 { margin: 0 0 8px 0; font-size: 13px; color: #666; }
+        .card p { margin: 0; font-size: 20px; font-weight: bold; color: #d63384; }
+        .card.gun { background: #f0fbf3; border-color: #c6ebd0; }
+        .card.gun p { color: #1f8a3b; }
+        .gun-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
+        .gun-bar input[type="date"] { padding: 8px; font-size: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .gun-baslik { font-size: 15px; color: #666; margin: 4px 0 0; }
         #login-box { text-align: center; padding: 40px; }
         input[type="password"] { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; width: 200px; }
-        button { padding: 10px 20px; background: #d63384; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        button { padding: 10px 20px; background: #d63384; color: white; border: none; border-radius: 5px; font-size: 15px; cursor: pointer; }
         button:hover { background: #b0236c; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+        .tablo-kap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td { border: 1px solid #ddd; padding: 9px; text-align: left; font-size: 14px; }
         th { background: #fff5f8; color: #d63384; }
+        tr.tikla { cursor: pointer; }
+        tr.tikla:hover { background: #fff5f8; }
+        tr.secili { background: #e9f8ee; font-weight: bold; }
+        .bos { text-align: center; color: #999; padding: 20px; }
         .hidden { display: none; }
     </style>
 </head>
@@ -32,7 +43,7 @@
     <!-- GİRİŞ EKRANI -->
     <div id="login-box">
         <p>Lütfen Admin Şifresini Girin:</p>
-        <input type="password" id="admin-pass" placeholder="Şifre (1453)">
+        <input type="password" id="admin-pass" placeholder="Şifre">
         <br><br>
         <button onclick="girisYap()">Giriş Yap</button>
         <p id="hata" style="color: red; margin-top: 10px;"></p>
@@ -40,9 +51,12 @@
 
     <!-- PANEL İÇERİĞİ -->
     <div id="admin-content" class="hidden">
+
+        <!-- GENEL TOPLAMLAR (hiçbir zaman sıfırlanmaz) -->
+        <h2>📊 Genel Toplam (Açılıştan Beri)</h2>
         <div class="stats-grid">
             <div class="card">
-                <h3>Ziyaretçi Sayısı</h3>
+                <h3>Tekil Ziyaretçi</h3>
                 <p id="stat-ziyaretci">0</p>
             </div>
             <div class="card">
@@ -59,20 +73,62 @@
             </div>
         </div>
 
-        <h2>Gelen Siparişler</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tarih</th>
-                    <th>Sipariş İçeriği / Müşteri</th>
-                    <th>Toplam Ürün</th>
-                    <th>Tutar</th>
-                    <th>Net Kâr</th>
-                </tr>
-            </thead>
-            <tbody id="siparis-listesi"></tbody>
-        </table>
-        
+        <!-- GÜNLÜK EKRAN -->
+        <h2>📅 Günlük Siparişler</h2>
+        <div class="gun-bar">
+            <input type="date" id="gun-sec" onchange="gunDegisti(this.value)">
+            <button onclick="bugunDon()" style="background:#1f8a3b;">Bugüne Dön</button>
+        </div>
+        <p class="gun-baslik" id="gun-baslik"></p>
+
+        <div class="stats-grid">
+            <div class="card gun">
+                <h3>Günün Siparişi</h3>
+                <p id="gun-siparis">0</p>
+            </div>
+            <div class="card gun">
+                <h3>Günün Cirosu</h3>
+                <p id="gun-ciro">0 TL</p>
+            </div>
+            <div class="card gun">
+                <h3>Günün Net Kârı</h3>
+                <p id="gun-kar">0 TL</p>
+            </div>
+        </div>
+
+        <div class="tablo-kap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Saat</th>
+                        <th>Sipariş İçeriği / Müşteri</th>
+                        <th>Toplam Ürün</th>
+                        <th>Tutar</th>
+                        <th>Net Kâr</th>
+                    </tr>
+                </thead>
+                <tbody id="siparis-listesi"></tbody>
+            </table>
+        </div>
+
+        <!-- SON GÜNLER -->
+        <h2>🗓️ Son Günler</h2>
+        <p class="gun-baslik">Bir güne tıklayınca yukarıda o günün siparişleri açılır.</p>
+        <div class="tablo-kap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gün</th>
+                        <th>Sipariş</th>
+                        <th>Ciro</th>
+                        <th>Net Kâr</th>
+                    </tr>
+                </thead>
+                <tbody id="gunler-listesi"></tbody>
+            </table>
+        </div>
+
         <br>
         <button onclick="verileriYenile()" style="background: #6c757d;">Verileri Yenile</button>
         <button onclick="verileriSifirla()" style="background: #dc3545; margin-left: 10px;">Verileri Sıfırla</button>
@@ -80,88 +136,190 @@
 </div>
 
 <script>
-    const DOGRU_SIFRE = "1453"; 
+    const DOGRU_SIFRE = "1453";
     const SUPABASE_URL = 'https://mnberjrpcdgprtbmmqcr.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_8VskS3DfVZse_KgbEfL88A_xCYn65Y-';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    window.onload = function() {
+    // Türkiye saatine göre bugünün tarihi (YYYY-MM-DD)
+    const trBugun = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Istanbul' });
+    const para = n => Number(n || 0).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) + ' TL';
+    const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    let tumSiparisler = [];
+    let seciliGun = trBugun();
+    let sonGun = trBugun();
+
+    window.onload = function () {
         if (localStorage.getItem('seker_krizi_admin') === 'true') {
-            document.getElementById('login-box').classList.add('hidden');
-            document.getElementById('admin-content').classList.remove('hidden');
-            verileriYenile();
+            panelAc();
         }
+    };
+
+    function panelAc() {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('admin-content').classList.remove('hidden');
+        verileriYenile();
     }
 
     function girisYap() {
         const girilen = document.getElementById('admin-pass').value;
         if (girilen === DOGRU_SIFRE) {
             localStorage.setItem('seker_krizi_admin', 'true');
-            document.getElementById('login-box').classList.add('hidden');
-            document.getElementById('admin-content').classList.remove('hidden');
-            verileriYenile();
+            panelAc();
         } else {
             document.getElementById('hata').innerText = "Hatalı şifre kanka!";
         }
     }
 
+    // Tüm siparişleri çek (Supabase tek seferde 1000 satır verir, o yüzden parça parça alıyoruz)
+    async function tumSiparisleriCek() {
+        let hepsi = [];
+        let bas = 0;
+        const adim = 1000;
+        while (true) {
+            const { data, error } = await supabaseClient
+                .from('siparisler')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .range(bas, bas + adim - 1);
+            if (error) throw error;
+            hepsi = hepsi.concat(data);
+            if (data.length < adim) break;
+            bas += adim;
+        }
+        return hepsi;
+    }
+
     async function verileriYenile() {
-        // Ziyaretçi sayısını çek
+        // Tekil ziyaretçi sayısı (sadece visitor_id'si olan kayıtlar)
         const { count: ziyaretciSayisi, error: ziyaretciHata } = await supabaseClient
             .from('ziyaretciler')
-            .select('*', { count: 'exact', head: true });
+            .select('*', { count: 'exact', head: true })
+            .not('visitor_id', 'is', null);
 
         if (!ziyaretciHata) {
             document.getElementById('stat-ziyaretci').innerText = ziyaretciSayisi || 0;
         }
 
-        // Siparişleri çek
-        const { data: siparisler, error } = await supabaseClient
-            .from('siparisler')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (error) {
+        try {
+            tumSiparisler = await tumSiparisleriCek();
+        } catch (error) {
             console.error("Veri çekme hatası:", error);
             return;
         }
 
-        let toplamCiro = 0;
-        let toplamKar = 0;
-        let tabloHTML = '';
-
-        siparisler.forEach(s => {
+        // GENEL TOPLAMLAR
+        let toplamCiro = 0, toplamKar = 0;
+        tumSiparisler.forEach(s => {
             toplamCiro += Number(s.tutar || 0);
             toplamKar += Number(s.kar || 0);
-            let tarih = new Date(s.created_at).toLocaleString('tr-TR');
-            tabloHTML += `<tr>
-                <td>${tarih}</td>
-                <td><b>${s.urun_adi}</b></td>
-                <td>${s.adet}</td>
-                <td>${s.tutar} TL</td>
-                <td style="color: #28a745; font-weight: bold;">+${s.kar} TL</td>
+        });
+        document.getElementById('stat-siparis').innerText = tumSiparisler.length;
+        document.getElementById('stat-ciro').innerText = para(toplamCiro);
+        document.getElementById('stat-kar').innerText = para(toplamKar);
+
+        gunuCiz();
+        gunleriCiz();
+    }
+
+    // SEÇİLİ GÜNÜN SİPARİŞLERİ
+    function gunuCiz() {
+        document.getElementById('gun-sec').value = seciliGun;
+
+        const gunluk = tumSiparisler
+            .filter(s => s.siparis_gunu === seciliGun)
+            .sort((a, b) => (b.gunluk_no || 0) - (a.gunluk_no || 0));
+
+        const tarihYazi = new Date(seciliGun + 'T00:00:00Z')
+            .toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long', timeZone: 'UTC' });
+        document.getElementById('gun-baslik').innerText =
+            (seciliGun === trBugun() ? 'Bugün · ' : '') + tarihYazi;
+
+        let ciro = 0, kar = 0, html = '';
+        gunluk.forEach(s => {
+            ciro += Number(s.tutar || 0);
+            kar += Number(s.kar || 0);
+            const saat = new Date(s.created_at).toLocaleTimeString('tr-TR',
+                { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Istanbul' });
+            html += `<tr>
+                <td><b>#${esc(s.gunluk_no ?? '-')}</b></td>
+                <td>${saat}</td>
+                <td><b>${esc(s.urun_adi)}</b></td>
+                <td>${esc(s.adet)}</td>
+                <td>${esc(s.tutar)} TL</td>
+                <td style="color: #28a745; font-weight: bold;">+${esc(s.kar)} TL</td>
             </tr>`;
         });
 
-        document.getElementById('stat-siparis').innerText = siparisler.length;
-        document.getElementById('stat-ciro').innerText = toplamCiro + ' TL';
-        document.getElementById('stat-kar').innerText = toplamKar + ' TL';
-        document.getElementById('siparis-listesi').innerHTML = tabloHTML;
+        document.getElementById('gun-siparis').innerText = gunluk.length;
+        document.getElementById('gun-ciro').innerText = para(ciro);
+        document.getElementById('gun-kar').innerText = para(kar);
+        document.getElementById('siparis-listesi').innerHTML =
+            html || '<tr><td colspan="6" class="bos">Bu güne ait sipariş yok.</td></tr>';
     }
+
+    // SON GÜNLERİN ÖZETİ
+    function gunleriCiz() {
+        const gruplar = {};
+        tumSiparisler.forEach(s => {
+            const g = s.siparis_gunu;
+            if (!gruplar[g]) gruplar[g] = { sayi: 0, ciro: 0, kar: 0 };
+            gruplar[g].sayi++;
+            gruplar[g].ciro += Number(s.tutar || 0);
+            gruplar[g].kar += Number(s.kar || 0);
+        });
+
+        const gunler = Object.keys(gruplar).sort().reverse().slice(0, 14);
+        let html = '';
+        gunler.forEach(g => {
+            const yazi = new Date(g + 'T00:00:00Z')
+                .toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', weekday: 'short', timeZone: 'UTC' });
+            html += `<tr class="tikla ${g === seciliGun ? 'secili' : ''}" onclick="gunDegisti('${g}')">
+                <td>${yazi}${g === trBugun() ? ' (bugün)' : ''}</td>
+                <td>${gruplar[g].sayi}</td>
+                <td>${para(gruplar[g].ciro)}</td>
+                <td style="color:#28a745;">${para(gruplar[g].kar)}</td>
+            </tr>`;
+        });
+        document.getElementById('gunler-listesi').innerHTML =
+            html || '<tr><td colspan="4" class="bos">Henüz sipariş yok.</td></tr>';
+    }
+
+    function gunDegisti(g) {
+        seciliGun = g || trBugun();
+        gunuCiz();
+        gunleriCiz();
+    }
+
+    function bugunDon() {
+        gunDegisti(trBugun());
+    }
+
+    // GECE YARISI OTOMATİK YENİ GÜNE GEÇİŞ + YENİ SİPARİŞLERİ OTOMATİK ÇEKME
+    setInterval(() => {
+        if (document.getElementById('admin-content').classList.contains('hidden')) return;
+        const simdi = trBugun();
+        if (simdi !== sonGun) {
+            if (seciliGun === sonGun) seciliGun = simdi; // bugüne bakıyorsa yeni güne geç
+            sonGun = simdi;
+        }
+        verileriYenile();
+    }, 30000);
 
     // VERİLERİ SIFIRLAMA FONKSİYONU
     async function verileriSifirla() {
-        if(!confirm("⚠️ TÜM geçmiş siparişler ve ziyaretçi kayıtları silinecek! Emin misin?")) return;
+        const onay = prompt("⚠️ TÜM siparişler ve ziyaretçi kayıtları SİLİNİR, 'Toplam Sipariş' de sıfırlanır!\nDevam etmek için büyük harfle SIFIRLA yaz:");
+        if (onay !== 'SIFIRLA') return;
 
         try {
-            // Siparişler tablosunu temizle
-            await supabaseClient.from('siparisler').delete().neq('id', 0);
-            // Ziyaretçiler tablosunu temizle
-            await supabaseClient.from('ziyaretciler').delete().neq('id', 0);
+            const r1 = await supabaseClient.from('siparisler').delete().neq('id', 0);
+            const r2 = await supabaseClient.from('ziyaretciler').delete().neq('id', 0);
+            if (r1.error || r2.error) throw (r1.error || r2.error);
 
             alert("Tüm veriler başarıyla sıfırlandı!");
             verileriYenile();
-        } catch(e) {
+        } catch (e) {
             console.error("Sıfırlama hatası:", e);
             alert("Sıfırlama sırasında hata oluştu!");
         }
