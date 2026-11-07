@@ -180,19 +180,20 @@ const waffleler=[
 {kat:"bardak",id:"b_prenses",isim:"Prenses Bardak",boy:[230],bl:["Bardak"],aciklama:"Bowl waffle hamuru, taze muz ve çilek, üzerine yoğun çikolata, frambuaz ve çilek sosları, beyaz çikolata dokunuşu ve renkli bonibonlarla dolu dolu bardak lezzeti.",gorsel:"Gemini_Generated_Image_mp7pkump7pkump7p.jpg",emo:"🥣"},
 {kat:"bardak",id:"b_bitirim",isim:"Bitirim 2'li Bardak Waffle (2 Kişilik)",boy:[380],bl:["Bardak"],aciklama:"Taze çilek ve muz dilimleri, bowl waffle hamuru, yoğun çikolata ve beyaz çikolata sosları, renkli bonibon.",gorsel:"Gemini_Generated_Image_pg36wqpg36wqpg36.jpg",emo:"🥣"},
 
-/* ===== İÇECEKLER ===== */
-{kat:"icecek",direkt:true,id:"i_su",isim:"Su",boy:[20],aciklama:"",gorsel:"",emo:"💧"},
-{kat:"icecek",direkt:true,id:"i_limonata",isim:"Bardak Limonata",boy:[40],aciklama:"",gorsel:"",emo:"🍋"},
-{kat:"icecek",direkt:true,id:"i_sade_soda",isim:"Sade Soda",boy:[40],aciklama:"",gorsel:"",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_limonlu_soda",isim:"Limonlu Soda",boy:[50],aciklama:"",gorsel:"",emo:"🍋"},
-{kat:"icecek",direkt:true,id:"i_cola",isim:"Coca-Cola",boy:[75],aciklama:"",gorsel:"",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_fanta",isim:"Fanta",boy:[75],aciklama:"",gorsel:"",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_sprite",isim:"Sprite",boy:[75],aciklama:"",gorsel:"",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_lipton_seftali",isim:"Lipton Şeftali",boy:[75],aciklama:"",gorsel:"",emo:"🍑"},
-{kat:"icecek",direkt:true,id:"i_lipton_limon",isim:"Lipton Limon",boy:[75],aciklama:"",gorsel:"",emo:"🍋"},
-{kat:"icecek",direkt:true,id:"i_fuse_mango",isim:"Fuse Tea Mango",boy:[75],aciklama:"",gorsel:"",emo:"🥭"},
-{kat:"icecek",direkt:true,id:"i_nescafe",isim:"Nescafe Xpress",boy:[100],aciklama:"",gorsel:"",emo:"☕"},
-{kat:"icecek",direkt:true,id:"i_redbull",isim:"Red Bull",boy:[100],aciklama:"",gorsel:"",emo:"⚡"}
+/* ===== İÇECEKLER (direkt sepete eklenir) ===== */
+{kat:"icecek",direkt:true,id:"i_su",isim:"Su",boy:[20],aciklama:"",gorsel:"su.jpg",emo:"💧"},
+{kat:"icecek",direkt:true,id:"i_limonata",isim:"Bardak Limonata",boy:[40],aciklama:"",gorsel:"limonata.jpg",emo:"🍋"},
+{kat:"icecek",direkt:true,id:"i_sade_soda",isim:"Sade Soda",boy:[40],aciklama:"",gorsel:"sade-soda.jpg",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_limonlu_soda",isim:"Limonlu Soda",boy:[50],aciklama:"",gorsel:"limonlu-soda.jpg",emo:"🍋"},
+{kat:"icecek",direkt:true,id:"i_capri",isim:"Capri",boy:[50],aciklama:"",gorsel:"capri.jpg",emo:"🧃"},
+{kat:"icecek",direkt:true,id:"i_cola",isim:"Coca-Cola",boy:[75],aciklama:"",gorsel:"cola.jpg",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_fanta",isim:"Fanta",boy:[75],aciklama:"",gorsel:"fanta.jpg",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_sprite",isim:"Sprite",boy:[75],aciklama:"",gorsel:"sprite.jpg",emo:"🥤"},
+{kat:"icecek",direkt:true,id:"i_lipton_seftali",isim:"Lipton Şeftali",boy:[75],aciklama:"",gorsel:"lipton-seftali.jpg",emo:"🍑"},
+{kat:"icecek",direkt:true,id:"i_lipton_limon",isim:"Lipton Limon",boy:[75],aciklama:"",gorsel:"lipton-limon.jpg",emo:"🍋"},
+{kat:"icecek",direkt:true,id:"i_fuse_mango",isim:"Fuse Tea Mango",boy:[75],aciklama:"",gorsel:"fuse-tea-mango.jpg",emo:"🥭"},
+{kat:"icecek",direkt:true,id:"i_nescafe",isim:"Nescafe Xpress",boy:[100],aciklama:"",gorsel:"nescafe.jpg",emo:"☕"},
+{kat:"icecek",direkt:true,id:"i_redbull",isim:"Red Bull",boy:[100],aciklama:"",gorsel:"redbull.jpg",emo:"⚡"}
 ];
 waffleler.forEach(w=>{w.kat=w.kat||"waffle"});
 const KAT=[["waffle","🧇 Waffle'lar"],["bardak","🥣 Bardak Waffle"],["icecek","🥤 İçecekler"]];
@@ -254,10 +255,37 @@ async function stokYukle(){
   }catch(e){}
 }
 
+const ILL={
+"Su":["bottle","#7cc6ff","SU"],
+"Bardak Limonata":["glass","#ffd93b",""],
+"Sade Soda":["bottle","#9ed8c6","SODA"],
+"Limonlu Soda":["bottle","#4fb869","LİMON"],
+"Capri":["pack","#ff9f1c","CAPRI"],
+"Coca-Cola":["can","#e61e2a","COLA"],
+"Fanta":["can","#ff8a00","FANTA"],
+"Sprite":["can","#1fae5b","SPRITE"],
+"Lipton Şeftali":["can","#f59a6b","ŞEFTALİ"],
+"Lipton Limon":["can","#e6c72a","LİMON"],
+"Fuse Tea Mango":["can","#ffb000","MANGO"],
+"Nescafe Xpress":["can","#6b3f2a","KAHVE"],
+"Red Bull":["can","#1c4ea1","ENERJİ"]
+};
+function ill(n,e){
+  const d=ILL[n];
+  if(!d)return '<div class="ph">'+(e||'🧇')+'</div>';
+  const t=d[0],c=d[1],l=d[2],fs=l.length>5?4:5;
+  let s="";
+  if(t==="can")s='<rect x="19" y="9" width="22" height="42" rx="4" fill="'+c+'"/><rect x="19" y="9" width="22" height="5" rx="2" fill="#d6d6d6"/><rect x="19" y="46" width="22" height="5" rx="2" fill="#d6d6d6"/>';
+  else if(t==="bottle")s='<rect x="26" y="5" width="8" height="6" rx="1.5" fill="#3f5bd8"/><path d="M26 11h8v7c0 3 6 5 6 11v21a3 3 0 0 1-3 3H23a3 3 0 0 1-3-3V29c0-6 6-8 6-11z" fill="'+c+'"/>';
+  else if(t==="pack")s='<rect x="37" y="3" width="3" height="14" fill="#fff" transform="rotate(10 38 10)"/><rect x="17" y="10" width="26" height="42" rx="4" fill="'+c+'"/>';
+  else s='<rect x="33" y="3" width="3" height="24" rx="1" fill="#ff5a00" transform="rotate(10 34 14)"/><path d="M17 15h26l-3 37a3 3 0 0 1-3 3H23a3 3 0 0 1-3-3z" fill="#fffbe0" stroke="#e6d68a"/><path d="M19.4 24h21.2l-2.4 28a2 2 0 0 1-2 2H23.8a2 2 0 0 1-2-2z" fill="'+c+'"/><circle cx="43" cy="17" r="7" fill="#ffe66b" stroke="#e0b800"/><path d="M43 10v14M36 17h14" stroke="#fff3a0" stroke-width="1"/>';
+  if(l)s+='<rect x="20" y="26" width="20" height="11" fill="#fff" opacity=".93"/><text x="30" y="'+(31.5+fs*0.35)+'" font-size="'+fs+'" font-weight="800" text-anchor="middle" fill="#2d1b12" font-family="Arial,sans-serif">'+l+'</text>';
+  return '<div class="ph"><svg viewBox="0 0 60 60" width="100%" height="100%">'+s+'</svg></div>';
+}
 function img(u,cls,emo){
   emo=emo||'🧇';
-  if(!u)return '<div class="ph">'+emo+'</div>';
-  return '<img src="'+encodeURI(u)+'" alt="'+esc(cls)+'" loading="lazy" onerror="this.outerHTML=\'<div class=ph>'+emo+'</div>\'">';
+  if(!u)return ill(cls,emo);
+  return '<img src="'+encodeURI(u)+'" alt="'+esc(cls)+'" data-e="'+emo+'" loading="lazy" onerror="this.outerHTML=ill(this.alt,this.dataset.e)">';
 }
 
 /* ===== MENÜ ÇİZİMİ ===== */
