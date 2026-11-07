@@ -565,7 +565,29 @@ function renderC(){
   c.innerHTML=h;
   if(old)c.querySelector('.sbody').scrollTop=st;
 }
-
+/* ===== MALZEME / SOS STOK ===== */
+document.head.insertAdjacentHTML("beforeend","<style>.exout{opacity:.45}.exout .exf{color:#c00;font-weight:700}</style>");
+exRow=function(e,i){
+  const out=tukenler.has(norm(e[0]));
+  return '<div class="ex'+(out?' exout':'')+'"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(out?'Tükendi':(e[1]?'+'+TL(e[1]):'Ücretsiz'))+'</div></div>'+
+    (out?'':'<div class="qty"><button onclick="exD('+i+',-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div>')+'</div>';
+};
+const _sg=siparisGonder;
+siparisGonder=async function(){
+  const biten=[];
+  sepet.forEach(s=>{
+    const w=waffleler.find(x=>x.id===s.id);
+    if(w&&yok(w))biten.push(s.isim);
+    (s.ekstralar||[]).forEach(e=>{if(tukenler.has(norm(e.isim))&&!biten.includes(e.isim))biten.push(e.isim)});
+  });
+  if(biten.length){
+    hata="Sepetinizdeki şu ürün/malzeme tükendi: "+biten.join(", ")+". Lütfen sepetten kaldırın.";
+    renderC();
+    const h=document.getElementById("hata");if(h)h.scrollIntoView({block:"center"});
+    return;
+  }
+  return _sg();
+};
 buildChips();
 draw();
 upBar();
