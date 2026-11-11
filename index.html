@@ -222,7 +222,7 @@ const mahalleler=[
 {ad:"Yenibosna Merkez",izin:true},{ad:"Hürriyet",izin:true},{ad:"Fevzi Çakmak",izin:true},{ad:"Kocasinan Merkez",izin:true},
 {ad:"Bahçelievler",izin:false},{ad:"Cumhuriyet",izin:false}
 ];
-let sepet=[],curBoy=0,cur=null,curEx={},curQty=1,not="",ad="",yontem="adres",mah="",adres="",hata="";
+let sepet=[],curBoy=0,cur=null,curEx={},curQty=1,not="",ad="",telefon="",yontem="adres",mah="",adres="",hata="";
 try{sepet=JSON.parse(localStorage.getItem("sk_sepet2")||"[]")}catch(e){}
 const kaydet=()=>{try{localStorage.setItem("sk_sepet2",JSON.stringify(sepet))}catch(e){}};
 
@@ -448,6 +448,65 @@ const genel=()=>toplam()+ucret();
 function setY(k){yontem=k;hata="";renderC()}
 function setM(v){mah=v;hata="";renderC()}
 
+function telefonNormalize(v) {
+  let d = String(v || "").replace(/\D/g, "");
+
+  if (d.startsWith("90") && d.length === 12) return d;
+  if (d.startsWith("0") && d.length === 11) return "90" + d.slice(1);
+  if (d.length === 10) return "90" + d;
+
+  return "";
+}
+
+async function sadakatGoster() {
+  const tel = telefonNormalize(telefon);
+  const alan = document.getElementById("sadakatBilgi");
+
+  if (!alan) return;
+
+  if (!tel) {
+    alan.textContent = "📱 Sadakat kartınızı görmek için telefon numaranızı girin.";
+    return;
+  }
+
+  alan.textContent = "Sadakat kartınız kontrol ediliyor...";
+
+  try {
+    const { data, error } = await supabaseClient.rpc(
+      "sadakat_durumu",
+      { p_telefon: tel }
+    );
+
+    if (error) throw error;
+
+    const sonuc = Array.isArray(data) ? data[0] : data;
+
+    if (!sonuc) throw new Error("Sadakat bilgisi alınamadı.");
+
+    const sayi = Number(sonuc.tamamlanan_waffle || 0);
+    const odul = Number(sonuc.kullanilabilir_odul || 0);
+    const kalan = Number(sonuc.sonraki_waffle || 5);
+
+    if (odul > 0) {
+      alan.innerHTML =
+        "🎉 <b>" + odul +
+        " ücretsiz Bardak Waffle ödülünüz var!</b><br>" +
+        "Toplam tamamlanan waffle: " + sayi;
+    } else {
+      alan.innerHTML =
+        "🧇 <b>Sadakat Kartınız</b><br>" +
+        sayi + " waffle tamamlandı.<br>" +
+        "🎁 Ücretsiz Bardak Waffle için " +
+        kalan + " waffle daha gerekiyor.";
+    }
+
+  } catch (e) {
+    console.error("Sadakat kontrol hatası:", e);
+    alan.textContent =
+      "Sadakat bilgisi şu anda alınamadı. Tekrar deneyebilirsiniz.";
+  }
+}
+
 function cD(i,d){
   sepet[i].adet+=d;
   if(sepet[i].adet<=0)sepet.splice(i,1);
@@ -461,6 +520,13 @@ function cDel(i){
 // 📦 TÜM SEPETİ TEK BİR SİPARİŞ OLARAK GÖNDERME FONKSİYONU
 async function siparisGonder() {
   if(!sepet.length) return;
+  const telKayit = telefonNormalize(telefon);
+
+if (!telKayit) {
+  hata = "Lütfen geçerli bir telefon numarası girin.";
+  renderC();
+  return;
+}
   if(!ad.trim()){ hata="Lütfen adınızı ve soyadınızı girin."; renderC(); return; }
   if(yontem==="adres"){
     if(mah===""){ hata="Lütfen mahalle seçin."; renderC(); return; }
@@ -490,10 +556,25 @@ async function siparisGonder() {
       .insert([
         {
           urun_adi: `${ad.trim()} (${yontem === "gel" ? "Gel-Al" : mahalleler[+mah]?.ad}): ${urunOzet}`,
-          adet: toplamUrunAdeti,
-          tutar: genelToplamTutar,
-          maliyet: 0,
-          kar: genelToplamTutar
+adet: toplamUrunAdeti,
+tutar: genelToplamTutar,
+maliyet: 0,
+kar: genelToplamTutar,
+
+telefon: telKayit,
+durum: "Beklemede",
+
+sadakat_waffle_adet: sepet.reduce((t, s) => {
+  const urun = waffleler.find(w => w.id === s.id);
+
+  return t + (
+    urun && ["waffle", "bardak"].includes(urun.kat)
+      ? s.adet
+      : 0
+  );
+}, 0),
+
+sadakat_islendi: false
         }
       ]);
   } catch(e) {
@@ -503,6 +584,7 @@ async function siparisGonder() {
   // WhatsApp Mesajı Oluşturma
   let mesaj = `*🍓 Yeni Sipariş - Şeker Krizi Waffle*\n\n`;
   mesaj += `*Ad Soyad:* ${ad}\n`;
+  mesaj += `*Telefon:* ${telefon}\n`;
   mesaj += `*Yöntem:* ${yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : "Adrese Teslim"}\n`;
   if(yontem === "adres") mesaj += `*Adres:* ${siparisAdres}\n`;
   if(not) mesaj += `*Not:* ${not}\n`;
@@ -546,7 +628,11 @@ function renderC(){
   const yb=(k,t)=>'<button class="ym'+(yontem===k?' on':'')+'" onclick="setY(\''+k+'\')">'+t+'</button>';
   let h='<div class="sbody pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="h1">🛒 Sepetim</div><button class="x" style="position:static" onclick="closeC()">×</button></div>'+items+
    '<div class="sec">Teslimat Yöntemi</div><div class="ymrow">'+yb('adres','🛵 Adrese Teslimat')+yb('gel','🛍️ Gel-Al (Dükkândan Teslim)')+'</div>'+
-   '<input id="ad" class="inp" placeholder="Adınız Soyadınız *" value="'+esc(ad)+'" oninput="ad=this.value">';
+'<input id="ad" class="inp" placeholder="Adınız Soyadınız *" value="'+esc(ad)+'" oninput="ad=this.value">'+
+
+'<input id="telefon" class="inp" type="tel" inputmode="numeric" maxlength="11" placeholder="Telefon Numaranız (05XX XXX XX XX) *" value="'+esc(telefon)+'" oninput="telefon=this.value" onblur="telefon=this.value;sadakatGoster()">'+
+
+'<div class="gelinfo" id="sadakatBilgi">📱 Telefon numaranızı girerek sadakat kartınızı görüntüleyebilirsiniz.</div>';
   if(yontem==="adres"){
     h+='<select id="mah" class="inp" onchange="setM(this.value)"><option value="">Mahalle seçin * (Bahçelievler / İstanbul)</option>'+
       mahalleler.map((x,i)=>'<option value="'+i+'"'+(mah===String(i)?' selected':'')+'>'+x.ad+' Mahallesi</option>').join("")+
