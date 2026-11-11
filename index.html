@@ -6,6 +6,7 @@
 <title>Şeker Krizi Waffle</title>
 <meta name="description" content="Şeker Krizi Waffle - Taptaze waffle, meyve, sos ve süsleme seçenekleri.">
 <link rel="canonical" href="https://sekerkrizi.github.io/waffle-site/">
+<!-- Supabase Kütüphanesi -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -111,14 +112,14 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 <body>
 
 <div class="top"><div class="wrap">
-  <div class="logo">🧇 Şeker Krizi Waffle</div>
-  <div class="sub">Tatlı krizinin en lezzetli adresi 🍓🍫</div>
+  <div class="logo"> Şeker Krizi Waffle</div>
+  <div class="sub">Tatlı krizinin en lezzetli adresi </div>
   <div class="links">
-    <a href="https://www.instagram.com/sekerkriziwaffle.bv/" target="_blank">📸 Instagram</a>
-    <a href="https://maps.app.goo.gl/DyTMhM9Ahvof9vaa7" target="_blank">📍 Yol Tarifi</a>
-    <a href="tel:+905358731757">📞 Ara</a>
+    <a href="https://www.instagram.com/sekerkriziwaffle.bv/" target="_blank"> Instagram</a>
+    <a href="https://maps.app.goo.gl/DyTMhM9Ahvof9vaa7" target="_blank"> Yol Tarifi</a>
+    <a href="tel:+905358731757"> Ara</a>
   </div>
-  <div class="adr">📍 <b>Şeker Krizi Waffle</b><br>Zafer Mahallesi, Elmalı 1. Sokak, No: 2/A<br>Bahçelievler / İstanbul 🍓🧇</div>
+  <div class="adr"> <b>Şeker Krizi Waffle</b><br>Zafer Mahallesi, Elmalı 1. Sokak, No: 2/A<br>Bahçelievler / İstanbul </div>
 </div></div>
 
 <div class="sticky"><div class="wrap">
@@ -127,7 +128,7 @@ footer{text-align:center;color:#806d62;font-size:12px;padding:20px;line-height:1
 </div></div>
 
 <div class="wrap list" id="list"></div>
-<footer>Şeker Krizi Waffle<br>📍 Zafer Mahallesi, Elmalı 1. Sokak, No: 2/A, Bahçelievler / İstanbul<br>📞 0535 873 17 57</footer>
+<footer>Şeker Krizi Waffle<br> Zafer Mahallesi, Elmalı 1. Sokak, No: 2/A, Bahçelievler / İstanbul<br> 0535 873 17 57</footer>
 
 <div id="toast" class="toast"></div>
 
@@ -151,6 +152,7 @@ async function ziyaretciKaydet() {
                  : 'v' + Date.now() + Math.random().toString(36).slice(2);
             localStorage.setItem('sk_visitor_id', id);
         }
+        // Aynı kimlik zaten varsa hiçbir şey yapmaz, sayaç artmaz
         await supabaseClient
             .from('ziyaretciler')
             .upsert([{ visitor_id: id }], { onConflict: 'visitor_id', ignoreDuplicates: true });
@@ -170,31 +172,33 @@ const waffleler=[
 {id:"bitter",isim:"Bitter Çikolatalı Waffle",boy:[275,325,400],aciklama:"Özel hazırlanmış bowl waffle hamuru, muz, çilek, sütlü çikolata, bitter çikolata sosu, bitter damla çikolata.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (6).jpeg"},
 {id:"kendin",isim:"Kendi Wafflenizi Oluşturun",boy:[149.99],bl:["Standart"],aciklama:"Seçeceğiniz taze meyve, çikolata sosları ve nefis süslemelerle tamamen kendi zevkinize göre tasarlayın.",gorsel:""},
 
-{kat:"bardak",id:"b_karisik",isim:"Bardak Waffle Karışık",boy:[200],bl:["Bardak"],aciklama:"bowl waffle hamuru, çilek, muz, sütlü çikolata sosu, beyaz çikolata sosu ve bonibon çikolata.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (8).jpeg",emo:"🥣"},
-{kat:"bardak",id:"b_lotus",isim:"Lotus Bardak Waffle",boy:[230],bl:["Bardak"],aciklama:"bowl waffle hamuru, çilek, muz, sütlü çikolata sosu, beyaz çikolata sosu, lotus sosu ve lotus parçacıkları.",gorsel:"Gemini_Generated_Image_yty2n1yty2n1yty2.jpg",emo:"🥣"},
-{kat:"bardak",id:"b_oreo",isim:"Oreo'lu Bardak Waffle",boy:[230],bl:["Bardak"],aciklama:"bowl waffle hamuru, beyaz, sütlü çikolata sosu, muz, çilek, oreo parçacıklarıyla servis edilir.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (9).jpeg",emo:"🥣"},
-{kat:"bardak",id:"b_esref",isim:"Eşref Rüya",boy:[380],bl:["Bardak"],aciklama:"1 adet çilekli 1 adet muzlu bardak waffle,bowl waffle hamuru, çilek, muz, çikolata sosu, beyaz çikolata sosu, bonibon.",gorsel:"Gemini_Generated_Image_jr22qqjr22qqjr22.jpg",emo:"🥣"},
-{kat:"bardak",id:"b_prenses",isim:"Prenses Bardak",boy:[230],bl:["Bardak"],aciklama:"Bowl waffle hamuru, taze muz ve çilek, üzerine yoğun çikolata, frambuaz ve çilek sosları, beyaz çikolata dokunuşu ve renkli bonibonlarla dolu dolu bardak lezzeti.",gorsel:"Gemini_Generated_Image_mp7pkump7pkump7p.jpg",emo:"🥣"},
-{kat:"bardak",id:"b_bitirim",isim:"Bitirim 2'li Bardak Waffle (2 Kişilik)",boy:[380],bl:["Bardak"],aciklama:"Taze çilek ve muz dilimleri, bowl waffle hamuru, yoğun çikolata ve beyaz çikolata sosları, renkli bonibon.",gorsel:"Gemini_Generated_Image_pg36wqpg36wqpg36.jpg",emo:"🥣"},
+/* ===== BARDAK WAFFLE ===== */
+{kat:"bardak",id:"b_karisik",isim:"Bardak Waffle Karışık",boy:[200],bl:["Bardak"],aciklama:"bowl waffle hamuru, çilek, muz, sütlü çikolata sosu, beyaz çikolata sosu ve bonibon çikolata.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (8).jpeg"},
+{kat:"bardak",id:"b_lotus",isim:"Lotus Bardak Waffle",boy:[230],bl:["Bardak"],aciklama:"bowl waffle hamuru, çilek, muz, sütlü çikolata sosu, beyaz çikolata sosu, lotus sosu ve lotus parçacıkları.",gorsel:"Gemini_Generated_Image_yty2n1yty2n1yty2.jpg"},
+{kat:"bardak",id:"b_oreo",isim:"Oreo'lu Bardak Waffle",boy:[230],bl:["Bardak"],aciklama:"bowl waffle hamuru, beyaz, sütlü çikolata sosu, muz, çilek, oreo parçacıklarıyla servis edilir.",gorsel:"WhatsApp Image 2026-10-21 at 23.19.37 (9).jpeg"},
+{kat:"bardak",id:"b_esref",isim:"Eşref Rüya",boy:[380],bl:["Bardak"],aciklama:"1 adet çilekli 1 adet muzlu bardak waffle,bowl waffle hamuru, çilek, muz, çikolata sosu, beyaz çikolata sosu, bonibon.",gorsel:"Gemini_Generated_Image_jr22qqjr22qqjr22.jpg"},
+{kat:"bardak",id:"b_prenses",isim:"Prenses Bardak",boy:[230],bl:["Bardak"],aciklama:"Bowl waffle hamuru, taze muz ve çilek, üzerine yoğun çikolata, frambuaz ve çilek sosları, beyaz çikolata dokunuşu ve renkli bonibonlarla dolu dolu bardak lezzeti.",gorsel:"Gemini_Generated_Image_mp7pkump7pkump7p.jpg"},
+{kat:"bardak",id:"b_bitirim",isim:"Bitirim 2'li Bardak Waffle (2 Kişilik)",boy:[380],bl:["Bardak"],aciklama:"Taze çilek ve muz dilimleri, bowl waffle hamuru, yoğun çikolata ve beyaz çikolata sosları, renkli bonibon.",gorsel:"Gemini_Generated_Image_pg36wqpg36wqpg36.jpg"},
 
-{kat:"profiterol",id:"profiterol_6_top",isim:"Profiterol (6 Top)",boy:[350],aciklama:"6 top çikolatalı profiterol. Dilediğiniz sos, meyve ve süslemeleri ekleyebilirsiniz.",gorsel:"Çikolatalı Antep Fıstıklı Profiterol.png",emo:""},
+{kat:"tatli",direkt:true,id:"profiterol_6_top",isim:"Profiterol (6 Top)",boy:[0],aciklama:"",gorsel:""},
 
-{kat:"icecek",direkt:true,id:"i_su",isim:"Su",boy:[20],aciklama:"",gorsel:"15973596_1765530322112.jpg",emo:"💧"},
-{kat:"icecek",direkt:true,id:"i_limonata",isim:"Bardak Limonata",boy:[40],aciklama:"",gorsel:"",emo:"🍋"},
-{kat:"icecek",direkt:true,id:"i_sade_soda",isim:"Sade Soda",boy:[40],aciklama:"",gorsel:"15973600_1765748621549.jpg",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_limonlu_soda",isim:"Limonlu Soda",boy:[50],aciklama:"",gorsel:"limonlu-soda.jpg",emo:"🍋"},
-{kat:"icecek",direkt:true,id:"i_capri",isim:"Capri",boy:[50],aciklama:"",gorsel:"16190429_1766309157072.jpg",emo:"🧃"},
-{kat:"icecek",direkt:true,id:"i_cola",isim:"Coca-Cola",boy:[75],aciklama:"",gorsel:"15973597_1766223484382.jpg",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_fanta",isim:"Fanta",boy:[75],aciklama:"",gorsel:"fanta.jpg",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_sprite",isim:"Sprite",boy:[75],aciklama:"",gorsel:"sprite.jpg",emo:"🥤"},
-{kat:"icecek",direkt:true,id:"i_lipton_seftali",isim:"Lipton Şeftali",boy:[75],aciklama:"",gorsel:"15973606_1765888311132.jpg",emo:"🍑"},
-{kat:"icecek",direkt:true,id:"i_lipton_limon",isim:"Lipton Limon",boy:[75],aciklama:"",gorsel:"16190430_1766309162618.jpg",emo:"🍋"},
-{kat:"icecek",direkt:true,id:"i_fuse_mango",isim:"Fuse Tea Mango",boy:[75],aciklama:"",gorsel:"fuse-tea-mango.jpg",emo:"🥭"},
-{kat:"icecek",direkt:true,id:"i_nescafe",isim:"Nescafe Xpress",boy:[100],aciklama:"",gorsel:"nescafe.jpg",emo:"☕"},
-{kat:"icecek",direkt:true,id:"i_redbull",isim:"Red Bull",boy:[100],aciklama:"",gorsel:"redbull.jpg",emo:"⚡"}
+/* ===== İÇECEKLER (direkt sepete eklenir) ===== */
+{kat:"icecek",direkt:true,id:"i_su",isim:"Su",boy:[20],aciklama:"",gorsel:"15973596_1765530322112.jpg"},
+{kat:"icecek",direkt:true,id:"i_limonata",isim:"Bardak Limonata",boy:[40],aciklama:"",gorsel:""},
+{kat:"icecek",direkt:true,id:"i_sade_soda",isim:"Sade Soda",boy:[40],aciklama:"",gorsel:"15973600_1765748621549.jpg"},
+{kat:"icecek",direkt:true,id:"i_limonlu_soda",isim:"Limonlu Soda",boy:[50],aciklama:"",gorsel:"limonlu-soda.jpg"},
+{kat:"icecek",direkt:true,id:"i_capri",isim:"Capri",boy:[50],aciklama:"",gorsel:"16190429_1766309157072.jpg"},
+{kat:"icecek",direkt:true,id:"i_cola",isim:"Coca-Cola",boy:[75],aciklama:"",gorsel:"15973597_1766223484382.jpg"},
+{kat:"icecek",direkt:true,id:"i_fanta",isim:"Fanta",boy:[75],aciklama:"",gorsel:"fanta.jpg"},
+{kat:"icecek",direkt:true,id:"i_sprite",isim:"Sprite",boy:[75],aciklama:"",gorsel:"sprite.jpg"},
+{kat:"icecek",direkt:true,id:"i_lipton_seftali",isim:"Lipton Şeftali",boy:[75],aciklama:"",gorsel:"15973606_1765888311132.jpg"},
+{kat:"icecek",direkt:true,id:"i_lipton_limon",isim:"Lipton Limon",boy:[75],aciklama:"",gorsel:"16190430_1766309162618.jpg"},
+{kat:"icecek",direkt:true,id:"i_fuse_mango",isim:"Fuse Tea Mango",boy:[75],aciklama:"",gorsel:"fuse-tea-mango.jpg"},
+{kat:"icecek",direkt:true,id:"i_nescafe",isim:"Nescafe Xpress",boy:[100],aciklama:"",gorsel:"nescafe.jpg"},
+{kat:"icecek",direkt:true,id:"i_redbull",isim:"Red Bull",boy:[100],aciklama:"",gorsel:"redbull.jpg"}
 ];
 waffleler.forEach(w=>{w.kat=w.kat||"waffle"});
-const KAT=[["waffle","🧇 Waffle'lar"],["bardak","🥣 Bardak Waffle"],["profiterol","Profiterol"],["icecek","🥤 İçecekler"]];
+const KAT=[["waffle","🧇 Waffle'lar"],["bardak","🥣 Bardak Waffle"],["tatli","🍮 Profiterol"],["icecek","🥤 İçecekler"]];
 
 const ekstralar=[
 ["Bonibon",30,"D"],["Muz",30,"E"],["Çilek",30,"E"],["Kivi",30,"E"],["Orman Meyvesi",30,"E"],
@@ -207,9 +211,9 @@ const ekstralar=[
 const MIN_MALZ=1;
 const MALZ=["Bonibon","Muz","Çilek","Beyaz Çikolata","Oreo Parçacıkları","Lotus Parçacıkları","Çakıl Taşı Çikolata","Renkli Pirinç Patlağı","Sütlü Damla Çikolata","Bitter Damla Çikolata","Bitter Çikolata","Karamel Çikolata","Frambuaz Çikolata","Lotus Sosu","Çilek Sosu","Fındık Parçacıkları","Orman Meyvesi","Kivi","Sütlü Çikolata"];
 
-const GRUPLAR=[["S","🍫 Soslar"],["D","✨ Süslemeler"],["E","🍓 Ekstra Meyveler"]];
+const GRUPLAR=[["S"," Soslar"],["D"," Süslemeler"],["E"," Ekstra Meyveler"]];
 const TL=n=>(Number.isInteger(n)?String(n):n.toFixed(2).replace('.',','))+' TL';
-const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 
 const TRENDYOL_LINK="";
 const UCRETSIZ_LIMIT=400,TESLIMAT_UCRETI=35;
@@ -222,6 +226,7 @@ let sepet=[],curBoy=0,cur=null,curEx={},curQty=1,not="",ad="",yontem="adres",mah
 try{sepet=JSON.parse(localStorage.getItem("sk_sepet2")||"[]")}catch(e){}
 const kaydet=()=>{try{localStorage.setItem("sk_sepet2",JSON.stringify(sepet))}catch(e){}};
 
+/* ===== STOK (Google Tablolar) ===== */
 const STOK_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRrMMZjFjK9kDTaMDO874rFwnFw5R6zgyp8X0nyit6hGRe7-Fage2HOdKKpTkI6v9bgRVNb51p1BUHU/pub?output=csv";
 const norm=s=>(s||"").replace(/[’‘]/g,"'").toLocaleLowerCase("tr").replace(/\s+/g," ").trim();
 let tukenler=new Set();
@@ -269,7 +274,7 @@ const ILL={
 };
 function ill(n,e){
   const d=ILL[n];
-  if(!d)return '<div class="ph">'+(e||'🧇')+'</div>';
+  if(!d)return '<div class="ph">'+(e||'')+'</div>';
   const t=d[0],c=d[1],l=d[2],fs=l.length>5?4:5;
   let s="";
   if(t==="can")s='<rect x="19" y="9" width="22" height="42" rx="4" fill="'+c+'"/><rect x="19" y="9" width="22" height="5" rx="2" fill="#d6d6d6"/><rect x="19" y="46" width="22" height="5" rx="2" fill="#d6d6d6"/>';
@@ -280,19 +285,18 @@ function ill(n,e){
   return '<div class="ph"><svg viewBox="0 0 60 60" width="100%" height="100%">'+s+'</svg></div>';
 }
 function img(u,cls,emo){
-  emo=emo||'🧇';
+  emo=emo||'';
   if(!u)return ill(cls,emo);
   return '<img src="'+encodeURI(u)+'" alt="'+esc(cls)+'" data-e="'+emo+'" loading="lazy" onerror="this.outerHTML=ill(this.alt,this.dataset.e)">';
 }
 
-/* MENÜ */
+/* ===== MENÜ ÇİZİMİ ===== */
 function card(w){
   const out=yok(w);
-  const action=out?"tukToast()":(w.direkt?"addDirect('"+w.id+"')":"openS('"+w.id+"')");
-  const button=out?'<span class="tuk">Tükendi</span>':'<button type="button" class="add" aria-label="Ekle" onclick="event.stopPropagation();'+action+'">+</button>';
-  return '<div class="item'+(w.direkt?' mini':'')+(out?' out':'')+'" onclick="'+action+'"><div class="info"><div class="name">'+esc(w.isim)+'</div>'+
+  const click=out?"tukToast()":(w.direkt?"addDirect('"+w.id+"')":"openS('"+w.id+"')");
+  return '<div class="item'+(w.direkt?' mini':'')+(out?' out':'')+'" onclick="'+click+'"><div class="info"><div class="name">'+esc(w.isim)+'</div>'+
     (w.aciklama?'<div class="desc">'+esc(w.aciklama)+'</div>':'')+
-    '<div class="price">'+TL(w.boy[0])+'</div></div><div class="thumb">'+img(w.gorsel,w.isim,w.emo)+button+'</div></div>';
+    '<div class="price">'+TL(w.boy[0])+'</div></div><div class="thumb">'+img(w.gorsel,w.isim,w.emo)+(out?'<span class="tuk">Tükendi</span>':'<button class="add" aria-label="Ekle">+</button>')+'</div></div>';
 }
 function draw(){
   const q=document.getElementById("q").value.toLocaleLowerCase("tr").trim();
@@ -304,11 +308,11 @@ function draw(){
     any=true;
     h+='<div class="cat" id="cat_'+k[0]+'"><div class="cath">'+k[1]+'</div>'+l.map(card).join("")+'</div>';
   });
-  document.getElementById("list").innerHTML=any?h:'<div class="empty">Sonuç bulunamadı 🧇</div>';
+  document.getElementById("list").innerHTML=any?h:'<div class="empty">Sonuç bulunamadı </div>';
   curKat=null;spy();
 }
 
-/* KATEGORİ ÇUBUĞU */
+/* ===== KATEGORİ ÇUBUĞU ===== */
 let curKat=null,spyLock=false,spyT=null,tick=false;
 function buildChips(){
   document.getElementById("cats").innerHTML=KAT.map(k=>'<button class="chip" data-k="'+k[0]+'" onclick="goKat(\''+k[0]+'\')">'+k[1]+'</button>').join("");
@@ -365,22 +369,12 @@ function addDirect(id){
 
 function lock(){document.body.classList.toggle("lock",document.querySelector(".bg.on")!==null)}
 
-/* PROFİTEROL DAHİL ÜRÜN SEÇİMİ */
 function openS(id){
-  const secilen=waffleler.find(w=>w.id===id);
-  if(!secilen){console.error("Ürün bulunamadı:",id);return;}
-  cur=secilen;
-  curEx={};
-  curQty=1;
-  curBoy=0;
-  renderS();
-  document.getElementById("sbg").classList.add("on");
-  lock();
+  cur=waffleler.find(w=>w.id===id);curEx={};curQty=1;curBoy=0;
+  document.getElementById("sbg").classList.add("on");lock();renderS();
 }
-
 function renderS(){
-  if(!cur)return;
- const BL=cur.bl||(cur.boy.length>1?boyutlar:[""]);
+  const BL=cur.bl||boyutlar;
   let bo=BL.map((b,i)=>'<div class="ex" style="cursor:pointer" onclick="setBoy('+i+')"><div class="exn">'+b+'</div><div style="display:flex;align-items:center"><span class="exn" style="color:#ff5500">'+TL(cur.boy[i])+'</span><span class="rd'+(i===curBoy?' on':'')+'"></span></div></div>').join("");
   let ex;
   if(cur.id==="kendin"){
@@ -394,33 +388,21 @@ function renderS(){
    (BL.length>1?'<div class="sec">Boyut Seçin</div>'+bo:'')+ex+'</div></div>'+
    '<div class="sfoot"><div class="qty"><button onclick="qD(-1)">−</button><span id="qn">'+curQty+'</span><button class="p" onclick="qD(1)">+</button></div><button class="go" onclick="addCart()">Sepete Ekle · <span id="sp">'+TL(sPrice())+'</span></button></div>';
 }
-function exRow(e,i){
-  return '<div class="ex"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(e[1]?'+'+TL(e[1]):'Ücretsiz')+'</div></div><div class="qty"><button onclick="exD('+i+',-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div></div>';
-}
+function exRow(e,i){return '<div class="ex"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(e[1]?'+'+TL(e[1]):'Ücretsiz')+'</div></div><div class="qty"><button onclick="exD('+i+',-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div></div>'}
 function tg(k){document.getElementById("grp_"+k).classList.toggle("open")}
-function bad(){
-  GRUPLAR.forEach(g=>{
-    let n=0;
-    ekstralar.forEach((e,i)=>{if(e[2]===g[0])n+=curEx[i]||0});
-    const b=document.getElementById("bg_"+g[0]);
-    if(b)b.textContent=n||"";
-  });
-}
+function bad(){GRUPLAR.forEach(g=>{let n=0;ekstralar.forEach((e,i)=>{if(e[2]===g[0])n+=curEx[i]||0});const b=document.getElementById("bg_"+g[0]);if(b)b.textContent=n||""})}
 function exFiyat(){return Object.keys(curEx).reduce((t,i)=>t+ekstralar[i][1]*curEx[i],0)}
 function sPrice(){return (cur.boy[curBoy]+exFiyat())*curQty}
 function upd(){document.getElementById("sp").textContent=TL(sPrice());document.getElementById("qn").textContent=curQty}
 function setBoy(i){curBoy=i;document.querySelectorAll('.rd').forEach((r,j)=>r.classList.toggle('on',j===i));upd()}
 function exD(i,d){
-  curEx[i]=Math.max(0,(curEx[i]||0)+d);
-  if(!curEx[i])delete curEx[i];
-  document.getElementById("ex"+i).textContent=curEx[i]||0;
-  upd();bad();
+  curEx[i]=Math.max(0,(curEx[i]||0)+d);if(!curEx[i])delete curEx[i];
+  document.getElementById("ex"+i).textContent=curEx[i]||0;upd();bad();
 }
 function qD(d){curQty=Math.max(1,curQty+d);upd()}
 function closeS(){document.getElementById("sbg").classList.remove("on");lock()}
 
 function addCart(){
-  if(!cur)return;
   if(cur.id==="kendin"){
     const n=Object.values(curEx).reduce((t,v)=>t+v,0);
     if(n<MIN_MALZ){
@@ -435,7 +417,7 @@ function addCart(){
   const imza=cur.id+"|"+curBoy+"|"+ex.map(e=>e.isim+e.adet).sort().join(",");
   const var_=sepet.find(s=>s.imza===imza);
   if(var_)var_.adet+=curQty;
-  else sepet.push({imza,id:cur.id,isim:cur.isim,boy:(cur.bl||(cur.boy.length>1?boyutlar:[""]))[curBoy],fiyat:cur.boy[curBoy],ekstralar:ex,adet:curQty});
+  else sepet.push({imza,id:cur.id,isim:cur.isim,boy:(cur.bl||boyutlar)[curBoy],fiyat:cur.boy[curBoy],ekstralar:ex,adet:curQty});
   kaydet();closeS();upBar();
 }
 
@@ -469,62 +451,78 @@ function cDel(i){
   kaydet();upBar();renderC();
 }
 
+//  TÜM SEPETİ TEK BİR SİPARİŞ OLARAK GÖNDERME FONKSİYONU
 async function siparisGonder() {
-  if(!sepet.length)return;
-  if(!ad.trim()){hata="Lütfen adınızı ve soyadınızı girin.";renderC();return}
+  if(!sepet.length) return;
+  if(!ad.trim()){ hata="Lütfen adınızı ve soyadınızı girin."; renderC(); return; }
   if(yontem==="adres"){
-    if(mah===""){hata="Lütfen mahalle seçin.";renderC();return}
-    if(bolgeDisi()){hata="Bölge dışına adrese teslimat yapılmamaktadır.";renderC();return}
-    if(!adres.trim()){hata="Lütfen açık adresinizi girin.";renderC();return}
+    if(mah===""){ hata="Lütfen mahalle seçin."; renderC(); return; }
+    if(bolgeDisi()){ hata="Bölge dışına adrese teslimat yapılmamaktadır."; renderC(); return; }
+    if(!adres.trim()){ hata="Lütfen açık adresinizi girin."; renderC(); return; }
   }
 
-  let siparisAdres=yontem==="gel"?"Gel-Al (Dükkandan Teslim)":`${mahalleler[+mah]?.ad||''} Mah. - ${adres}`;
-  let urunOzet=sepet.map(s=>{
-    let oz=`${s.adet}x ${s.isim}`;
-    if(s.boy)oz+=` (${s.boy})`;
-    if(s.ekstralar&&s.ekstralar.length>0)oz+=` [${s.ekstralar.map(e=>e.adet+'x '+e.isim).join(', ')}]`;
+  let siparisAdres = yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : `${mahalleler[+mah]?.ad || ''} Mah. - ${adres}`;
+
+  // Sepetteki tüm ürünleri TEK bir metin halinde özetliyoruz
+  let urunOzet = sepet.map(s => {
+    let oz = `${s.adet}x ${s.isim}`;
+    if(s.boy) oz += ` (${s.boy})`;
+    if(s.ekstralar && s.ekstralar.length > 0) {
+      oz += ` [${s.ekstralar.map(e => e.adet + 'x ' + e.isim).join(', ')}]`;
+    }
     return oz;
   }).join(' | ');
 
-  const toplamUrunAdeti=sepet.reduce((t,s)=>t+s.adet,0);
-  const genelToplamTutar=genel();
+  const toplamUrunAdeti = sepet.reduce((t, s) => t + s.adet, 0);
+  const genelToplamTutar = genel();
 
-  try{
-    await supabaseClient.from('siparisler').insert([{
-      urun_adi:`${ad.trim()} (${yontem==="gel"?"Gel-Al":mahalleler[+mah]?.ad}): ${urunOzet}`,
-      adet:toplamUrunAdeti,
-      tutar:genelToplamTutar,
-      maliyet:0,
-      kar:genelToplamTutar
-    }]);
-  }catch(e){console.error("Supabase kayıt hatası:",e)}
+  try {
+    // Supabase'e bütün sepeti tek satır olarak kaydediyoruz
+    await supabaseClient
+      .from('siparisler')
+      .insert([
+        {
+          urun_adi: `${ad.trim()} (${yontem === "gel" ? "Gel-Al" : mahalleler[+mah]?.ad}): ${urunOzet}`,
+          adet: toplamUrunAdeti,
+          tutar: genelToplamTutar,
+          maliyet: 0,
+          kar: genelToplamTutar
+        }
+      ]);
+  } catch(e) {
+    console.error("Supabase kayıt hatası:", e);
+  }
 
-  let mesaj=`*🍓 Yeni Sipariş - Şeker Krizi Waffle*\n\n`;
-  mesaj+=`*Ad Soyad:* ${ad}\n`;
-  mesaj+=`*Yöntem:* ${yontem==="gel"?"Gel-Al (Dükkandan Teslim)":"Adrese Teslim"}\n`;
-  if(yontem==="adres")mesaj+=`*Adres:* ${siparisAdres}\n`;
-  if(not)mesaj+=`*Not:* ${not}\n`;
-  mesaj+=`\n*Sipariş İçeriği:*\n`;
+  // WhatsApp Mesajı Oluşturma
+  let mesaj = `* Yeni Sipariş - Şeker Krizi Waffle*\n\n`;
+  mesaj += `*Ad Soyad:* ${ad}\n`;
+  mesaj += `*Yöntem:* ${yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : "Adrese Teslim"}\n`;
+  if(yontem === "adres") mesaj += `*Adres:* ${siparisAdres}\n`;
+  if(not) mesaj += `*Not:* ${not}\n`;
+  mesaj += `\n*Sipariş İçeriği:*\n`;
 
-  sepet.forEach(s=>{
-    mesaj+=`• ${s.adet}x ${s.isim}`;
-    if(s.boy)mesaj+=` (${s.boy})`;
-    if(s.ekstralar&&s.ekstralar.length>0)mesaj+=`\n  *Ekstralar:* ${s.ekstralar.map(e=>e.adet+'x '+e.isim).join(', ')}`;
-    mesaj+=` - ${TL(satir(s))}\n`;
+  sepet.forEach(s => {
+    mesaj += `• ${s.adet}x ${s.isim}`;
+    if(s.boy) mesaj += ` (${s.boy})`;
+    if(s.ekstralar && s.ekstralar.length > 0) {
+      mesaj += `\n  *Ekstralar:* ${s.ekstralar.map(e => e.adet + 'x ' + e.isim).join(', ')}`;
+    }
+    mesaj += ` - ${TL(satir(s))}\n`;
   });
 
-  mesaj+=`\n*Ürün Toplamı:* ${TL(toplam())}`;
-  if(yontem==="adres"){
-    const u=ucret();
-    mesaj+=`\n*Teslimat Ücreti:* ${u?TL(u):'Ücretsiz'}`;
+  mesaj += `\n*Ürün Toplamı:* ${TL(toplam())}`;
+  if(yontem === "adres") {
+    const u = ucret();
+    mesaj += `\n*Teslimat Ücreti:* ${u ? TL(u) : 'Ücretsiz'}`;
   }
-  mesaj+=`\n*Genel Toplam:* ${TL(genelToplamTutar)}`;
+  mesaj += `\n*Genel Toplam:* ${TL(genelToplamTutar)}`;
 
-  const telNo="905358731757";
-  const url=`https://wa.me/${telNo}?text=`+encodeURIComponent(mesaj);
-  window.open(url,'_blank');
+  const telNo = "905358731757";
+  const url = `https://wa.me/${telNo}?text=` + encodeURIComponent(mesaj);
 
-  sepet=[];
+  window.open(url, '_blank');
+
+  sepet = [];
   kaydet();
   upBar();
   closeC();
@@ -532,82 +530,66 @@ async function siparisGonder() {
 
 function renderC(){
   const c=document.getElementById("csheet");
-  const old=c.querySelector?c.querySelector('.sbody'):null;
-  const st=old?old.scrollTop:0;
-  if(!sepet.length){
-    c.innerHTML='<div class="sbody pad"><div class="empty">Sepetiniz boş 🧇</div></div>';
-    return;
-  }
+  const old=c.querySelector?c.querySelector('.sbody'):null;const st=old?old.scrollTop:0;
+  if(!sepet.length){c.innerHTML='<div class="sbody pad"><div class="empty">Sepetiniz boş </div></div>';return}
   const items=sepet.map((s,i)=>'<div class="ci"><div class="t"><span>'+esc(s.isim)+(s.boy?'<br><small style="font-weight:600;color:#7a655a">'+s.boy+'</small>':'')+'</span><b>'+TL(satir(s))+'</b></div>'+
     (s.ekstralar.length?'<div class="e"><strong>Ekstralar:</strong> '+s.ekstralar.map(e=>e.adet+'x '+esc(e.isim)).join(", ")+'</div>':'')+
     '<div class="b"><div class="qty"><button onclick="cD('+i+',-1)">−</button><span>'+s.adet+'</span><button class="p" onclick="cD('+i+',1)">+</button></div><button class="rm" onclick="cDel('+i+')">Kaldır</button></div></div>').join("");
-
   const disi=bolgeDisi();
   const yb=(k,t)=>'<button class="ym'+(yontem===k?' on':'')+'" onclick="setY(\''+k+'\')">'+t+'</button>';
-  let h='<div class="sbody pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="h1">🛒 Sepetim</div><button class="x" style="position:static" onclick="closeC()">×</button></div>'+items+
-   '<div class="sec">Teslimat Yöntemi</div><div class="ymrow">'+yb('adres','🛵 Adrese Teslimat')+yb('gel','🛍️ Gel-Al (Dükkândan Teslim)')+'</div>'+
+  let h='<div class="sbody pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="h1"> Sepetim</div><button class="x" style="position:static" onclick="closeC()">×</button></div>'+items+
+   '<div class="sec">Teslimat Yöntemi</div><div class="ymrow">'+yb('adres',' Adrese Teslimat')+yb('gel',' Gel-Al (Dükkândan Teslim)')+'</div>'+
    '<input id="ad" class="inp" placeholder="Adınız Soyadınız *" value="'+esc(ad)+'" oninput="ad=this.value">';
-
   if(yontem==="adres"){
     h+='<select id="mah" class="inp" onchange="setM(this.value)"><option value="">Mahalle seçin * (Bahçelievler / İstanbul)</option>'+
       mahalleler.map((x,i)=>'<option value="'+i+'"'+(mah===String(i)?' selected':'')+'>'+x.ad+' Mahallesi</option>').join("")+
       '<option value="diger"'+(mah==="diger"?' selected':'')+'>Diğer (listede yok)</option></select>';
-
     if(disi){
       h+='<div class="blok"><div class="bt">Üzgünüz, şu anda adresinize kendi paket servisimizle teslimat yapamıyoruz. Dilerseniz siparişinizi Gel-Al olarak oluşturabilirsiniz.</div>'+
-        '<button class="gelbig" onclick="setY(\'gel\')">🛍️ Gel-Al Siparişi Oluştur</button>'+
+        '<button class="gelbig" onclick="setY(\'gel\')"> Gel-Al Siparişi Oluştur</button>'+
         (TRENDYOL_LINK?'<a class="tgo" href="'+TRENDYOL_LINK+'" target="_blank" rel="noopener">Trendyol GO\'da Kontrol Et</a><div class="tnot">Bölgenize hizmet verilip verilmediğini Trendyol GO\'da kontrol edebilirsiniz.</div>':'')+'</div>';
     }else{
       h+='<textarea id="adres" class="inp" rows="3" placeholder="Açık adres * (sokak, bina no, daire no, tarif)" oninput="adres=this.value">'+esc(adres)+'</textarea>';
     }
   }else{
-    h+='<div class="gelinfo">🛍️ Siparişinizi dükkândan teslim alacaksınız. Mahalle ve adres gerekmez.</div>';
+    h+='<div class="gelinfo"> Siparişinizi dükkândan teslim alacaksınız. Mahalle ve adres gerekmez.</div>';
   }
-
   const u=ucret();
   h+='<textarea id="not" class="inp" rows="2" placeholder="Sipariş notu (isteğe bağlı)" oninput="not=this.value">'+esc(not)+'</textarea>'+
    '<div class="row"><span>Ürünlerin toplamı</span><span>'+TL(toplam())+'</span></div>'+
    '<div class="row"><span>Teslimat ücreti</span><span>'+(yontem==="gel"?'Gel-Al · Ücretsiz':(u?TL(u):'Ücretsiz'))+'</span></div>'+
    '<div class="tot"><span>Genel toplam</span><span>'+TL(genel())+'</span></div>';
-
   if(yontem==="adres"&&!disi){
-    h+='<div class="fino">🛵 400 TL ve üzeri siparişlerde ücretsiz teslimat!'+(toplam()<UCRETSIZ_LIMIT?' <b>'+TL(UCRETSIZ_LIMIT-toplam())+'</b> daha ekleyin.':' 🎉 Ücretsiz teslimat kazandınız.')+'</div>';
+    h+='<div class="fino"> 400 TL ve üzeri siparişlerde ücretsiz teslimat!'+(toplam()<UCRETSIZ_LIMIT?' <b>'+TL(UCRETSIZ_LIMIT-toplam())+'</b> daha ekleyin.':'  Ücretsiz teslimat kazandınız.')+'</div>';
   }
-
   h+=(hata?'<div class="hata" id="hata">'+esc(hata)+'</div>':'')+
-   '<button class="wa'+(disi?' off':'')+'" onclick="siparisGonder()">🟢 WhatsApp ile Sipariş Ver</button></div>';
+   '<button class="wa'+(disi?' off':'')+'" onclick="siparisGonder()"> WhatsApp ile Sipariş Ver</button></div>';
   c.innerHTML=h;
   if(old)c.querySelector('.sbody').scrollTop=st;
 }
-
-/* STOK KONTROLÜ */
+/* ===== MALZEME / SOS STOK ===== */
 document.head.insertAdjacentHTML("beforeend","<style>.exout{opacity:.45}.exout .exf{color:#c00;font-weight:700}</style>");
 exRow=function(e,i){
   const out=tukenler.has(norm(e[0]));
   return '<div class="ex'+(out?' exout':'')+'"><div><div class="exn">'+e[0]+'</div><div class="exf">'+(out?'Tükendi':(e[1]?'+'+TL(e[1]):'Ücretsiz'))+'</div></div>'+
     (out?'':'<div class="qty"><button onclick="exD('+i+',-1)">−</button><span id="ex'+i+'">'+(curEx[i]||0)+'</span><button class="p" onclick="exD('+i+',1)">+</button></div>')+'</div>';
 };
-
 const _sg=siparisGonder;
 siparisGonder=async function(){
   const biten=[];
   sepet.forEach(s=>{
     const w=waffleler.find(x=>x.id===s.id);
     if(w&&yok(w))biten.push(s.isim);
-    (s.ekstralar||[]).forEach(e=>{
-      if(tukenler.has(norm(e.isim))&&!biten.includes(e.isim))biten.push(e.isim);
-    });
+    (s.ekstralar||[]).forEach(e=>{if(tukenler.has(norm(e.isim))&&!biten.includes(e.isim))biten.push(e.isim)});
   });
   if(biten.length){
     hata="Sepetinizdeki şu ürün/malzeme tükendi: "+biten.join(", ")+". Lütfen sepetten kaldırın.";
     renderC();
-    const h=document.getElementById("hata");
-    if(h)h.scrollIntoView({block:"center"});
+    const h=document.getElementById("hata");if(h)h.scrollIntoView({block:"center"});
     return;
   }
   return _sg();
 };
-
 buildChips();
 draw();
 upBar();
