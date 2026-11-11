@@ -380,7 +380,7 @@ function openS(id){
 
 function renderS(){
   if(!cur)return;
-  const BL=cur.bl||boyutlar;
+ const BL=cur.bl||(cur.boy.length>1?boyutlar:[""]);
   let bo=BL.map((b,i)=>'<div class="ex" style="cursor:pointer" onclick="setBoy('+i+')"><div class="exn">'+b+'</div><div style="display:flex;align-items:center"><span class="exn" style="color:#ff5500">'+TL(cur.boy[i])+'</span><span class="rd'+(i===curBoy?' on':'')+'"></span></div></div>').join("");
   let ex;
   if(cur.id==="kendin"){
@@ -435,7 +435,7 @@ function addCart(){
   const imza=cur.id+"|"+curBoy+"|"+ex.map(e=>e.isim+e.adet).sort().join(",");
   const var_=sepet.find(s=>s.imza===imza);
   if(var_)var_.adet+=curQty;
-  else sepet.push({imza,id:cur.id,isim:cur.isim,boy:(cur.bl||boyutlar)[curBoy],fiyat:cur.boy[curBoy],ekstralar:ex,adet:curQty});
+  else sepet.push({imza,id:cur.id,isim:cur.isim,boy:(cur.bl||(cur.boy.length>1?boyutlar:[""]))[curBoy],fiyat:cur.boy[curBoy],ekstralar:ex,adet:curQty});
   kaydet();closeS();upBar();
 }
 
