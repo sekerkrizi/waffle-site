@@ -527,7 +527,7 @@ if (!telKayit) {
   renderC();
   return;
 }
-  if(!ad.trim()){ hata="Lütfen adınızı ve soyadınızı girin."; renderC(); return; }
+  // Ad soyad artık zorunlu değil
   if(yontem==="adres"){
     if(mah===""){ hata="Lütfen mahalle seçin."; renderC(); return; }
     if(bolgeDisi()){ hata="Bölge dışına adrese teslimat yapılmamaktadır."; renderC(); return; }
@@ -535,6 +535,8 @@ if (!telKayit) {
   }
 
   let siparisAdres = yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : `${mahalleler[+mah]?.ad || ''} Mah. - ${adres}`;
+
+  const musteriAdi = ad.trim() || "İsimsiz";
 
   // Sepetteki tüm ürünleri TEK bir metin halinde özetliyoruz
   let urunOzet = sepet.map(s => {
@@ -555,7 +557,7 @@ if (!telKayit) {
       .from('siparisler')
       .insert([
         {
-          urun_adi: `${ad.trim()} (${yontem === "gel" ? "Gel-Al" : mahalleler[+mah]?.ad}): ${urunOzet}`,
+          urun_adi: `${musteriAdi} (${yontem === "gel" ? "Gel-Al" : mahalleler[+mah]?.ad}): ${urunOzet}`,
 adet: toplamUrunAdeti,
 tutar: genelToplamTutar,
 maliyet: 0,
@@ -583,7 +585,7 @@ sadakat_islendi: false
 
   // WhatsApp Mesajı Oluşturma
   let mesaj = `*🍓 Yeni Sipariş - Şeker Krizi Waffle*\n\n`;
-  mesaj += `*Ad Soyad:* ${ad}\n`;
+  if(ad.trim()) mesaj += `*Ad Soyad:* ${ad.trim()}\n`;
   mesaj += `*Telefon:* ${telefon}\n`;
   mesaj += `*Yöntem:* ${yontem === "gel" ? "Gel-Al (Dükkandan Teslim)" : "Adrese Teslim"}\n`;
   if(yontem === "adres") mesaj += `*Adres:* ${siparisAdres}\n`;
@@ -628,7 +630,7 @@ function renderC(){
   const yb=(k,t)=>'<button class="ym'+(yontem===k?' on':'')+'" onclick="setY(\''+k+'\')">'+t+'</button>';
   let h='<div class="sbody pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="h1">🛒 Sepetim</div><button class="x" style="position:static" onclick="closeC()">×</button></div>'+items+
    '<div class="sec">Teslimat Yöntemi</div><div class="ymrow">'+yb('adres','🛵 Adrese Teslimat')+yb('gel','🛍️ Gel-Al (Dükkândan Teslim)')+'</div>'+
-'<input id="ad" class="inp" placeholder="Adınız Soyadınız *" value="'+esc(ad)+'" oninput="ad=this.value">'+
+'<input id="ad" class="inp" placeholder="Adınız Soyadınız (isteğe bağlı)" value="'+esc(ad)+'" oninput="ad=this.value">'+
 
 '<input id="telefon" class="inp" type="tel" inputmode="numeric" maxlength="11" placeholder="Telefon Numaranız (05XX XXX XX XX) *" value="'+esc(telefon)+'" oninput="telefon=this.value" onblur="telefon=this.value;sadakatGoster()">'+
 
